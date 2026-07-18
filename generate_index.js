@@ -1,5 +1,6 @@
 const fs = require("fs");
 const path = require("path");
+const { execSync } = require("child_process");
 
 // Executable and binary extensions to exclude
 const EXECUTABLE_EXTENSIONS = new Set([
@@ -101,6 +102,50 @@ function formatSize(bytes) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }
 
+// A fresh `actions/checkout` (or any fresh clone) writes every file to disk at
+// checkout time, so fs.statSync(...).mtime is the same for every file
+// regardless of when it was actually last changed — that's why date/time
+// sorting looked broken. The real "last modified" date lives in git history
+// instead, so we build a path -> last-commit-date map from it once, up front.
+//
+// `git log --name-only` walks commits newest-first and lists every path each
+// commit touched, so the first time we see a given path is its most recent
+// commit. That gives us the whole repo's per-file last-modified dates in a
+// single git invocation instead of one process per file.
+//
+// core.quotepath=false matters: by default git quotes/escapes any path with
+// non-ASCII characters (e.g. accented station names) as octal-escaped bytes
+// like "Radio Ca\303\261\303\263n.m3u" instead of the real UTF-8 filename,
+// which then never matches itemRelativePath and silently falls back to the
+// checkout-time mtime for every such file.
+function buildFileDateMap() {
+  const map = new Map();
+  try {
+    const output = execSync(
+      'git -c core.quotepath=false log --name-only --no-renames --format="%x01%cI"',
+      { encoding: "utf8", maxBuffer: 1024 * 1024 * 256, stdio: ["ignore", "pipe", "ignore"] }
+    );
+    let currentDate = null;
+    for (const rawLine of output.split("\n")) {
+      const line = rawLine.trim();
+      if (!line) continue;
+      if (rawLine.startsWith("\x01")) {
+        currentDate = rawLine.slice(1).trim();
+      } else if (currentDate && !map.has(line)) {
+        map.set(line, currentDate);
+      }
+    }
+  } catch (e) {
+    console.warn(
+      "Could not read git history for file dates (falling back to filesystem mtime):",
+      e.message
+    );
+  }
+  return map;
+}
+
+const fileDateMap = buildFileDateMap();
+
 // Recursively scan directory
 function scanDirectory(dir, relativePath = "") {
   const entries = [];
@@ -121,11 +166,21 @@ function scanDirectory(dir, relativePath = "") {
 
         const children = scanDirectory(fullPath, itemRelativePath);
         if (children.length > 0) {
+          // A folder's "modified" date is the most recent modification among
+          // everything inside it (recursively), since git doesn't track
+          // directories directly.
+          let latest = null;
+          for (const child of children) {
+            if (child.modified && (!latest || child.modified > latest)) {
+              latest = child.modified;
+            }
+          }
           entries.push({
             name: item.name,
             path: itemRelativePath,
             type: "directory",
             children: children,
+            modified: latest,
           });
         }
         continue;
@@ -138,6 +193,8 @@ function scanDirectory(dir, relativePath = "") {
       try {
         const stats = fs.statSync(fullPath);
         const category = getFileCategory(item.name);
+        const modified =
+          fileDateMap.get(itemRelativePath) || stats.mtime.toISOString();
 
         entries.push({
           name: item.name,
@@ -147,7 +204,7 @@ function scanDirectory(dir, relativePath = "") {
           extension: path.extname(item.name).toLowerCase(),
           size: stats.size,
           sizeFormatted: formatSize(stats.size),
-          modified: stats.mtime.toISOString(),
+          modified: modified,
         });
       } catch (e) {
         console.warn(`Could not stat file: ${fullPath}`);

@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+<script>(function(){try{var t=localStorage.getItem("theme");if(t&&t!=="auto")document.documentElement.setAttribute("data-theme",t);if(localStorage.getItem("flatDesign")==="1")document.documentElement.classList.add("flat");}catch(e){}})();</script>
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
@@ -25,9 +26,9 @@
             --radius-lg: 8px;
             --shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
             --transition: 0.15s ease;
-            --font-size-base: 14px;
+            --font-size-base: 16px;
         }
-        [data-theme="light"] {
+        html[data-theme="light"] {
             --bg-primary: #ffffff;
             --bg-secondary: #f6f8fa;
             --bg-tertiary: #eaeef2;
@@ -39,6 +40,41 @@
             --accent: #0969da;
             --accent-hover: #0550ae;
             --shadow: 0 4px 12px rgba(140, 149, 159, 0.2);
+        }
+        /* High contrast dark: based on the classic Windows high-contrast black scheme
+           (black background, white text, cyan title accent, magenta hyperlinks, purple buttons) */
+        html[data-theme="hc-dark"] {
+            --bg-primary: #000000;
+            --bg-secondary: #000000;
+            --bg-tertiary: #000000;
+            --bg-hover: #262626;
+            --border-color: #9370ff;
+            --text-primary: #ffffff;
+            --text-secondary: #ffffff;
+            --text-muted: #a3a3a3;
+            --accent: #00ffff;
+            --accent-hover: #33ffff;
+            --success: #00ffff;
+            --warning: #ff37cb;
+            --danger: #ff4444;
+            --shadow: 0 4px 12px rgba(255, 255, 255, 0.15);
+        }
+        /* High contrast light: the hc-dark palette with every color inverted (per RGB channel) */
+        html[data-theme="hc-light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #ffffff;
+            --bg-tertiary: #ffffff;
+            --bg-hover: #d9d9d9;
+            --border-color: #6c8f00;
+            --text-primary: #000000;
+            --text-secondary: #000000;
+            --text-muted: #5c5c5c;
+            --accent: #ff0000;
+            --accent-hover: #cc0000;
+            --success: #ff0000;
+            --warning: #00c834;
+            --danger: #00bbbb;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
         @media (prefers-color-scheme: light) {
             :root:not([data-theme]) {
@@ -63,6 +99,7 @@
             color: var(--text-primary);
             line-height: 1.4;
             height: 100vh;
+            height: 100dvh;
             display: flex;
             flex-direction: column;
             overflow: hidden;
@@ -87,21 +124,47 @@
         .settings-btn { padding: 0.375rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius); color: var(--text-secondary); cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .settings-btn:hover { color: var(--text-primary); border-color: var(--accent); }
         .settings-btn svg { width: 16px; height: 16px; }
-        .settings-menu { position: absolute; top: 100%; right: 0; margin-top: 0.25rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius); box-shadow: var(--shadow); min-width: 200px; z-index: 100; display: none; }
+        .settings-menu { position: absolute; top: 100%; right: 0; margin-top: 0.25rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius); box-shadow: var(--shadow); min-width: 230px; z-index: 100; display: none; }
         .settings-menu.active { display: block; }
         .settings-section { padding: 0.5rem; }
         .settings-section-title { font-size: 0.7rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.375rem; }
         .settings-row { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding: 0.25rem 0; }
+        .switch { position: relative; display: inline-block; width: 38px; height: 22px; flex-shrink: 0; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .switch-slider { position: absolute; inset: 0; cursor: pointer; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 999px; transition: 0.2s; }
+        .switch-slider::before { content: ""; position: absolute; height: 14px; width: 14px; left: 3px; top: 3px; background: var(--text-secondary); border-radius: 50%; transition: 0.2s; }
+        .switch input:checked + .switch-slider { background: var(--accent); border-color: var(--accent); }
+        .switch input:checked + .switch-slider::before { transform: translateX(16px); background: #fff; }
+        .switch input:focus-visible + .switch-slider { outline: 2px solid var(--accent); outline-offset: 2px; }
         .settings-label { font-size: 0.85rem; color: var(--text-secondary); }
         .settings-control { display: flex; gap: 0.25rem; }
         .settings-control button { padding: 0.25rem 0.5rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-secondary); cursor: pointer; font-size: 0.75rem; }
         .settings-control button:hover { color: var(--text-primary); border-color: var(--accent); }
         .settings-control button.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .theme-toggle { display: flex; background: var(--bg-tertiary); border-radius: var(--radius); padding: 2px; }
+        .theme-toggle { display: flex; flex-wrap: wrap; background: var(--bg-tertiary); border-radius: var(--radius); padding: 2px; gap: 2px; }
         .theme-btn { padding: 0.25rem 0.5rem; background: 0 0; border: none; color: var(--text-secondary); cursor: pointer; border-radius: 4px; font-size: 0.75rem; display: flex; align-items: center; gap: 0.25rem; }
-        .theme-btn:hover { color: var(--text-primary); }
-        .theme-btn.active { background: var(--bg-primary); color: var(--text-primary); }
+        .theme-btn:hover { background: var(--bg-hover); }
+        .theme-btn.active { background: var(--bg-primary); }
         .theme-btn svg { width: 12px; height: 12px; }
+        /* Label text is forced to a single uniform color (the current theme's own text color) on
+           every button, in every state. Only the icon above carries a distinct per-theme color. */
+        .theme-btn .theme-btn-label { color: var(--text-secondary) !important; }
+        /* Each theme gets its own icon color as a visual identifier. The label text stays on the
+           theme-following neutral color above so it's always legible against whatever background
+           the menu happens to be rendered in (light, dark, HC black, or HC white). */
+        .theme-btn[data-theme="light"] svg { color: #e3a008; }
+        .theme-btn[data-theme="dark"] svg { color: #7c8fff; }
+        .theme-btn[data-theme="auto"] svg { color: #14b8a6; }
+        .theme-btn[data-theme="hc-dark"] svg { color: #22d3ee; }
+        .theme-btn[data-theme="hc-light"] svg { color: #c026d3; }
+        .theme-swatches { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.4rem; width: 100%; }
+        .theme-swatch { width: 22px; height: 22px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; padding: 0; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15); }
+        .theme-swatch:hover { transform: scale(1.1); }
+        .theme-swatch.active { border-color: var(--text-primary); }
+        .theme-custom-row { display: flex; align-items: center; gap: 0.5rem; margin-top: 0.5rem; }
+        .theme-custom-row input[type="color"] { width: 32px; height: 28px; border: 1px solid var(--border-color); border-radius: 4px; background: 0 0; padding: 0; cursor: pointer; }
+        .theme-reset-btn { flex: 1; border: 1px solid var(--border-color); background: var(--bg-tertiary); color: var(--text-secondary); border-radius: var(--radius); padding: 0.3rem 0.5rem; cursor: pointer; font-size: 0.75rem; }
+        .theme-reset-btn:hover { color: var(--text-primary); border-color: var(--accent); }
         .view-toggle { display: flex; background: var(--bg-tertiary); border-radius: var(--radius); padding: 2px; }
         .view-btn { padding: 0.25rem 0.375rem; background: 0 0; border: none; color: var(--text-secondary); cursor: pointer; border-radius: 4px; display: flex; align-items: center; justify-content: center; }
         .view-btn:hover { color: var(--text-primary); }
@@ -133,6 +196,8 @@
         .file-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 0.625rem; cursor: pointer; transition: border-color var(--transition), box-shadow var(--transition); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 0.375rem; }
         .file-card:hover { border-color: var(--accent); box-shadow: var(--shadow); }
         .file-card.directory { background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-tertiary) 100%); }
+        html.flat .file-card.directory { background: var(--bg-secondary); }
+        .file-card.parent-dir .file-name { color: var(--text-secondary); }
         .file-icon { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; border-radius: 4px; background: var(--bg-tertiary); }
         .file-icon svg { width: 20px; height: 20px; }
         .file-icon.folder { color: #8b949e; background: rgba(139, 148, 158, 0.1); }
@@ -160,13 +225,29 @@
         .file-list .file-meta { font-size: 0.7rem; }
         .file-list .file-size { color: var(--text-muted); font-size: 0.75rem; flex-shrink: 0; }
         .file-list .file-thumbnail { display: none; }
+        .list-columns { --list-cols: 24px 1fr 70px 90px 100px 80px; }
+        .file-list-header { display: grid; grid-template-columns: var(--list-cols); gap: 0.5rem; padding: 0.4rem 0.5rem; margin-bottom: 2px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.03em; color: var(--text-muted); border-bottom: 1px solid var(--border-color); position: sticky; top: 0; background: var(--bg-primary); z-index: 5; }
+        .file-list-header .col-icon-spacer { width: 24px; }
+        .file-list-header .col { display: flex; align-items: center; gap: 0.25rem; cursor: pointer; user-select: none; }
+        .file-list-header .col:hover { color: var(--text-primary); }
+        .file-list-header .col.active { color: var(--accent); }
+        .file-list-header .sort-arrow { font-size: 0.6rem; width: 0.7em; display: inline-block; }
+        .file-list-header .col-ext, .file-list-header .col-size, .file-list-header .col-date, .file-list-header .col-time { justify-content: flex-end; }
+        .file-list.list-columns .file-card { display: grid; grid-template-columns: var(--list-cols); align-items: center; }
+        .file-list.list-columns .col-ext, .file-list.list-columns .col-size, .file-list.list-columns .col-date, .file-list.list-columns .col-time { text-align: right; font-size: 0.75rem; color: var(--text-muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        @media (max-width: 640px) {
+            .list-columns { --list-cols: 24px 1fr 60px; }
+            .file-list-header .col-ext, .file-list-header .col-date, .file-list-header .col-time { display: none; }
+            .file-list.list-columns .col-ext, .file-list.list-columns .col-date, .file-list.list-columns .col-time { display: none; }
+        }
         .empty-state { text-align: center; padding: 2rem; color: var(--text-secondary); }
         .empty-state svg { width: 40px; height: 40px; margin-bottom: 0.5rem; opacity: 0.5; }
         .empty-state h2 { font-size: 1rem; margin-bottom: 0.25rem; color: var(--text-primary); }
         .empty-state p { font-size: 0.85rem; }
         .modal-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); display: flex; align-items: center; justify-content: center; z-index: 1000; opacity: 0; visibility: hidden; transition: all 0.2s; padding: 0.5rem; }
         .modal-overlay.active { opacity: 1; visibility: visible; }
-        .modal { background: var(--bg-secondary); border-radius: var(--radius-lg); max-width: 95vw; max-height: 95vh; width: 100%; display: flex; flex-direction: column; transform: scale(0.95); transition: transform 0.2s; overflow: hidden; border: 1px solid var(--border-color); }
+        .modal { background: var(--bg-secondary); border-radius: var(--radius-lg); max-width: 95vw; max-height: 95vh; max-height: 95dvh; width: 100%; display: flex; flex-direction: column; transform: scale(0.95); transition: transform 0.2s; overflow: hidden; border: 1px solid var(--border-color); }
+        .modal.video-modal { height: 95vh; height: 95dvh; }
         .modal-overlay.active .modal { transform: scale(1); }
         .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 0.5rem 0.75rem; border-bottom: 1px solid var(--border-color); gap: 0.5rem; flex-shrink: 0; }
         .modal-title { font-size: 0.9rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1; }
@@ -179,27 +260,59 @@
         .modal-btn.play-playlist-btn { padding: 0.375rem 0.5rem; font-size: 0.75rem; color: var(--accent); }
         .modal-btn.play-playlist-btn:hover { color: var(--text-primary); }
         .modal-btn.hidden { display: none; }
-        .playlist-bar { display: none; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: var(--bg-tertiary); border-bottom: 1px solid var(--border-color); }
+        .playlist-bar { display: none; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: var(--bg-tertiary); border-bottom: 1px solid var(--border-color); position: relative; }
         .playlist-bar.active { display: flex; }
-        .playlist-controls { display: flex; gap: 0.25rem; }
+        .playlist-controls { display: flex; gap: 0.25rem; align-items: center; }
+        .playlist-btn.top-native-btn { display: none; }
+        body.native-player-mode .playlist-btn.top-native-btn { display: inline-flex; }
         .playlist-btn { padding: 0.375rem 0.5rem; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: var(--radius); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.25rem; font-size: 0.75rem; }
         .playlist-btn:hover { background: var(--bg-hover); border-color: var(--accent); }
         .playlist-btn:disabled { opacity: 0.4; cursor: not-allowed; }
         .playlist-btn svg { width: 14px; height: 14px; }
+        .playlist-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
         .playlist-info { flex: 1; font-size: 0.8rem; color: var(--text-secondary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
         .playlist-track { color: var(--text-primary); font-weight: 500; }
         .playlist-stop-btn { padding: 0.375rem 0.5rem; background: var(--danger); border: 1px solid var(--danger); border-radius: var(--radius); color: #fff; cursor: pointer; font-size: 0.75rem; }
         .playlist-stop-btn:hover { opacity: 0.9; }
-        .modal-body { flex: 1; overflow: auto; background: var(--bg-primary); }
+        .goto-quick { display: flex; align-items: center; gap: 0.35rem; }
+        .goto-input { width: 3.4rem; text-align: center; background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius); color: var(--text-primary); font-size: 0.8rem; padding: 0.35rem 0.2rem; -moz-appearance: textfield; }
+        .goto-input::-webkit-outer-spin-button, .goto-input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .goto-input:focus { outline: none; border-color: var(--accent); }
+        .goto-input:disabled { opacity: 0.4; cursor: not-allowed; }
+        .goto-stepper { display: flex; flex-direction: column; }
+        .goto-step-btn { width: 1.5rem; height: 1rem; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border: 1px solid var(--border-color); color: var(--text-primary); cursor: pointer; padding: 0; line-height: 0; }
+        .goto-step-btn svg { width: 10px; height: 10px; }
+        .goto-step-btn:first-child { border-radius: var(--radius) var(--radius) 0 0; border-bottom: none; }
+        .goto-step-btn:last-child { border-radius: 0 0 var(--radius) var(--radius); }
+        .goto-step-btn:hover:not(:disabled) { background: var(--bg-hover); }
+        .goto-step-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .modal-body { flex: 1; overflow: auto; background: var(--bg-primary); display: flex; flex-direction: column; min-height: 0; }
         .preview-image { max-width: 100%; max-height: 90vh; object-fit: contain; display: block; margin: auto; }
-        .preview-media-container { width: 100%; max-width: 900px; padding: 1rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
-        .preview-video { width: 100%; max-height: 80vh; background: #000; border-radius: var(--radius); }
-        .preview-audio-container { width: 100%; max-width: 500px; padding: 2rem 1rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+        .preview-media-container { width: 100%; max-width: 900px; height: 100%; min-height: 0; padding: 1rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.5rem; position: relative; }
+        .preview-video { flex: 1; min-height: 0; max-width: 100%; width: auto; object-fit: contain; background: #000; border-radius: var(--radius); }
+        .preview-audio-container { width: 100%; max-width: 500px; padding: 1.25rem 1rem; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 0.6rem; position: relative; }
         .audio-icon { width: 80px; height: 80px; background: var(--bg-tertiary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--accent); }
         .audio-icon svg { width: 40px; height: 40px; }
-        .preview-audio { width: 100%; height: 40px; }
+        .playlist-now-playing { font-weight: 500; text-align: center; width: 100%; max-height: 4.2em; line-height: 1.4em; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; word-break: break-word; }
+        .preview-audio { width: 100%; height: 40px; display: none; }
+        .preview-audio[controls] { display: block; }
+        .player-bar { display: flex; flex-direction: column; align-items: center; gap: 0.4rem; width: 100%; max-width: 480px; margin: 0.15rem auto 0; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 0.6rem 0.75rem; }
+        .player-seek-row { display: flex; align-items: center; gap: 0.5rem; width: 100%; }
+        .player-seek { flex: 1; accent-color: var(--accent); cursor: pointer; height: 4px; }
+        .player-seek:disabled { opacity: 0.4; cursor: not-allowed; }
+        .player-controls-row { display: flex; align-items: center; justify-content: center; gap: 0.4rem; width: 100%; flex-wrap: nowrap; overflow-x: auto; }
+        .player-controls-row .playlist-btn { padding: 0.5rem; flex-shrink: 0; }
+        .player-divider { width: 1px; height: 1.25rem; background: var(--border-color); flex-shrink: 0; }
+        .player-play-btn { background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important; border-radius: 50% !important; width: 2.35rem; height: 2.35rem; padding: 0 !important; }
+        .player-play-btn:hover { background: var(--accent-hover) !important; border-color: var(--accent-hover) !important; }
+        .player-play-btn svg { width: 18px; height: 18px; }
+        .player-time, .player-vol { font-size: 0.75rem; color: var(--text-secondary); min-width: 2.5rem; text-align: center; user-select: none; }
+        .player-info-btn { position: absolute; top: 0.5rem; right: 0.5rem; padding: 0.375rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius); color: var(--text-primary); cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 2; }
+        .player-info-btn:hover { background: var(--bg-hover); border-color: var(--accent); }
+        .player-info-btn svg { width: 16px; height: 16px; }
+        .player-info-btn.copied { background: var(--accent); border-color: var(--accent); color: #fff; }
         .preview-code { width: 100%; min-height: 100%; padding: 0.5rem; background: var(--bg-primary); }
-        .preview-code pre { margin: 0; font-family: ui-monospace, SFMono-Regular, sf mono, Menlo, Consolas, monospace; font-size: 0.8rem; line-height: 1.3; white-space: pre-wrap; word-break: break-word; }
+        .preview-code pre { margin: 0; font-family: ui-monospace, SFMono-Regular, sf mono, Menlo, Consolas, monospace; font-size: 0.8rem; line-height: 0.9; white-space: pre-wrap; word-break: break-word; }
         .preview-code.line-numbers pre { counter-reset: line; }
         .preview-code.line-numbers pre .line { display: block; counter-increment: line; }
         .preview-code.line-numbers pre .line::before { content: counter(line); display: inline-block; width: 3em; margin-right: 1em; text-align: right; color: var(--text-muted); user-select: none; font-size: 0.75rem; }
@@ -212,58 +325,147 @@
         .loading { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; color: var(--text-secondary); }
         .spinner { width: 28px; height: 28px; border: 2px solid var(--border-color); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 0.5rem; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 0.35; } 50% { opacity: 1; } }
+        .playlist-track.buffering::after { content: " \00b7 Buffering\2026"; color: var(--text-muted); font-weight: 400; animation: pulse 1s ease-in-out infinite; }
+        .preview-audio.buffering, .preview-video.buffering { opacity: 0.6; transition: opacity 0.15s ease; }
         @media (max-width: 768px) { .search-container { width: 150px; } .tree-panel { width: 180px; } .file-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); } }
         @media (max-width: 480px) { .tree-panel { display: none !important; } .search-container { width: 120px; } }
+        @media (max-width: 640px) {
+            .modal-overlay { padding: 0; }
+            .modal { width: 100vw; height: 100vh; height: 100dvh; max-width: 100vw; max-height: 100vh; max-height: 100dvh; border-radius: 0; }
+            .modal-header { padding: 0.5rem 0.5rem; gap: 0.375rem; }
+            .modal-title { font-size: 0.8rem; }
+            .modal-actions { gap: 0.15rem; flex-shrink: 0; }
+            .modal-btn { padding: 0.4rem; min-width: 32px; min-height: 32px; }
+            .modal-btn svg { width: 15px; height: 15px; }
+            .modal-btn.play-playlist-btn { padding: 0.4rem; }
+            .modal-btn.play-playlist-btn .btn-label { display: none; }
+            .playlist-bar { padding: 0.5rem; flex-wrap: wrap; }
+            .playlist-btn span { display: none; }
+            .preview-image { max-height: 80vh; max-height: 80dvh; }
+            .preview-pdf { height: 80vh; height: 80dvh; }
+            .preview-media-container { padding: 0.5rem; }
+            .player-bar { padding: 0.5rem 0.5rem; max-width: 100%; gap: 0.25rem; }
+            .player-bar .playlist-btn { padding: 0.4rem; }
+            .player-bar .playlist-btn svg { width: 12px; height: 12px; }
+            .player-play-btn { width: 2rem !important; height: 2rem !important; }
+            .player-play-btn svg { width: 15px !important; height: 15px !important; }
+            .player-time { min-width: 1.6rem; font-size: 0.65rem; }
+            .player-vol { min-width: 1.9rem; font-size: 0.65rem; }
+        }
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: 0 0; }
         ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        .search-input:focus-visible { outline-offset: 0; }
+        .file-card:focus-visible { outline-offset: -2px; }
+        .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+        .breadcrumb { overflow-x: auto; scrollbar-width: thin; flex-wrap: nowrap; }
+        .breadcrumb::-webkit-scrollbar { height: 4px; }
+        .sort-select { background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-secondary); font-size: 0.75rem; padding: 0.25rem 0.375rem; }
+        .load-more-btn { display: block; margin: 0.75rem auto 0; padding: 0.375rem 1rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius); color: var(--text-primary); cursor: pointer; font-size: 0.8rem; }
+        .load-more-btn:hover { border-color: var(--accent); }
+        .truncation-notice { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.75rem; background: var(--bg-tertiary); border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.75rem; }
+        .modal-btn.copied { color: var(--success); border-color: var(--success); }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="header-content">
-            <div class="logo" id="logoHome">
+            <div class="logo" id="logoHome" role="button" tabindex="0" aria-label="Go to home folder">
                 <svg viewBox="0 0 24 24" fill="currentcolor"><path d="M20 6h-8l-2-2H4c-1.1.0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1.0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 12H4V8h16v10z"/></svg>
                 <span>File Viewer</span>
             </div>
-            <nav class="breadcrumb" id="breadcrumb"></nav>
+            <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb"></nav>
             <div class="header-actions">
                 <div class="search-container">
                     <svg class="search-icon" viewBox="0 0 24 24" fill="currentcolor"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61.0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
-                    <input class="search-input" id="search" placeholder="Search..." autocomplete="off" />
+                    <input class="search-input" id="search" placeholder="Search..." autocomplete="off" aria-label="Search files" />
                 </div>
                 <div class="settings-dropdown" id="settingsDropdown">
-                    <button class="settings-btn" id="settingsBtn" title="Settings">
+                    <button class="settings-btn" id="settingsBtn" title="Settings" aria-label="Settings" aria-haspopup="true" aria-expanded="false">
                         <svg viewBox="0 0 24 24" fill="currentcolor"><path d="M19.14 12.94c.04-.31.06-.63.06-.94.0-.31-.02-.63-.06-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24.0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47.0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24.0.44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47.0.59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98.0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
                     </button>
                     <div class="settings-menu" id="settingsMenu">
                         <div class="settings-section">
-                            <div class="settings-section-title">Theme</div>
-                            <div class="settings-row">
-                                <div class="theme-toggle" id="themeToggle">
-                                    <button class="theme-btn" data-theme="light" title="Light theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 7c-2.76.0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55.0 1-.45 1-1s-.45-1-1-1H2c-.55.0-1 .45-1 1s.45 1 1 1zm18 0h2c.55.0 1-.45 1-1s-.45-1-1-1h-2c-.55.0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41.0-.39.39-.39 1.03.0 1.41l1.06 1.06c.39.39 1.03.39 1.41.0s.39-1.03.0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41.0-.39.39-.39 1.03.0 1.41l1.06 1.06c.39.39 1.03.39 1.41.0.39-.39.39-1.03.0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03.0-1.41-.39-.39-1.03-.39-1.41.0l-1.06 1.06c-.39.39-.39 1.03.0 1.41s1.03.39 1.41.0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03.0-1.41-.39-.39-1.03-.39-1.41.0l-1.06 1.06c-.39.39-.39 1.03.0 1.41s1.03.39 1.41.0l1.06-1.06z"/></svg>Light</button>
-                                    <button class="theme-btn" data-theme="dark" title="Dark theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 3c-4.97.0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98.0-5.4-2.42-5.4-5.4.0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg>Dark</button>
-                                    <button class="theme-btn" data-theme="auto" title="System theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28.0-.5.22-.5.5.0.12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5.0 0112 22zm0-18c-4.41.0-8 3.59-8 8s3.59 8 8 8c.28.0.5-.22.5-.5a.54.54.0 00-.14-.35c-.41-.46-.63-1.05-.63-1.65a2.5 2.5.0 012.5-2.5H16c2.21.0 4-1.79 4-4 0-3.86-3.59-7-8-7z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg>Auto</button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="settings-section" style="border-top: 1px solid var(--border-color)">
                             <div class="settings-section-title">Font Size</div>
                             <div class="settings-row">
                                 <span class="settings-label" id="fontSizeLabel">14px</span>
                                 <div class="settings-control">
-                                    <button id="fontDecrease" title="Decrease font size">A-</button>
-                                    <button id="fontIncrease" title="Increase font size">A+</button>
+                                    <button id="fontDecrease" title="Decrease font size" aria-label="Decrease font size">A-</button>
+                                    <button id="fontIncrease" title="Increase font size" aria-label="Increase font size">A+</button>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="settings-section" style="border-top: 1px solid var(--border-color)">
+                            <div class="settings-section-title">Sort By</div>
+                            <div class="settings-row">
+                                <select class="sort-select" id="sortSelect" aria-label="Sort files by">
+                                    <option value="name-asc">Name (A-Z)</option>
+                                    <option value="name-desc">Name (Z-A)</option>
+                                    <option value="ext-asc">Extension (A-Z)</option>
+                                    <option value="ext-desc">Extension (Z-A)</option>
+                                    <option value="size-asc">Size (Smallest)</option>
+                                    <option value="size-desc">Size (Largest)</option>
+                                    <option value="date-asc">Date (Oldest)</option>
+                                    <option value="date-desc">Date (Newest)</option>
+                                    <option value="type">Type</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="settings-section" style="border-top: 1px solid var(--border-color)">
+                            <div class="settings-section-title">Media Player</div>
+                            <div class="settings-row">
+                                <span class="settings-label">Use native player</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="nativePlayerToggle" aria-label="Use native browser player controls instead of the custom player" />
+                                    <span class="switch-slider"></span>
+                                </label>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="view-toggle">
-                    <button class="view-btn" data-view="grid" title="Grid"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg></button>
-                    <button class="view-btn" data-view="list" title="List"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/></svg></button>
-                    <button class="view-btn active" data-view="tree" title="Tree"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z"/></svg></button>
+                <div class="settings-dropdown" id="themeColorDropdown">
+                    <button class="settings-btn" id="themeColorBtn" title="Theme &amp; color" aria-label="Theme and color settings" aria-haspopup="true" aria-expanded="false">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.3 0-1.1.9-2 2-2h1.5A4.5 4.5 0 0 0 21 10c0-4-4-7-9-7z"/><circle cx="7.5" cy="10.5" r="1.4" fill="currentcolor" stroke="none"/><circle cx="10.5" cy="7" r="1.4" fill="currentcolor" stroke="none"/><circle cx="14.5" cy="7" r="1.4" fill="currentcolor" stroke="none"/><circle cx="17" cy="10.5" r="1.4" fill="currentcolor" stroke="none"/></svg>
+                    </button>
+                    <div class="settings-menu" id="themeColorMenu">
+                        <div class="settings-section">
+                            <div class="settings-section-title">Theme</div>
+                            <div class="settings-row">
+                                <div class="theme-toggle" id="themeToggle">
+                                    <button class="theme-btn" data-theme="light" title="Light theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 7c-2.76.0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55.0 1-.45 1-1s-.45-1-1-1H2c-.55.0-1 .45-1 1s.45 1 1 1zm18 0h2c.55.0 1-.45 1-1s-.45-1-1-1h-2c-.55.0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41.0-.39.39-.39 1.03.0 1.41l1.06 1.06c.39.39 1.03.39 1.41.0s.39-1.03.0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41.0-.39.39-.39 1.03.0 1.41l1.06 1.06c.39.39 1.03.39 1.41.0.39-.39.39-1.03.0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03.0-1.41-.39-.39-1.03-.39-1.41.0l-1.06 1.06c-.39.39-.39 1.03.0 1.41s1.03.39 1.41.0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03.0-1.41-.39-.39-1.03-.39-1.41.0l-1.06 1.06c-.39.39-.39 1.03.0 1.41s1.03.39 1.41.0l1.06-1.06z"/></svg><span class="theme-btn-label">Light</span></button>
+                                    <button class="theme-btn" data-theme="dark" title="Dark theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 3c-4.97.0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98.0-5.4-2.42-5.4-5.4.0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg><span class="theme-btn-label">Dark</span></button>
+                                    <button class="theme-btn" data-theme="auto" title="System theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 22C6.49 22 2 17.51 2 12S6.49 2 12 2s10 4.04 10 9c0 3.31-2.69 6-6 6h-1.77c-.28.0-.5.22-.5.5.0.12.05.23.13.33.41.47.64 1.06.64 1.67A2.5 2.5.0 0112 22zm0-18c-4.41.0-8 3.59-8 8s3.59 8 8 8c.28.0.5-.22.5-.5a.54.54.0 00-.14-.35c-.41-.46-.63-1.05-.63-1.65a2.5 2.5.0 012.5-2.5H16c2.21.0 4-1.79 4-4 0-3.86-3.59-7-8-7z"/><circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/><circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/></svg><span class="theme-btn-label">Auto</span></button>
+                                    <button class="theme-btn" data-theme="hc-dark" title="High contrast dark theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 2a10 10 0 000 20 10 10 0 000-20zm0 2v16a8 8 0 010-16z"/></svg><span class="theme-btn-label">HC Dark</span></button>
+                                    <button class="theme-btn" data-theme="hc-light" title="High contrast light theme"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M12 2a10 10 0 000 20 10 10 0 000-20zm0 18V4a8 8 0 010 16z"/></svg><span class="theme-btn-label">HC Light</span></button>
+                                </div>
+                            </div>
+                            <div class="settings-row" style="margin-top: 0.375rem">
+                                <span class="settings-label">Flat design</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="flatDesignToggle" aria-label="Use flat design (remove gradients)" />
+                                    <span class="switch-slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="settings-section" style="border-top: 1px solid var(--border-color)">
+                            <div class="settings-section-title">Base Color</div>
+                            <div class="settings-row">
+                                <div class="theme-swatches" id="themeSwatches"></div>
+                            </div>
+                            <div class="theme-custom-row">
+                                <input type="color" id="themeColorInput" value="#58a6ff" title="Pick a custom color" />
+                                <button id="themeResetBtn" class="theme-reset-btn">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="view-toggle" role="group" aria-label="View mode">
+                    <button class="view-btn" data-view="grid" title="Grid" aria-label="Grid view"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M4 8h4V4H4v4zm6 12h4v-4h-4v4zm-6 0h4v-4H4v4zm0-6h4v-4H4v4zm6 0h4v-4h-4v4zm6-10v4h4V4h-4zm-6 4h4V4h-4v4zm6 6h4v-4h-4v4zm0 6h4v-4h-4v4z"/></svg></button>
+                    <button class="view-btn" data-view="list" title="List" aria-label="List view"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M4 14h4v-4H4v4zm0 5h4v-4H4v4zM4 9h4V5H4v4zm5 5h12v-4H9v4zm0 5h12v-4H9v4zM9 5v4h12V5H9z"/></svg></button>
+                    <button class="view-btn active" data-view="tree" title="Tree" aria-label="Tree view"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M22 11V3h-7v3H9V3H2v8h7V8h2v10h4v3h7v-8h-7v3h-2V8h2v3h7zM7 9H4V5h3v4zm10 6h3v4h-3v-4zm0-10h3v4h-3V5z"/></svg></button>
                 </div>
             </div>
         </div>
@@ -280,24 +482,33 @@
             </div>
         </main>
     </div>
-    <div class="modal-overlay" id="modal">
+    <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
         <div class="modal" id="modalContent">
             <div class="modal-header">
                 <span class="modal-title" id="modalTitle">File Preview</span>
                 <div class="modal-actions">
-                    <button class="modal-btn play-playlist-btn hidden" id="playPlaylistBtn" title="Play as playlist"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66.0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/></svg>Play</button>
-                    <a class="modal-btn" id="downloadBtn" title="Download" download><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg></a>
-                    <a class="modal-btn" id="rawBtn" title="Open raw" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M19 19H5V5h7V3H5c-1.11.0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1.0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a>
-                    <button class="modal-btn" id="closeBtn" title="Close"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
+                    <button class="modal-btn play-playlist-btn hidden" id="playPlaylistBtn" title="Play as playlist" aria-label="Play as playlist"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66.0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/></svg><span class="btn-label">Play</span></button>
+                    <button class="modal-btn" id="copyLinkBtn" title="Copy link" aria-label="Copy raw file link"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M3.9 12c0-1.71 1.39-3.1 3.1-3.1h4V7H7c-2.76.0-5 2.24-5 5s2.24 5 5 5h4v-1.9H7c-1.71.0-3.1-1.39-3.1-3.1zM8 13h8v-2H8v2zm9-6h-4v1.9h4c1.71.0 3.1 1.39 3.1 3.1s-1.39 3.1-3.1 3.1h-4V17h4c2.76.0 5-2.24 5-5s-2.24-5-5-5z"/></svg></button>
+                    <a class="modal-btn" id="downloadBtn" title="Download" aria-label="Download file" download><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z" /></svg></a>
+                    <a class="modal-btn" id="rawBtn" title="Open raw" aria-label="Open raw file in new tab" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M19 19H5V5h7V3H5c-1.11.0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1.0 2-.9 2-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg></a>
+                    <button class="modal-btn" id="closeBtn" title="Close" aria-label="Close preview"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg></button>
                 </div>
             </div>
             <div class="playlist-bar" id="playlistBar">
                 <div class="playlist-controls">
-                    <button class="playlist-btn" id="playlistPrev" title="Previous track"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" /></svg>Prev</button>
-                    <button class="playlist-btn" id="playlistNext" title="Next track"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" /></svg>Next</button>
+                    <button class="playlist-btn prev-btn top-native-btn" id="topPrevBtn" title="Previous track" aria-label="Previous track" disabled><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" /></svg></button>
+                    <button class="playlist-btn next-btn top-native-btn" id="topNextBtn" title="Next track" aria-label="Next track" disabled><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" /></svg></button>
+                    <button class="playlist-btn shuffle-btn top-native-btn" id="topShuffleBtn" title="Shuffle" aria-label="Toggle shuffle" aria-pressed="false" disabled><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z" /></svg></button>
+                    <div class="goto-quick" id="gotoQuick" title="Go to track">
+                        <input type="number" class="goto-input" id="gotoInput" min="1" step="1" inputmode="numeric" aria-label="Go to track number" />
+                        <div class="goto-stepper">
+                            <button type="button" class="goto-step-btn" id="gotoUpBtn" aria-label="Next track number" title="Hold to skip faster"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M7 14l5-5 5 5z" /></svg></button>
+                            <button type="button" class="goto-step-btn" id="gotoDownBtn" aria-label="Previous track number" title="Hold to skip faster"><svg viewBox="0 0 24 24" fill="currentcolor"><path d="M7 10l5 5 5-5z" /></svg></button>
+                        </div>
+                    </div>
                 </div>
                 <div class="playlist-info"><span class="playlist-track" id="playlistTrack">Track 1 of 10</span></div>
-                <button class="playlist-stop-btn" id="playlistStop" title="Stop playlist">Stop</button>
+                <button class="playlist-stop-btn" id="playlistStop" title="Stop playlist" aria-label="Stop playlist">Stop</button>
             </div>
             <div class="modal-body" id="modalBody"></div>
         </div>
@@ -311,16 +522,30 @@
             expandedFolders = new Set([""]),
             currentPlaylist = [],
             currentPlaylistIndex = 0,
+            isShuffle = false,
+            shuffleBag = [],
+            shuffleHistory = [],
             currentFilePath = "",
             currentFileName = "",
             isPlaylistFile = !1,
-            currentFontSize = 14,
+            currentFontSize = 16,
+            themeHue = null,
             currentHls = null,
             streamTimeout = null,
             allFiles = [],
+            sortBy = "name-asc",
+            searchResultLimit = 100,
+            lastFocusedElement = null,
+            fetchCache = new Map(),
             currentVolume = 0.5, // Default volume set to 50%
             audioCtx = null,
-            compressor = null; 
+            normalizedElements = new WeakSet(),
+            compressor = null,
+            useNativePlayer = false;
+        // How long to wait for a track to start loading before we assume it's
+        // dead/unreachable and skip to the next one. Raise this if you're on a
+        // slow connection and tracks are getting skipped before they finish buffering.
+        const STREAM_TIMEOUT_MS = 15000;
 
         const icons = {
             folder: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>`,
@@ -336,8 +561,16 @@
             markup: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>`,
             style: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.53 19.65l1.34.56v-9.03l-2.43 5.86c-.41 1.02.08 2.19 1.09 2.61zm19.5-3.7L17.07 3.98c-.31-.75-1.04-1.21-1.81-1.23-.26 0-.53.04-.79.15L7.1 5.95c-.75.31-1.21 1.03-1.23 1.8-.01.27.04.54.15.8l4.96 11.97c.31.76 1.05 1.22 1.83 1.23.26 0 .52-.05.77-.15l7.36-3.05c1.02-.42 1.51-1.59 1.09-2.6zm-9.2 3.8L7.87 7.79l7.35-3.04h.01l4.95 11.95-7.35 3.05z"/></svg>`,
             playlist: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 6H3v2h12V6zm0 4H3v2h12v-2zM3 16h8v-2H3v2zM17 6v8.18c-.31-.11-.65-.18-1-.18-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3V8h3V6h-5z"/></svg>`,
+            playCtl: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`,
+            pauseCtl: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`,
+            prevCtl: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg>`,
+            nextCtl: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg>`,
+            shuffleCtl: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10.59 9.17 5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg>`,
+            volDownCtl: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2z"/></svg>`,
+            volUpCtl: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>`,
             other: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/></svg>`,
             chevron: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>`,
+            info: `<svg viewBox="0 0 24 24" fill="currentColor"><path d="M11 7h2v2h-2V7zm0 4h2v6h-2v-6zm1-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>`,
         };
         function loadSettings() {
             const e = localStorage.getItem("theme");
@@ -350,12 +583,220 @@
                 document.documentElement.style.setProperty("--font-size-base", currentFontSize + "px")),
                 updateThemeButtons(),
                 updateFontSizeLabel();
+            const v = localStorage.getItem("viewMode");
+            if (v === "grid" || v === "list" || v === "tree") {
+                currentView = v;
+                document.querySelectorAll(".view-btn").forEach((btn) => {
+                    btn.classList.toggle("active", btn.dataset.view === v);
+                });
+                document.getElementById("treePanel").classList.toggle("visible", v === "tree");
+            }
+            const so = localStorage.getItem("sortBy");
+            if (so) sortBy = so;
+            const sortSel = document.getElementById("sortSelect");
+            if (sortSel) sortSel.value = sortBy;
+            useNativePlayer = localStorage.getItem("useNativePlayer") === "1";
+            const nativeToggle = document.getElementById("nativePlayerToggle");
+            if (nativeToggle) nativeToggle.checked = useNativePlayer;
+            document.body.classList.toggle("native-player-mode", useNativePlayer);
+            const flatOn = localStorage.getItem("flatDesign") === "1";
+            const flatToggle = document.getElementById("flatDesignToggle");
+            if (flatToggle) flatToggle.checked = flatOn;
+            document.documentElement.classList.toggle("flat", flatOn);
+            initThemeColor();
+        }
+        function setFlatDesign(on) {
+            document.documentElement.classList.toggle("flat", on);
+            localStorage.setItem("flatDesign", on ? "1" : "0");
         }
         function saveTheme(e) {
             e === "auto"
                 ? (localStorage.removeItem("theme"), document.documentElement.removeAttribute("data-theme"))
                 : (localStorage.setItem("theme", e), document.documentElement.setAttribute("data-theme", e)),
                 updateThemeButtons();
+            if (themeHue != null) applyThemeHue(themeHue);
+        }
+        function setupDropdown(btnId, menuId, dropdownId) {
+            const btn = document.getElementById(btnId),
+                menu = document.getElementById(menuId);
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                document.querySelectorAll(".settings-menu.active").forEach((m) => {
+                    if (m !== menu) {
+                        m.classList.remove("active");
+                        const otherBtn = m.previousElementSibling;
+                        if (otherBtn) otherBtn.setAttribute("aria-expanded", "false");
+                    }
+                });
+                const isActive = menu.classList.toggle("active");
+                btn.setAttribute("aria-expanded", isActive ? "true" : "false");
+            });
+            document.addEventListener("click", (e) => {
+                if (!e.target.closest("#" + dropdownId)) {
+                    menu.classList.remove("active");
+                    btn.setAttribute("aria-expanded", "false");
+                }
+            });
+        }
+
+        /* ---------------------------------------------------------------
+           Base Color engine
+           Lets the user pick a new "base driving color" that re-tints every
+           theme preset (Light, Dark, Auto, HC Dark, HC Light). Each themed
+           variable keeps its own original saturation & lightness so the
+           preset's brightness/contrast balance stays exactly as designed —
+           only the hue shifts to match whatever color the user picks.
+           --------------------------------------------------------------- */
+        const THEME_HUE_KEY = "themeHue";
+        const THEME_BASE = {
+            dark: {
+                "--bg-primary": "#0d1117", "--bg-secondary": "#161b22", "--bg-tertiary": "#21262d",
+                "--bg-hover": "#30363d", "--border-color": "#30363d", "--text-primary": "#e6edf3",
+                "--text-secondary": "#8b949e", "--text-muted": "#6e7681", "--accent": "#58a6ff",
+                "--accent-hover": "#79b8ff", "--success": "#3fb950", "--warning": "#d29922", "--danger": "#f85149"
+            },
+            light: {
+                "--bg-primary": "#ffffff", "--bg-secondary": "#f6f8fa", "--bg-tertiary": "#eaeef2",
+                "--bg-hover": "#d0d7de", "--border-color": "#d0d7de", "--text-primary": "#1f2328",
+                "--text-secondary": "#656d76", "--text-muted": "#8c959f", "--accent": "#0969da",
+                "--accent-hover": "#0550ae"
+            },
+            "hc-dark": {
+                "--bg-primary": "#000000", "--bg-secondary": "#000000", "--bg-tertiary": "#000000",
+                "--bg-hover": "#262626", "--border-color": "#9370ff", "--text-primary": "#ffffff",
+                "--text-secondary": "#ffffff", "--text-muted": "#a3a3a3", "--accent": "#00ffff",
+                "--accent-hover": "#33ffff", "--success": "#00ffff", "--warning": "#ff37cb", "--danger": "#ff4444"
+            },
+            "hc-light": {
+                "--bg-primary": "#ffffff", "--bg-secondary": "#ffffff", "--bg-tertiary": "#ffffff",
+                "--bg-hover": "#d9d9d9", "--border-color": "#6c8f00", "--text-primary": "#000000",
+                "--text-secondary": "#000000", "--text-muted": "#5c5c5c", "--accent": "#ff0000",
+                "--accent-hover": "#cc0000", "--success": "#ff0000", "--warning": "#00c834", "--danger": "#00bbbb"
+            }
+        };
+        const THEME_PRESETS = [
+            { name: "Blue", hue: 209.2 }, { name: "Indigo", hue: 243 }, { name: "Purple", hue: 262 },
+            { name: "Pink", hue: 330 }, { name: "Red", hue: 4 }, { name: "Orange", hue: 28 },
+            { name: "Yellow", hue: 48 }, { name: "Green", hue: 142 }, { name: "Teal", hue: 174 },
+            { name: "Cyan", hue: 191 }, { name: "Sky", hue: 199 }, { name: "Rose", hue: 350 }
+        ];
+        function hexToHsl(hex) {
+            hex = hex.replace("#", "");
+            if (hex.length === 3) hex = hex.split("").map((c) => c + c).join("");
+            const r = parseInt(hex.substr(0, 2), 16) / 255,
+                g = parseInt(hex.substr(2, 2), 16) / 255,
+                b = parseInt(hex.substr(4, 2), 16) / 255;
+            const max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h = 0, s = 0;
+            const l = (max + min) / 2, d = max - min;
+            if (d !== 0) {
+                s = d / (1 - Math.abs(2 * l - 1));
+                switch (max) {
+                    case r: h = 60 * (((g - b) / d) % 6); break;
+                    case g: h = 60 * ((b - r) / d + 2); break;
+                    case b: h = 60 * ((r - g) / d + 4); break;
+                }
+            }
+            if (h < 0) h += 360;
+            return { h, s: s * 100, l: l * 100 };
+        }
+        function hslToHex(h, s, l) {
+            s /= 100; l /= 100;
+            const c = (1 - Math.abs(2 * l - 1)) * s,
+                x = c * (1 - Math.abs((h / 60) % 2 - 1)),
+                m = l - c / 2;
+            let r = 0, g = 0, b = 0;
+            if (h < 60) { r = c; g = x; b = 0; }
+            else if (h < 120) { r = x; g = c; b = 0; }
+            else if (h < 180) { r = 0; g = c; b = x; }
+            else if (h < 240) { r = 0; g = x; b = c; }
+            else if (h < 300) { r = x; g = 0; b = c; }
+            else { r = c; g = 0; b = x; }
+            const toHex = (v) => {
+                const n = Math.max(0, Math.min(255, Math.round((v + m) * 255)));
+                return n.toString(16).padStart(2, "0");
+            };
+            return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
+        }
+        function getActivePaletteKey() {
+            const attr = document.documentElement.getAttribute("data-theme");
+            if (attr === "light" || attr === "hc-dark" || attr === "hc-light") return attr;
+            if (attr === "dark") return "dark";
+            const dark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+            return dark ? "dark" : "light";
+        }
+        function applyThemeHue(hue) {
+            const root = document.documentElement.style;
+            const base = THEME_BASE[getActivePaletteKey()];
+            for (const [varName, baseHex] of Object.entries(base)) {
+                const { s, l } = hexToHsl(baseHex);
+                root.setProperty(varName, hslToHex(hue, s, l));
+            }
+            markActiveSwatch(hue);
+        }
+        function clearThemeHueVars() {
+            const root = document.documentElement.style;
+            for (const key of ["dark", "light", "hc-dark", "hc-light"]) {
+                for (const varName of Object.keys(THEME_BASE[key])) root.removeProperty(varName);
+            }
+        }
+        function setThemeHue(hue) {
+            themeHue = hue;
+            localStorage.setItem(THEME_HUE_KEY, String(hue));
+            applyThemeHue(hue);
+        }
+        function resetThemeHue() {
+            themeHue = null;
+            localStorage.removeItem(THEME_HUE_KEY);
+            clearThemeHueVars();
+            markActiveSwatch(null);
+        }
+        function markActiveSwatch(hue) {
+            const wrap = document.getElementById("themeSwatches");
+            if (!wrap) return;
+            wrap.querySelectorAll(".theme-swatch").forEach((sw) => {
+                const swHue = parseFloat(sw.dataset.hue);
+                sw.classList.toggle("active", hue != null && Math.abs(swHue - hue) < 0.5);
+            });
+        }
+        function renderThemeSwatches() {
+            const wrap = document.getElementById("themeSwatches");
+            if (!wrap) return;
+            wrap.innerHTML = THEME_PRESETS.map((p) => {
+                const swatchColor = hslToHex(p.hue, 80, 60);
+                return `<button type="button" class="theme-swatch" data-hue="${p.hue}" title="${p.name}" style="background:${swatchColor}"></button>`;
+            }).join("");
+        }
+        function wireThemeColorPicker() {
+            const input = document.getElementById("themeColorInput"),
+                resetBtn = document.getElementById("themeResetBtn"),
+                swatches = document.getElementById("themeSwatches");
+            if (input) input.addEventListener("input", (e) => setThemeHue(hexToHsl(e.target.value).h));
+            if (resetBtn) resetBtn.addEventListener("click", () => resetThemeHue());
+            if (swatches) swatches.addEventListener("click", (e) => {
+                const sw = e.target.closest(".theme-swatch");
+                if (sw) setThemeHue(parseFloat(sw.dataset.hue));
+            });
+            if (window.matchMedia) {
+                window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+                    if (themeHue != null) applyThemeHue(themeHue);
+                });
+            }
+        }
+        function initThemeColor() {
+            renderThemeSwatches();
+            const stored = localStorage.getItem(THEME_HUE_KEY);
+            if (stored !== null && stored !== "") {
+                const hue = parseFloat(stored);
+                if (!Number.isNaN(hue)) {
+                    themeHue = hue;
+                    applyThemeHue(hue);
+                    const input = document.getElementById("themeColorInput");
+                    if (input) input.value = hslToHex(hue, 100, 60);
+                    return;
+                }
+            }
+            markActiveSwatch(null);
         }
         function updateThemeButtons() {
             const e = localStorage.getItem("theme") || "auto";
@@ -381,20 +822,154 @@
                 const currentPathStr = pathPrefix ? `${pathPrefix}/${node.name}` : node.name;
                 const searchKey = currentPathStr.toLowerCase();
                 const navPath = pathPrefix ? [...pathPrefix.split('/'), node.name] : [node.name];
+
+                // Precompute fuzzy-search keys once per file so every keystroke
+                // doesn't have to re-derive them:
+                //  - normalizedKey: lowercase path with all separators/punctuation
+                //    collapsed to single spaces (e.g. "+checked+/c/chillout" -> "checked c chillout")
+                //  - compactKey: normalizedKey with the spaces removed, used for
+                //    subsequence/fuzzy matching (e.g. "checkedcchillout")
+                //  - boundarySet: indices within compactKey where a "word" starts,
+                //    used to give bonus weight to matches that land on word starts
+                const normalizedKey = searchKey.replace(/[^a-z0-9]+/g, " ").trim().replace(/\s+/g, " ");
+                const words = normalizedKey.length ? normalizedKey.split(" ") : [];
+                const boundarySet = new Set();
+                let compactKey = "";
+                for (const w of words) {
+                    boundarySet.add(compactKey.length);
+                    compactKey += w;
+                }
+
                 allFiles.push({
                     ...node,
                     fullPath: currentPathStr,
                     navPath: navPath,
-                    searchKey: searchKey
+                    searchKey: searchKey,
+                    normalizedKey: normalizedKey,
+                    compactKey: compactKey,
+                    boundarySet: boundarySet,
+                    parentPath: pathPrefix.toLowerCase()
                 });
                 if (node.type === "directory" && node.children) {
                     preprocessFiles(node.children, currentPathStr);
                 }
             }
         }
+
+        // Scores a single fuzzy-subsequence match of `query` against `str`.
+        // Returns null if `query`'s characters don't all appear in order within `str`.
+        // Rewards consecutive runs of matched characters and matches that land on
+        // word boundaries (tracked via `boundarySet`), and gives a small bonus for
+        // matching earlier in the string.
+        function fuzzySubsequenceScore(query, str, boundarySet) {
+            let qi = 0, score = 0, prevIndex = -2, consecutiveRun = 0, firstIndex = -1;
+            for (let i = 0; i < str.length && qi < query.length; i++) {
+                if (str[i] === query[qi]) {
+                    if (firstIndex === -1) firstIndex = i;
+                    if (prevIndex === i - 1) {
+                        consecutiveRun++;
+                        score += 8 + consecutiveRun * 4;
+                    } else {
+                        consecutiveRun = 0;
+                        score += 4;
+                    }
+                    if (boundarySet && boundarySet.has(i)) score += 10;
+                    prevIndex = i;
+                    qi++;
+                }
+            }
+            if (qi < query.length) return null;
+            score += Math.max(0, 10 - firstIndex * 0.5);
+            return score;
+        }
+
+        // Scores how well a single file/folder item matches the search query.
+        // Returns null when the item doesn't match at all. Matches are grouped
+        // into tiers (higher score range = more relevant), so that a precise
+        // match (e.g. "check chill") always outranks a loose fuzzy one
+        // (e.g. "checkchill"), regardless of which folder either file is in:
+        //   Tier 4 (~2000+): the full query, separators and all, is a direct
+        //                     substring of the path ("c/chillout")
+        //   Tier 3 (~1400-1900): every space/slash-separated token is present
+        //                     as its own substring ("check chill", "check/chill")
+        //   Tier 2 (~1000-1300): a single-token query matches as a substring
+        //                     once punctuation is ignored
+        //   Tier 1 (~300-800): fuzzy subsequence match only ("checkchill")
+        function scoreSearchItem(query, tokens, compactQuery, item) {
+            const rawKey = item.searchKey;
+            const normKey = item.normalizedKey;
+
+            const exactIdx = rawKey.indexOf(query);
+            if (exactIdx !== -1) {
+                return 2200 - exactIdx * 2 - rawKey.length * 0.1;
+            }
+
+            if (tokens.length > 1 && tokens.every((tok) => normKey.includes(tok))) {
+                let score = 1400;
+                let lastIdx = -1;
+                let inOrder = true;
+                for (const tok of tokens) {
+                    const idx = normKey.indexOf(tok);
+                    if (idx < lastIdx) inOrder = false;
+                    lastIdx = idx;
+                    if (idx === 0 || normKey[idx - 1] === " ") score += 25;
+                    score += Math.max(0, 10 - idx * 0.05);
+                }
+                if (inOrder) score += 60;
+                score -= normKey.length * 0.05;
+                return score;
+            }
+
+            if (tokens.length === 1 && normKey.includes(tokens[0])) {
+                const idx = normKey.indexOf(tokens[0]);
+                let score = 1000;
+                if (idx === 0 || normKey[idx - 1] === " ") score += 30;
+                score -= idx * 0.1;
+                score -= normKey.length * 0.05;
+                return score;
+            }
+
+            // Cheap length check before the character-by-character scan below:
+            // a query longer than the path it's being matched against can never
+            // be a subsequence, so skip the scan entirely.
+            if (compactQuery.length > 0 && compactQuery.length <= item.compactKey.length) {
+                const fuzzy = fuzzySubsequenceScore(compactQuery, item.compactKey, item.boundarySet);
+                if (fuzzy !== null) {
+                    return 300 + fuzzy - item.compactKey.length * 0.05;
+                }
+            }
+
+            return null;
+        }
+
+        // Runs the fuzzy search across every indexed file/folder and returns
+        // results ranked by relevance first, with a bonus applied to items
+        // that live in the folder currently being viewed so, among comparably
+        // relevant results, local matches surface before matches from other
+        // folders.
+        function searchFiles(query) {
+            const tokens = query.split(/[\s/]+/).filter(Boolean);
+            const compactQuery = query.replace(/[^a-z0-9]/g, "");
+            const currentFolderKey = currentPath.join("/").toLowerCase();
+            const SAME_FOLDER_BONUS = 400;
+
+            const scored = [];
+            for (const item of allFiles) {
+                const score = scoreSearchItem(query, tokens, compactQuery, item);
+                if (score === null) continue;
+                const inCurrentFolder = item.parentPath === currentFolderKey;
+                scored.push({ item, score: score + (inCurrentFolder ? SAME_FOLDER_BONUS : 0) });
+            }
+            scored.sort((a, b) => b.score - a.score);
+            return scored.map((s) => s.item);
+        }
         
         // Initialize Web Audio API for Normalization
         function setupAudioNormalization(mediaElement) {
+            // A media element can only ever be connected to one MediaElementSourceNode.
+            // Since we now reuse the same <audio>/<video> element across playlist
+            // track changes, skip re-connecting if it's already wired up.
+            if (normalizedElements.has(mediaElement)) return;
             try {
                 // Ensure CORS is handled for Web Audio
                 mediaElement.crossOrigin = "anonymous";
@@ -420,12 +995,172 @@
                 // Note: creating a new source for a new element is standard
                 const source = audioCtx.createMediaElementSource(mediaElement);
                 source.connect(compressor);
+                normalizedElements.add(mediaElement);
             } catch (e) {
                 // Fails quietly if CORS blocks it or AudioContext not supported
                 console.warn("Audio Normalization setup failed:", e);
             }
         }
 
+        function formatTime(seconds) {
+            if (!isFinite(seconds) || seconds < 0) return "--:--";
+            const m = Math.floor(seconds / 60),
+                sec = Math.floor(seconds % 60);
+            return `${m}:${sec.toString().padStart(2, "0")}`;
+        }
+        // When "Use native player" is on, hand the element back to the browser's
+        // own controls instead of building/wiring our custom bar.
+        function mediaTagAttrs() {
+            return useNativePlayer ? "controls" : "";
+        }
+        function mediaControlsMarkup() {
+            return useNativePlayer ? "" : playerControlsHTML();
+        }
+        function maybeWireMediaControls(el) {
+            if (!useNativePlayer) wireMediaControls(el);
+        }
+        // Builds the markup for our custom play/pause, prev/next, shuffle and
+        // volume controls. Used for both single audio/video files and playlist
+        // tracks so the native browser controls never need to be shown.
+        function playerControlsHTML() {
+            return `
+        <div class="player-bar">
+          <div class="player-seek-row">
+            <span class="player-time" id="playerCurTime">0:00</span>
+            <input type="range" class="player-seek" id="playerSeek" min="0" max="1000" value="0" step="1" aria-label="Seek" disabled />
+            <span class="player-time" id="playerDurTime">--:--</span>
+          </div>
+          <div class="player-controls-row">
+            <button class="playlist-btn prev-btn" id="playlistPrev" title="Previous track" aria-label="Previous track" disabled>${icons.prevCtl}</button>
+            <button class="playlist-btn player-play-btn" id="playPauseBtn" title="Play" aria-label="Play">${icons.playCtl}</button>
+            <button class="playlist-btn next-btn" id="playlistNext" title="Next track" aria-label="Next track" disabled>${icons.nextCtl}</button>
+            <button class="playlist-btn shuffle-btn" id="playlistShuffle" title="Shuffle" aria-label="Toggle shuffle" aria-pressed="false" disabled>${icons.shuffleCtl}</button>
+            <span class="player-divider"></span>
+            <button class="playlist-btn" id="volDownBtn" title="Volume down" aria-label="Decrease volume">${icons.volDownCtl}</button>
+            <span class="player-vol" id="playerVolLabel">50%</span>
+            <button class="playlist-btn" id="volUpBtn" title="Volume up" aria-label="Increase volume">${icons.volUpCtl}</button>
+          </div>
+        </div>
+      `;
+        }
+        // Wires up a freshly-created set of custom controls to the given
+        // <audio>/<video> element. Only call this once per element (when it's
+        // first created) since playlist tracks reuse the same element.
+        function wireMediaControls(mediaEl) {
+            const playBtn = document.getElementById("playPauseBtn"),
+                prevBtn = document.getElementById("playlistPrev"),
+                nextBtn = document.getElementById("playlistNext"),
+                shuffleBtn = document.getElementById("playlistShuffle"),
+                curTimeEl = document.getElementById("playerCurTime"),
+                durTimeEl = document.getElementById("playerDurTime"),
+                seek = document.getElementById("playerSeek"),
+                volDownBtn = document.getElementById("volDownBtn"),
+                volUpBtn = document.getElementById("volUpBtn"),
+                volLabel = document.getElementById("playerVolLabel");
+            if (!playBtn || !mediaEl) return;
+
+            function updatePlayIcon() {
+                playBtn.innerHTML = mediaEl.paused ? icons.playCtl : icons.pauseCtl;
+                const label = mediaEl.paused ? "Play" : "Pause";
+                (playBtn.title = label), playBtn.setAttribute("aria-label", label);
+            }
+            playBtn.addEventListener("click", () => {
+                mediaEl.muted = false;
+                mediaEl.paused ? mediaEl.play().catch(() => {}) : mediaEl.pause();
+            });
+            mediaEl.addEventListener("play", updatePlayIcon);
+            mediaEl.addEventListener("pause", updatePlayIcon);
+            updatePlayIcon();
+
+            prevBtn.addEventListener("click", goToPrevTrack);
+            nextBtn.addEventListener("click", goToNextTrack);
+            shuffleBtn.addEventListener("click", toggleShuffle);
+
+            let seeking = false;
+            // For live/unknown-length streams there's no fixed duration, but the
+            // browser still buffers a rewindable window of what's already been
+            // received. mediaEl.seekable exposes that window so we can let
+            // people scrub back into it instead of just disabling seeking.
+            //
+            // Some live sources (particularly HLS live streams) report a
+            // seekable.end() far ahead of the actual live edge, which used to
+            // pin the indicator near the start of the bar. To keep the
+            // indicator tracking real playback, we treat "now" (currentTime)
+            // as the live edge and only trust seekable.start() as the
+            // furthest-back point we can rewind into.
+            function getSeekableRange() {
+                try {
+                    const ranges = mediaEl.seekable;
+                    if (ranges && ranges.length > 0) {
+                        const last = ranges.length - 1;
+                        const start = ranges.start(last);
+                        const reportedEnd = ranges.end(last);
+                        const end = Math.min(reportedEnd, mediaEl.currentTime + 5);
+                        if (end - start > 1) return { start, end };
+                    }
+                } catch (err) {}
+                return null;
+            }
+            function getSeekTarget(sliderValue) {
+                const dur = mediaEl.duration;
+                if (isFinite(dur) && dur > 0) return (sliderValue / 1000) * dur;
+                const range = getSeekableRange();
+                if (range) return range.start + (sliderValue / 1000) * (range.end - range.start);
+                return mediaEl.currentTime;
+            }
+            function syncSeekBar() {
+                if (seeking) return;
+                const dur = mediaEl.duration;
+                if (isFinite(dur) && dur > 0) {
+                    seek.disabled = false;
+                    durTimeEl.textContent = formatTime(dur);
+                    seek.value = Math.round((mediaEl.currentTime / dur) * 1000);
+                    return;
+                }
+                const range = getSeekableRange();
+                if (range) {
+                    seek.disabled = false;
+                    durTimeEl.textContent = "LIVE";
+                    const ratio = (mediaEl.currentTime - range.start) / (range.end - range.start);
+                    seek.value = Math.round(Math.max(0, Math.min(1, ratio)) * 1000);
+                } else {
+                    seek.disabled = true;
+                    seek.value = 1000;
+                    durTimeEl.textContent = "LIVE";
+                }
+            }
+            mediaEl.addEventListener("loadedmetadata", syncSeekBar);
+            mediaEl.addEventListener("durationchange", syncSeekBar);
+            mediaEl.addEventListener("progress", syncSeekBar);
+            mediaEl.addEventListener("timeupdate", () => {
+                curTimeEl.textContent = formatTime(mediaEl.currentTime);
+                syncSeekBar();
+            });
+            syncSeekBar();
+            seek.addEventListener("input", () => {
+                seeking = true;
+                curTimeEl.textContent = formatTime(getSeekTarget(seek.value));
+            });
+            seek.addEventListener("change", () => {
+                mediaEl.currentTime = getSeekTarget(seek.value);
+                seeking = false;
+            });
+
+            const updateVolLabel = () => (volLabel.textContent = Math.round(mediaEl.volume * 100) + "%");
+            volDownBtn.addEventListener("click", () => {
+                mediaEl.muted = false;
+                (mediaEl.volume = Math.max(0, +(mediaEl.volume - 0.1).toFixed(2))), (currentVolume = mediaEl.volume), updateVolLabel();
+            });
+            volUpBtn.addEventListener("click", () => {
+                mediaEl.muted = false;
+                (mediaEl.volume = Math.min(1, +(mediaEl.volume + 0.1).toFixed(2))), (currentVolume = mediaEl.volume), updateVolLabel();
+            });
+            updateVolLabel();
+
+            // Now that the buttons actually exist in the DOM, sync their
+            // enabled/disabled and shuffle-active state.
+            updatePlaylistUI();
+        }
         async function init() {
             loadSettings();
             try {
@@ -453,10 +1188,16 @@
             n.addEventListener("input", (t) => {
                 clearTimeout(e),
                     (e = setTimeout(() => {
-                        (searchQuery = t.target.value.toLowerCase().trim()), render();
+                        (searchQuery = t.target.value.toLowerCase().trim()),
+                            (searchResultLimit = 100),
+                            render(),
+                            (document.getElementById("main").scrollTop = 0);
                     }, 150));
             }),
                 document.getElementById("logoHome").addEventListener("click", () => navigateTo([])),
+                document.getElementById("logoHome").addEventListener("keydown", (e) => {
+                    (e.key === "Enter" || e.key === " ") && (e.preventDefault(), navigateTo([]));
+                }),
                 document.querySelectorAll(".view-btn").forEach((e) => {
                     e.addEventListener("click", () => setView(e.dataset.view));
                 }),
@@ -465,42 +1206,214 @@
                     e.target === e.currentTarget && closeModal();
                 }),
                 document.getElementById("modalContent").addEventListener("click", (e) => e.stopPropagation()),
+                document.getElementById("modal").addEventListener("keydown", trapModalFocus),
                 document.addEventListener("keydown", (e) => {
                     e.key === "Escape" && closeModal(),
                         e.key === "/" &&
                             document.activeElement.tagName !== "INPUT" &&
                             (e.preventDefault(), document.getElementById("search").focus());
+                    if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+                        const modalOpen = document.getElementById("modal").classList.contains("active");
+                        const activeEl = document.activeElement;
+                        const isFormField = ["INPUT", "SELECT", "TEXTAREA"].includes(activeEl.tagName);
+                        if (modalOpen && !isFormField) {
+                            e.preventDefault();
+                            handleModalKeydown(e.key);
+                            return;
+                        }
+                        const insideMain = activeEl.closest && activeEl.closest("#main");
+                        const insideTree = activeEl.closest && activeEl.closest("#treeContent");
+                        if (!modalOpen && !insideMain && !insideTree && !isFormField) {
+                            e.preventDefault();
+                            const panel = document.getElementById("treePanel");
+                            e.key === "ArrowLeft" && panel && panel.classList.contains("visible")
+                                ? focusTreePanel()
+                                : focusMainPanel();
+                        }
+                    }
                 }),
                 document.getElementById("main").addEventListener("click", handleCardClick),
-                document.getElementById("treeContent").addEventListener("click", handleTreeClick);
-            const s = document.getElementById("settingsBtn"),
-                t = document.getElementById("settingsMenu");
-            s.addEventListener("click", (e) => {
-                e.stopPropagation(), t.classList.toggle("active");
-            }),
-                document.addEventListener("click", (e) => {
-                    !e.target.closest(".settings-dropdown") && t.classList.remove("active");
-                }),
-                document.querySelectorAll(".theme-btn").forEach((e) => {
+                document.getElementById("main").addEventListener("click", handleSortHeaderClick),
+                document.getElementById("main").addEventListener("keydown", handleGridKeydown),
+                document.getElementById("treeContent").addEventListener("click", handleTreeClick),
+                document.getElementById("treeContent").addEventListener("keydown", handleTreeKeydown);
+            setupDropdown("settingsBtn", "settingsMenu", "settingsDropdown");
+            setupDropdown("themeColorBtn", "themeColorMenu", "themeColorDropdown");
+            document.querySelectorAll(".theme-btn").forEach((e) => {
                     e.addEventListener("click", () => saveTheme(e.dataset.theme));
                 }),
                 document.getElementById("fontDecrease").addEventListener("click", () => changeFontSize(-1)),
                 document.getElementById("fontIncrease").addEventListener("click", () => changeFontSize(1)),
-                document
-                    .getElementById("playlistPrev")
-                    .addEventListener("click", () => playPlaylistTrack(currentPlaylistIndex - 1)),
-                document
-                    .getElementById("playlistNext")
-                    .addEventListener("click", () => playPlaylistTrack(currentPlaylistIndex + 1)),
+                document.getElementById("sortSelect").addEventListener("change", (e) => setSortBy(e.target.value)),
+                document.getElementById("nativePlayerToggle").addEventListener("change", (e) => {
+                    (useNativePlayer = e.target.checked),
+                        localStorage.setItem("useNativePlayer", useNativePlayer ? "1" : "0"),
+                        document.body.classList.toggle("native-player-mode", useNativePlayer);
+                }),
+                document.getElementById("flatDesignToggle").addEventListener("change", (e) => setFlatDesign(e.target.checked)),
+                wireThemeColorPicker(),
+                document.getElementById("topPrevBtn").addEventListener("click", goToPrevTrack),
+                document.getElementById("topNextBtn").addEventListener("click", goToNextTrack),
+                document.getElementById("topShuffleBtn").addEventListener("click", toggleShuffle),
+                document.getElementById("copyLinkBtn").addEventListener("click", copyRawLink),
                 document.getElementById("playlistStop").addEventListener("click", stopPlaylist),
                 document.getElementById("playPlaylistBtn").addEventListener("click", startPlaylistMode);
+            setupGotoStepper();
+        }
+        function copyRawLink() {
+            const btn = document.getElementById("copyLinkBtn");
+            const url = new URL(`./${currentFilePath}`, window.location.href).href;
+            const done = () => {
+                btn.classList.add("copied");
+                setTimeout(() => btn.classList.remove("copied"), 1200);
+            };
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(url).then(done).catch(() => fallbackCopy(url, done));
+            } else {
+                fallbackCopy(url, done);
+            }
+        }
+        function copyStreamInfo() {
+            const btn = document.getElementById("streamInfoBtn");
+            let text;
+            if (currentPlaylist.length > 0) {
+                const item = currentPlaylist[currentPlaylistIndex];
+                if (!item) return;
+                text = item.header ? `${item.header}\n${item.url}` : item.url;
+            } else if (currentFilePath) {
+                text = new URL(`./${currentFilePath}`, window.location.href).href;
+            } else {
+                return;
+            }
+            const done = () => {
+                if (btn) {
+                    btn.classList.add("copied");
+                    setTimeout(() => btn.classList.remove("copied"), 1200);
+                }
+            };
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(done).catch(() => fallbackCopy(text, done));
+            } else {
+                fallbackCopy(text, done);
+            }
+        }
+        function fallbackCopy(text, onDone) {
+            const ta = document.createElement("textarea");
+            (ta.value = text), (ta.style.position = "fixed"), (ta.style.opacity = "0"), document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand("copy");
+                onDone();
+            } catch (e) {
+                console.warn("Copy failed:", e);
+            }
+            document.body.removeChild(ta);
+        }
+        function handleGridKeydown(e) {
+            const card = e.target.closest(".file-card");
+            if (!card) return;
+            const cards = Array.from(document.querySelectorAll("#main .file-card"));
+            const idx = cards.indexOf(card);
+            const cols = getGridColumnCount();
+            switch (e.key) {
+                case "Enter":
+                case " ":
+                case "ArrowRight":
+                    // Right (or Enter) drills in: opens a file's preview, or steps
+                    // into a folder — same as clicking the card.
+                    e.preventDefault();
+                    card.click();
+                    return;
+                case "ArrowLeft":
+                    e.preventDefault();
+                    focusTreePanel();
+                    return;
+                case "ArrowDown": {
+                    const nextIdx = idx + cols;
+                    if (nextIdx < cards.length) {
+                        e.preventDefault();
+                        cards[nextIdx].focus();
+                    }
+                    return;
+                }
+                case "ArrowUp": {
+                    const prevIdx = idx - cols;
+                    if (prevIdx >= 0) {
+                        e.preventDefault();
+                        cards[prevIdx].focus();
+                    }
+                    return;
+                }
+                case "Home":
+                    e.preventDefault();
+                    cards[0]?.focus();
+                    return;
+                case "End":
+                    e.preventDefault();
+                    cards[cards.length - 1]?.focus();
+                    return;
+            }
+        }
+        function focusTreePanel() {
+            const panel = document.getElementById("treePanel");
+            if (!panel || !panel.classList.contains("visible")) return;
+            const active =
+                document.querySelector("#treeContent .tree-item.active") ||
+                document.querySelector("#treeContent .tree-item");
+            active && active.focus();
+        }
+        function focusMainPanel() {
+            const cards = document.querySelectorAll("#main .file-card");
+            cards.length > 0 && cards[0].focus();
+        }
+        function getGridColumnCount() {
+            if (currentView !== "grid") return 1;
+            const grid = document.querySelector("#main .file-grid");
+            if (!grid) return 1;
+            const style = getComputedStyle(grid);
+            const cols = style.gridTemplateColumns.split(" ").length;
+            return cols || 1;
+        }
+        function handleTreeKeydown(e) {
+            const treeItem = e.target.closest(".tree-item");
+            if (!treeItem) return;
+            switch (e.key) {
+                case "Enter":
+                case " ":
+                    e.preventDefault();
+                    treeItem.click();
+                    return;
+                case "ArrowRight":
+                    e.preventDefault();
+                    focusMainPanel();
+                    return;
+                case "ArrowDown":
+                case "ArrowUp": {
+                    const items = Array.from(document.querySelectorAll("#treeContent .tree-item"));
+                    const idx = items.indexOf(treeItem);
+                    const nextIdx = e.key === "ArrowDown" ? idx + 1 : idx - 1;
+                    if (nextIdx >= 0 && nextIdx < items.length) {
+                        e.preventDefault();
+                        items[nextIdx].focus();
+                    }
+                    return;
+                }
+            }
+        }
+        function safeJsonParse(str, fallback) {
+            try {
+                return JSON.parse(str);
+            } catch (e) {
+                console.warn("Failed to parse path data:", str, e);
+                return fallback;
+            }
         }
         function handleCardClick(e) {
             const t = e.target.closest(".file-card");
             if (!t) return;
             if (t.dataset.directory) {
-                const e = JSON.parse(t.dataset.path);
-                navigateTo(e);
+                const path = safeJsonParse(t.dataset.path, null);
+                if (path) navigateTo(path);
             } else t.dataset.file && openFile(t.dataset.file, t.dataset.category, t.dataset.name);
         }
         function handleTreeClick(e) {
@@ -513,8 +1426,8 @@
                 return;
             }
             if (n) {
-                const e = JSON.parse(n.dataset.path);
-                navigateTo(e);
+                const path = safeJsonParse(n.dataset.path, null);
+                if (path) navigateTo(path);
             }
         }
         function setupIntersectionObserver() {
@@ -547,17 +1460,112 @@
 
         function setView(e) {
             (currentView = e),
+                localStorage.setItem("viewMode", e),
                 document.querySelectorAll(".view-btn").forEach((t) => {
                     t.classList.toggle("active", t.dataset.view === e);
                 }),
                 document.getElementById("treePanel").classList.toggle("visible", e === "tree"),
                 render();
         }
+        function setSortBy(e) {
+            (sortBy = e), localStorage.setItem("sortBy", e), syncSortUI(), render();
+        }
+        function getItemSize(item) {
+            if (typeof item.size === "number") return item.size;
+            if (!item.sizeFormatted) return 0;
+            const m = /^([\d.]+)\s*(B|KB|MB|GB|TB)?/i.exec(item.sizeFormatted.trim());
+            if (!m) return 0;
+            const units = { B: 1, KB: 1024, MB: 1024 ** 2, GB: 1024 ** 3, TB: 1024 ** 4 };
+            return parseFloat(m[1]) * (units[(m[2] || "B").toUpperCase()] || 1);
+        }
+        // Extension without the dot (e.g. "index.html" -> "html"). A leading dot
+        // with no other dot (e.g. ".gitignore") counts as no extension.
+        function getFileExtension(name) {
+            const idx = name.lastIndexOf(".");
+            return idx <= 0 ? "" : name.slice(idx + 1);
+        }
+        function getBaseName(name) {
+            const idx = name.lastIndexOf(".");
+            return idx <= 0 ? name : name.slice(0, idx);
+        }
+        // Looks for a modified-time field under a few common names, since this
+        // depends on whatever the file_index.json generator provides. Accepts
+        // a unix timestamp (seconds or ms) or a date string. Returns null if no
+        // usable date is found so callers can degrade gracefully.
+        function getItemDate(item) {
+            const raw = item.mtime ?? item.modified ?? item.date ?? item.lastModified ?? item.updated_at ?? item.time;
+            if (raw === undefined || raw === null || raw === "") return null;
+            const d = typeof raw === "number" ? new Date(raw < 1e12 ? raw * 1000 : raw) : new Date(raw);
+            return isNaN(d.getTime()) ? null : d;
+        }
+        const MONTH_ABBR = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+        function formatItemDate(item) {
+            const d = getItemDate(item);
+            if (!d) return "—";
+            const day = String(d.getDate()).padStart(2, "0");
+            return `${d.getFullYear()}/${MONTH_ABBR[d.getMonth()]}/${day}`;
+        }
+        function formatItemTime(item) {
+            const d = getItemDate(item);
+            return d ? d.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) : "—";
+        }
+        function sortItems(items) {
+            const sorted = [...items];
+            const dirs = { directory: 0, file: 1 };
+            sorted.sort((a, b) => {
+                // Folders always come before files, regardless of sort mode.
+                if (a.type !== b.type) return dirs[a.type] - dirs[b.type];
+                switch (sortBy) {
+                    case "name-desc":
+                        return b.name.localeCompare(a.name);
+                    case "ext-asc":
+                        return getFileExtension(a.name).localeCompare(getFileExtension(b.name)) || a.name.localeCompare(b.name);
+                    case "ext-desc":
+                        return getFileExtension(b.name).localeCompare(getFileExtension(a.name)) || a.name.localeCompare(b.name);
+                    case "size-desc":
+                        return getItemSize(b) - getItemSize(a);
+                    case "size-asc":
+                        return getItemSize(a) - getItemSize(b);
+                    case "date-asc":
+                        return (getItemDate(a)?.getTime() ?? 0) - (getItemDate(b)?.getTime() ?? 0);
+                    case "date-desc":
+                        return (getItemDate(b)?.getTime() ?? 0) - (getItemDate(a)?.getTime() ?? 0);
+                    case "type":
+                        return (a.category || "").localeCompare(b.category || "") || a.name.localeCompare(b.name);
+                    case "name-asc":
+                    default:
+                        return a.name.localeCompare(b.name);
+                }
+            });
+            return sorted;
+        }
+        // Keeps the column headers (list view) and the settings dropdown (all
+        // views) showing the same active sort column/direction.
+        function syncSortUI() {
+            const sel = document.getElementById("sortSelect");
+            if (sel && sel.value !== sortBy) sel.value = sortBy;
+            const [activeKey, activeDir] = sortBy.includes("-") ? sortBy.split("-") : [sortBy, "asc"];
+            document.querySelectorAll(".file-list-header .col[data-sort]").forEach((col) => {
+                const isActive = col.dataset.sort === activeKey;
+                col.classList.toggle("active", isActive);
+                const arrow = col.querySelector(".sort-arrow");
+                if (arrow) arrow.textContent = isActive ? (activeDir === "desc" ? "▼" : "▲") : "";
+            });
+        }
+        function handleSortHeaderClick(e) {
+            const col = e.target.closest(".col[data-sort]");
+            if (!col) return;
+            const key = col.dataset.sort;
+            const [activeKey, activeDir] = sortBy.includes("-") ? sortBy.split("-") : [sortBy, "asc"];
+            const dir = activeKey === key && activeDir === "asc" ? "desc" : "asc";
+            setSortBy(`${key}-${dir}`);
+        }
         function navigateTo(e) {
             (currentPath = e), (searchQuery = ""), (document.getElementById("search").value = "");
             let t = "";
             for (const n of e) (t += (t ? "/" : "") + n), expandedFolders.add(t);
             render();
+            document.getElementById("main").scrollTop = 0;
         }
         function renderBreadcrumb() {
             const t = document.getElementById("breadcrumb");
@@ -571,7 +1579,8 @@
                 (t.innerHTML = e),
                 t.querySelectorAll(".breadcrumb-item:not(.current)").forEach((e) => {
                     e.addEventListener("click", () => {
-                        navigateTo(JSON.parse(e.dataset.path));
+                        const path = safeJsonParse(e.dataset.path, null);
+                        if (path) navigateTo(path);
                     });
                 });
         }
@@ -592,7 +1601,7 @@
                         l = JSON.stringify(r) === JSON.stringify(currentPath),
                         d = e.children?.some((e) => e.type === "directory");
                     (o += `
-            <div class="tree-item${l ? " active" : ""}" data-path='${JSON.stringify(r)}' style="padding-left: ${s * 12 + 8}px">
+            <div class="tree-item${l ? " active" : ""}" data-path='${JSON.stringify(r)}' style="padding-left: ${s * 12 + 8}px" tabindex="0" role="treeitem" aria-label="Folder ${escapeHtml(e.name)}">
               <span class="tree-toggle${d ? (c ? " expanded" : "") : " empty"}" data-path="${a}">
                 ${icons.chevron}
               </span>
@@ -607,7 +1616,7 @@
             const o = currentPath.length === 0,
                 i = fileIndex.root.some((e) => e.type === "directory");
             let s = `
-        <div class="tree-item${o ? " active" : ""}" data-path="[]" style="padding-left: 8px">
+        <div class="tree-item${o ? " active" : ""}" data-path="[]" style="padding-left: 8px" tabindex="0" role="treeitem" aria-label="Root folder">
           <span class="tree-toggle${i ? " expanded" : " empty"}" data-path="">
             ${icons.chevron}
           </span>
@@ -627,13 +1636,16 @@
         function render() {
             renderBreadcrumb(), currentView === "tree" && renderTree();
             const n = document.getElementById("main");
-            
-            let e = [];
+
+            let all = [];
             if (searchQuery) {
-                e = allFiles.filter(item => item.searchKey.includes(searchQuery)).slice(0, 100);
+                // Ranked by relevance (with a bonus for the current folder) —
+                // don't re-sort by name/date, that would destroy the ranking.
+                all = searchFiles(searchQuery);
             } else {
-                e = getCurrentItems();
+                all = sortItems(getCurrentItems());
             }
+            const e = searchQuery ? all.slice(0, searchResultLimit) : all;
 
             if (e.length === 0) {
                 n.innerHTML = `
@@ -647,22 +1659,17 @@
         `;
                 return;
             }
-            const s = currentView === "list" || currentView === "tree" ? "file-list" : "file-grid";
-            
-            let fileCount, folderCount;
-            if (searchQuery) {
-                 fileCount = e.filter(i => i.type === 'file').length;
-                 folderCount = e.filter(i => i.type === 'directory').length;
-            } else {
-                 fileCount = e.filter((e) => e.type === "file").length;
-                 folderCount = e.filter((e) => e.type === "directory").length;
-            }
+            const isColumnView = currentView === "list" || currentView === "tree";
+            const s = isColumnView ? "file-list list-columns" : "file-grid";
+
+            const fileCount = all.filter((i) => i.type === "file").length;
+            const folderCount = all.filter((i) => i.type === "directory").length;
 
             let t = `
         <div class="stats-bar">
           <span class="stat">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6z"/></svg>
-            ${fileCount} files ${searchQuery && e.length >= 100 ? '(Showing top 100)' : ''}
+            ${fileCount} files ${searchQuery && all.length > e.length ? `(showing ${e.length} of ${all.length})` : ""}
           </span>
           <span class="stat">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/></svg>
@@ -670,14 +1677,49 @@
           </span>
         </div>
         <div class="main-content">
-          <div class="${s}">
+          <div class="${s}" id="fileItems" role="grid">
+          ${
+              isColumnView && !searchQuery
+                  ? `
+            <div class="file-list-header" role="row">
+              <span class="col-icon-spacer" aria-hidden="true"></span>
+              <span class="col col-name" data-sort="name">Name<span class="sort-arrow"></span></span>
+              <span class="col col-ext" data-sort="ext">Ext<span class="sort-arrow"></span></span>
+              <span class="col col-size" data-sort="size">Size<span class="sort-arrow"></span></span>
+              <span class="col col-date" data-sort="date">Date<span class="sort-arrow"></span></span>
+              <span class="col col-time" data-sort="date">Time<span class="sort-arrow"></span></span>
+            </div>
+          `
+                  : ""
+          }
       `;
+            if (currentPath.length > 0 && !searchQuery) {
+                t += `
+            <div class="file-card directory parent-dir" data-directory="true" data-path='${JSON.stringify(currentPath.slice(0, -1))}' tabindex="0" role="button" aria-label="Go to parent folder">
+              <div class="file-icon folder">${icons.folder}</div>
+              <div class="file-info">
+                <span class="file-name">..</span>
+                <span class="file-meta"></span>
+              </div>
+              ${
+                  isColumnView
+                      ? `
+                <span class="col-ext"></span>
+                <span class="col-size"></span>
+                <span class="col-date"></span>
+                <span class="col-time"></span>
+              `
+                      : ""
+              }
+            </div>
+          `;
+            }
             for (const item of e) {
                 const s = item.type === "directory" ? "folder" : getFileIconType(item.name) || item.category || "other",
                     o = icons[s] || icons.other;
-                
+
                 let clickPath, fullDisplayPath, parentPathArr;
-                
+
                 if (searchQuery) {
                     clickPath = item.fullPath;
                     fullDisplayPath = item.fullPath;
@@ -690,15 +1732,25 @@
 
                 if (item.type === "directory") {
                     t += `
-            <div class="file-card directory" data-directory="true" data-path='${JSON.stringify(parentPathArr)}'>
+            <div class="file-card directory" data-directory="true" data-path='${JSON.stringify(parentPathArr)}' tabindex="0" role="button" aria-label="Open folder ${escapeHtml(item.name)}">
               <div class="file-icon folder">${icons.folder}</div>
               <div class="file-info">
                 <span class="file-name">${escapeHtml(item.name)}</span>
                 <span class="file-meta">
-                    ${item.children?.length || 0} items
-                    ${searchQuery ? `<span class="file-path">${escapeHtml(fullDisplayPath)}</span>` : ''}
+                    ${isColumnView && !searchQuery ? "" : `${item.children?.length || 0} items`}
+                    ${searchQuery ? `<span class="file-path">${escapeHtml(fullDisplayPath)}</span>` : ""}
                 </span>
               </div>
+              ${
+                  isColumnView && !searchQuery
+                      ? `
+                <span class="col-ext"></span>
+                <span class="col-size">DIR</span>
+                <span class="col-date">${escapeHtml(formatItemDate(item))}</span>
+                <span class="col-time">${escapeHtml(formatItemTime(item))}</span>
+              `
+                      : ""
+              }
             </div>
           `;
                 } else {
@@ -707,52 +1759,78 @@
                         item.category === "image" &&
                         (i = `<img class="file-thumbnail lazy" data-src="./${clickPath}" alt="" loading="lazy">`),
                         (t += `
-            <div class="file-card" data-file="${escapeHtml(clickPath)}" data-category="${item.category}" data-name="${escapeHtml(item.name)}">
+            <div class="file-card" data-file="${escapeHtml(clickPath)}" data-category="${item.category}" data-name="${escapeHtml(item.name)}" tabindex="0" role="button" aria-label="Open file ${escapeHtml(item.name)}">
               ${i}
               <div class="file-icon ${s}">${o}</div>
               <div class="file-info">
                 <span class="file-name">${escapeHtml(item.name)}</span>
                 <span class="file-meta">
-                    ${item.sizeFormatted}
-                    ${searchQuery ? `<span class="file-path">${escapeHtml(fullDisplayPath)}</span>` : ''}
+                    ${isColumnView && !searchQuery ? "" : item.sizeFormatted}
+                    ${searchQuery ? `<span class="file-path">${escapeHtml(fullDisplayPath)}</span>` : ""}
                 </span>
               </div>
-              ${currentView !== "grid" && !searchQuery ? `<span class="file-size">${item.sizeFormatted}</span>` : ""}
+              ${
+                  isColumnView && !searchQuery
+                      ? `
+                <span class="col-ext">${escapeHtml(getFileExtension(item.name))}</span>
+                <span class="col-size">${item.sizeFormatted}</span>
+                <span class="col-date">${escapeHtml(formatItemDate(item))}</span>
+                <span class="col-time">${escapeHtml(formatItemTime(item))}</span>
+              `
+                      : currentView !== "grid" && !searchQuery
+                        ? `<span class="file-size">${item.sizeFormatted}</span>`
+                        : ""
+              }
             </div>
           `);
                 }
             }
-            (t += "</div></div>"),
+            (t += "</div>"),
+                searchQuery && all.length > e.length &&
+                    (t += `<button class="load-more-btn" id="loadMoreBtn">Show more (${all.length - e.length} remaining)</button>`),
+                (t += "</div>"),
                 (n.innerHTML = t),
                 document.querySelectorAll(".file-thumbnail.lazy").forEach((e) => {
                     intersectionObserver.observe(e);
                 });
+            const loadMoreBtn = document.getElementById("loadMoreBtn");
+            loadMoreBtn &&
+                loadMoreBtn.addEventListener("click", () => {
+                    (searchResultLimit += 100), render();
+                });
+            syncSortUI();
         }
         async function parsePlaylist(e, t) {
             try {
-                const n = await fetch(t);
-                if (!n.ok) return [];
-                const s = await n.text(),
+                const s = await fetchTextCached(t),
                     o = e.substring(0, e.lastIndexOf("/") + 1),
                     lines = s.split(/\r?\n/);
                 
                 const playlistItems = [];
                 let currentTitle = null;
+                let currentHeaderLines = [];
 
                 for (let line of lines) {
                     line = line.trim();
                     if (!line) continue;
                     
                     if (line.startsWith("#EXTINF:")) {
+                        currentHeaderLines = [line];
                         const commaIndex = line.indexOf(',');
                         if (commaIndex !== -1) {
                             currentTitle = line.substring(commaIndex + 1).trim();
                         }
-                    } else if (!line.startsWith("#")) {
+                    } else if (line.startsWith("#")) {
+                        // Other directive/comment lines (e.g. #EXTVLCOPT, #EXTGRP)
+                        // that belong to this entry's header block.
+                        currentHeaderLines.push(line);
+                    } else {
                         const url = (line.startsWith("http://") || line.startsWith("https://")) ? line : o + line;
                         const title = currentTitle || decodeURIComponent(url.split('/').pop());
-                        playlistItems.push({ url, title });
+                        const header = currentHeaderLines.join("\n");
+                        playlistItems.push({ url, title, header });
                         currentTitle = null;
+                        currentHeaderLines = [];
                     }
                 }
                 return playlistItems;
@@ -760,18 +1838,164 @@
                 return console.error("Error parsing playlist:", e), [];
             }
         }
+        function setPlaylistBuffering(isBuffering) {
+            const t = document.getElementById("playlistTrack");
+            if (t) t.classList.toggle("buffering", isBuffering);
+            const p = document.querySelector(".preview-audio, .preview-video");
+            if (p) p.classList.toggle("buffering", isBuffering);
+        }
         function updatePlaylistUI() {
             const e = document.getElementById("playlistBar"),
                 t = document.getElementById("playlistTrack"),
-                n = document.getElementById("playlistPrev"),
-                s = document.getElementById("playlistNext");
+                prevBtns = document.querySelectorAll(".prev-btn"),
+                nextBtns = document.querySelectorAll(".next-btn"),
+                shuffleBtns = document.querySelectorAll(".shuffle-btn"),
+                gotoInput = document.getElementById("gotoInput"),
+                gotoUpBtn = document.getElementById("gotoUpBtn"),
+                gotoDownBtn = document.getElementById("gotoDownBtn");
             if (currentPlaylist.length > 0) {
                 e.classList.add("active");
                 const item = currentPlaylist[currentPlaylistIndex];
-                (t.textContent = `${currentPlaylistIndex + 1}/${currentPlaylist.length}: ${item.title}`),
-                    (n.disabled = currentPlaylistIndex <= 0),
-                    (s.disabled = currentPlaylistIndex >= currentPlaylist.length - 1);
-            } else e.classList.remove("active");
+                t.textContent = `${currentPlaylistIndex + 1}/${currentPlaylist.length}: ${item.title}`;
+                let prevDisabled, nextDisabled;
+                if (isShuffle) {
+                    (prevDisabled = shuffleHistory.length <= 1), (nextDisabled = currentPlaylist.length <= 1);
+                } else {
+                    (prevDisabled = currentPlaylistIndex <= 0), (nextDisabled = currentPlaylistIndex >= currentPlaylist.length - 1);
+                }
+                prevBtns.forEach((btn) => (btn.disabled = prevDisabled));
+                nextBtns.forEach((btn) => (btn.disabled = nextDisabled));
+                if (gotoInput) {
+                    gotoInput.max = currentPlaylist.length;
+                    gotoInput.disabled = currentPlaylist.length <= 1;
+                    if (document.activeElement !== gotoInput) gotoInput.value = currentPlaylistIndex + 1;
+                }
+                if (gotoUpBtn) gotoUpBtn.disabled = currentPlaylist.length <= 1;
+                if (gotoDownBtn) gotoDownBtn.disabled = currentPlaylist.length <= 1;
+            } else {
+                e.classList.remove("active");
+                prevBtns.forEach((btn) => (btn.disabled = true));
+                nextBtns.forEach((btn) => (btn.disabled = true));
+            }
+            shuffleBtns.forEach((btn) => {
+                btn.disabled = currentPlaylist.length <= 1;
+                btn.classList.toggle("active", isShuffle);
+                btn.setAttribute("aria-pressed", isShuffle ? "true" : "false");
+            });
+        }
+        function refillShuffleBag() {
+            shuffleBag = currentPlaylist.map((_, i) => i).filter((i) => i !== currentPlaylistIndex);
+            for (let i = shuffleBag.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffleBag[i], shuffleBag[j]] = [shuffleBag[j], shuffleBag[i]];
+            }
+        }
+        function getNextShuffleIndex() {
+            if (shuffleBag.length === 0) refillShuffleBag();
+            return shuffleBag.length > 0 ? shuffleBag.pop() : currentPlaylistIndex;
+        }
+        function toggleShuffle() {
+            isShuffle = !isShuffle;
+            if (isShuffle) {
+                shuffleHistory = [currentPlaylistIndex];
+                refillShuffleBag();
+            } else {
+                shuffleBag = [];
+                shuffleHistory = [];
+            }
+            updatePlaylistUI();
+        }
+        function recordShuffleJump(idx) {
+            shuffleHistory.push(idx);
+        }
+        function goToNextTrack() {
+            if (currentPlaylist.length === 0) return;
+            if (isShuffle) {
+                const nextIdx = getNextShuffleIndex();
+                shuffleHistory.push(nextIdx);
+                playPlaylistTrack(nextIdx);
+            } else {
+                playPlaylistTrack(currentPlaylistIndex + 1);
+            }
+        }
+        function goToPrevTrack() {
+            if (currentPlaylist.length === 0) return;
+            if (isShuffle) {
+                if (shuffleHistory.length > 1) {
+                    shuffleHistory.pop();
+                    playPlaylistTrack(shuffleHistory[shuffleHistory.length - 1]);
+                }
+            } else {
+                playPlaylistTrack(currentPlaylistIndex - 1);
+            }
+        }
+        function closeGotoPopover() {
+            // No-op: the goto popover was replaced by an inline stepper, but
+            // this is kept as a harmless stub since it's still referenced
+            // from a few reset paths below.
+        }
+        function setupGotoStepper() {
+            const input = document.getElementById("gotoInput"),
+                upBtn = document.getElementById("gotoUpBtn"),
+                downBtn = document.getElementById("gotoDownBtn");
+            if (!input || !upBtn || !downBtn) return;
+
+            const clamp = (v) => Math.max(1, Math.min(currentPlaylist.length || 1, v || 1));
+
+            function jumpTo(n) {
+                if (currentPlaylist.length === 0) return;
+                const idx = clamp(n) - 1;
+                input.value = idx + 1;
+                if (idx !== currentPlaylistIndex) {
+                    if (isShuffle) recordShuffleJump(idx);
+                    playPlaylistTrack(idx);
+                }
+            }
+            function step(delta) {
+                jumpTo((parseInt(input.value, 10) || currentPlaylistIndex + 1) + delta);
+            }
+
+            input.addEventListener("keydown", (e) => {
+                if (e.key === "Enter") {
+                    jumpTo(parseInt(input.value, 10));
+                    input.blur();
+                }
+            });
+            input.addEventListener("blur", () => jumpTo(parseInt(input.value, 10)));
+
+            let holdTimeout = null;
+            function startHold(delta) {
+                step(delta);
+                let delay = 400;
+                const repeat = () => {
+                    step(delta);
+                    delay = Math.max(60, delay - 40);
+                    holdTimeout = setTimeout(repeat, delay);
+                };
+                holdTimeout = setTimeout(repeat, 400);
+            }
+            function stopHold() {
+                clearTimeout(holdTimeout);
+                holdTimeout = null;
+            }
+            [
+                [upBtn, 1],
+                [downBtn, -1],
+            ].forEach(([btn, delta]) => {
+                btn.addEventListener("mousedown", (e) => {
+                    e.preventDefault();
+                    startHold(delta);
+                });
+                btn.addEventListener(
+                    "touchstart",
+                    (e) => {
+                        e.preventDefault();
+                        startHold(delta);
+                    },
+                    { passive: false },
+                );
+                ["mouseup", "mouseleave", "touchend", "touchcancel"].forEach((ev) => btn.addEventListener(ev, stopHold));
+            });
         }
         async function startPlaylistMode() {
             if (!isPlaylistFile || !currentFilePath) return;
@@ -780,6 +2004,7 @@
             t.length > 0
                 ? ((currentPlaylist = t),
                   (currentPlaylistIndex = 0),
+                  isShuffle && ((shuffleHistory = [0]), refillShuffleBag()),
                   document.getElementById("playPlaylistBtn").classList.add("hidden"),
                   updatePlaylistUI(),
                   playPlaylistTrack(0))
@@ -804,32 +2029,54 @@
             }
             (currentPlaylist = []),
                 (currentPlaylistIndex = 0),
+                (shuffleBag = []),
+                (shuffleHistory = []),
+                closeGotoPopover(),
                 document.getElementById("playlistBar").classList.remove("active"),
                 isPlaylistFile &&
                     (document.getElementById("playPlaylistBtn").classList.remove("hidden"), showPlaylistAsText());
         }
+        async function fetchTextCached(url) {
+            if (fetchCache.has(url)) return fetchCache.get(url);
+            const response = await fetch(url);
+            if (!response.ok) {
+                const err = new Error(`HTTP ${response.status}`);
+                err.status = response.status;
+                throw err;
+            }
+            const text = await response.text();
+            fetchCache.set(url, text);
+            return text;
+        }
+        function renderTextPreview(container, text) {
+            const MAX_LINES = 1e4;
+            const allLines = text.split("\n");
+            const lines = allLines.slice(0, MAX_LINES);
+            const truncated = allLines.length > MAX_LINES;
+            const rendered = lines.map((e) => `<span class="line">${escapeHtml(e)}</span>`).join("\n");
+            container.innerHTML = `
+        ${truncated ? `<div class="truncation-notice">Showing first ${MAX_LINES.toLocaleString()} of ${allLines.length.toLocaleString()} lines — download the file to see the rest.</div>` : ""}
+        <div class="preview-code line-numbers">
+          <pre>${rendered}</pre>
+        </div>
+      `;
+        }
         async function showPlaylistAsText() {
             const e = `./${currentFilePath}`;
             try {
-                const t = await fetch(e);
-                if (t.ok) {
-                    const e = await t.text(),
-                        n = e
-                            .split("\n")
-                            .slice(0, 1e4),
-                        s = n.map((e) => `<span class="line">${escapeHtml(e)}</span>`).join("\n");
-                    document.getElementById("modalBody").innerHTML = `
-        <div class="preview-code line-numbers">
-          <pre>${s}</pre>
-        </div>
-      `;
-                } else showUnavailable(document.getElementById("modalBody"), currentFileName, e);
-            } catch {
-                showUnavailable(document.getElementById("modalBody"), currentFileName, e);
+                const text = await fetchTextCached(e);
+                renderTextPreview(document.getElementById("modalBody"), text);
+            } catch (err) {
+                showUnavailable(document.getElementById("modalBody"), currentFileName, e, err);
             }
         }
 
-        async function resolveStreamUrl(url) {
+        async function resolveStreamUrl(url, depth = 0) {
+            const MAX_REDIRECT_DEPTH = 5;
+            if (depth >= MAX_REDIRECT_DEPTH) {
+                console.warn("Playlist redirect chain too deep, using URL as-is:", url);
+                return url;
+            }
             const lowerUrl = url.toLowerCase();
             const isM3u = lowerUrl.endsWith('.m3u') || lowerUrl.endsWith('.m3u8');
             if (!isM3u) return url;
@@ -837,16 +2084,39 @@
             try {
                 const response = await fetch(url);
                 const contentType = response.headers.get("content-type");
-                
+
                 if (response.ok && (lowerUrl.endsWith('.m3u') || (contentType && (contentType.includes('mpegurl') || contentType.includes('text'))))) {
                     const text = await response.text();
                     if (text.includes("#EXTM3U")) {
-                        const lines = text.split('\n');
-                        for(let line of lines) {
-                            line = line.trim();
-                            if(line && !line.startsWith('#')) {
+                        const lines = text.split('\n').map((l) => l.trim());
+
+                        // HLS master playlists list multiple quality variants via
+                        // #EXT-X-STREAM-INF; pick the highest-bandwidth one instead
+                        // of whichever line happens to appear first.
+                        let bestUrl = null,
+                            bestBandwidth = -1;
+                        for (let i = 0; i < lines.length; i++) {
+                            const line = lines[i];
+                            if (line.startsWith('#EXT-X-STREAM-INF')) {
+                                const bwMatch = /BANDWIDTH=(\d+)/i.exec(line);
+                                const bandwidth = bwMatch ? parseInt(bwMatch[1], 10) : 0;
+                                const variantLine = lines[i + 1];
+                                if (variantLine && !variantLine.startsWith('#') && bandwidth > bestBandwidth) {
+                                    (bestBandwidth = bandwidth), (bestUrl = variantLine);
+                                }
+                            }
+                        }
+                        if (bestUrl) {
+                            const resolved = new URL(bestUrl, url).href;
+                            return resolveStreamUrl(resolved, depth + 1);
+                        }
+
+                        // Otherwise this is a simple redirector list: take the
+                        // first playable entry.
+                        for (const line of lines) {
+                            if (line && !line.startsWith('#')) {
                                 const resolved = new URL(line, url).href;
-                                return resolveStreamUrl(resolved);
+                                return resolveStreamUrl(resolved, depth + 1);
                             }
                         }
                     }
@@ -862,7 +2132,16 @@
                 clearTimeout(streamTimeout);
                 streamTimeout = null;
             }
-            if (currentPlaylistIndex < currentPlaylist.length - 1) {
+            if (currentPlaylist.length <= 1) {
+                console.log("End of playlist reached.");
+                stopPlaylist();
+                return;
+            }
+            if (isShuffle) {
+                const nextIdx = getNextShuffleIndex();
+                shuffleHistory.push(nextIdx);
+                playPlaylistTrack(nextIdx);
+            } else if (currentPlaylistIndex < currentPlaylist.length - 1) {
                 playPlaylistTrack(currentPlaylistIndex + 1);
             } else {
                 console.log("End of playlist reached.");
@@ -872,118 +2151,144 @@
 
         async function playPlaylistTrack(e) {
             if (e < 0 || e >= currentPlaylist.length) return;
-            
-            if (currentHls) {
-                currentHls.destroy();
-                currentHls = null;
-            }
+
             if (streamTimeout) {
                 clearTimeout(streamTimeout);
             }
-
             streamTimeout = setTimeout(() => {
                 skipToNext();
-            }, 5000);
+            }, STREAM_TIMEOUT_MS);
 
             (currentPlaylistIndex = e), updatePlaylistUI();
-            
-            const item = currentPlaylist[currentPlaylistIndex];
-            const rawUrl = item.url;
-            const finalUrl = await resolveStreamUrl(rawUrl);
 
-            const n = document.getElementById("modalBody");
+            const item = currentPlaylist[currentPlaylistIndex];
             const s = item.title;
-            const o = finalUrl.toLowerCase();
-            
-            const isSpecificVideo = o.match(/\.(mp4|webm|mkv|avi|mov|ts)$/) || o.includes("type=video");
-            
             document.getElementById("modalTitle").textContent = s;
 
+            const n = document.getElementById("modalBody");
+            // Show a buffering hint right away instead of a silent wait while the
+            // stream URL resolves — the still-visible player makes the track
+            // change feel instant rather than sluggish.
+            setPlaylistBuffering(true);
+
+            const rawUrl = item.url;
+            const finalUrl = await resolveStreamUrl(rawUrl);
+            const o = finalUrl.toLowerCase();
+
+            const isSpecificVideo = o.match(/\.(mp4|webm|mkv|avi|mov|ts)$/) || o.includes("type=video");
+
             if (isSpecificVideo) {
-                n.innerHTML = `
-                  <div class="preview-media-container">
-                    <video id="videoPlayer" class="preview-video" controls autoplay playsinline muted crossOrigin="anonymous">
-                      Your browser does not support video playback.
-                    </video>
-                  </div>
-                `;
-                const video = document.getElementById("videoPlayer");
-                
-                // Volume persistence and Audio Normalization
-                video.volume = currentVolume;
-                video.onvolumechange = (e) => currentVolume = e.target.volume;
-                setupAudioNormalization(video);
+                let video = n.querySelector("#videoPlayer");
+                if (!video) {
+                    if (currentHls) { currentHls.destroy(); currentHls = null; }
+                    document.getElementById("modalContent").classList.add("video-modal");
+                    n.innerHTML = `
+                      <div class="preview-media-container">
+                        <button class="player-info-btn" id="streamInfoBtn" title="Copy stream link &amp; header" aria-label="Copy stream link and header">${icons.info}</button>
+                        <video id="videoPlayer" class="preview-video" autoplay playsinline muted crossOrigin="anonymous" ${mediaTagAttrs()}>
+                          Your browser does not support video playback.
+                        </video>
+                        ${mediaControlsMarkup()}
+                      </div>
+                    `;
+                    video = document.getElementById("videoPlayer");
+                    video.volume = currentVolume;
+                    video.onvolumechange = (e) => currentVolume = e.target.volume;
+                    setupAudioNormalization(video);
+                    maybeWireMediaControls(video);
+                    document.getElementById("streamInfoBtn").addEventListener("click", copyStreamInfo);
+                } else if (currentHls) {
+                    // Same element, but the previous track had its own HLS instance attached.
+                    currentHls.destroy();
+                    currentHls = null;
+                }
 
                 video.onloadeddata = () => {
-                    if(streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
+                    if (streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
+                    setPlaylistBuffering(false);
                 };
                 video.onerror = () => skipToNext();
-                
+                video.onended = () => {
+                    if (streamTimeout) clearTimeout(streamTimeout);
+                    goToNextTrack();
+                };
+
                 if (Hls.isSupported() && (o.includes('.m3u8') || o.includes('application/x-mpegurl'))) {
                     currentHls = new Hls();
                     currentHls.loadSource(finalUrl);
                     currentHls.attachMedia(video);
                     currentHls.on(Hls.Events.FRAG_LOADED, function() {
-                        if(streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
+                        if (streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
+                        setPlaylistBuffering(false);
                     });
                     currentHls.on(Hls.Events.ERROR, function(event, data) {
                         if (data.fatal) skipToNext();
                     });
                 } else {
                     video.src = finalUrl;
+                    video.load();
+                    video.play().catch(() => {});
                 }
-                
-                video.onended = () => {
-                    if (streamTimeout) clearTimeout(streamTimeout);
-                    if (currentPlaylistIndex < currentPlaylist.length - 1) playPlaylistTrack(currentPlaylistIndex + 1);
-                };
 
             } else {
-                n.innerHTML = `
-                  <div class="preview-audio-container">
-                    <div class="audio-icon">${icons.audio}</div>
-                    <div style="font-weight: 500; text-align: center;">${escapeHtml(s)}</div>
-                    <audio id="audioPlayer" class="preview-audio" controls autoplay crossOrigin="anonymous">
-                      Your browser does not support audio playback.
-                    </audio>
-                  </div>
-                `;
-                const audio = document.getElementById("audioPlayer");
-                
-                // Volume persistence and Audio Normalization
-                audio.volume = currentVolume;
-                audio.onvolumechange = (e) => currentVolume = e.target.volume;
-                setupAudioNormalization(audio);
+                let audio = n.querySelector("#audioPlayer");
+                if (!audio) {
+                    if (currentHls) { currentHls.destroy(); currentHls = null; }
+                    document.getElementById("modalContent").classList.remove("video-modal");
+                    n.innerHTML = `
+                      <div class="preview-audio-container">
+                        <button class="player-info-btn" id="streamInfoBtn" title="Copy stream link &amp; header" aria-label="Copy stream link and header">${icons.info}</button>
+                        <div class="audio-icon">${icons.audio}</div>
+                        <div class="playlist-now-playing">${escapeHtml(s)}</div>
+                        <audio id="audioPlayer" class="preview-audio" autoplay crossOrigin="anonymous" ${mediaTagAttrs()}>
+                          Your browser does not support audio playback.
+                        </audio>
+                        ${mediaControlsMarkup()}
+                      </div>
+                    `;
+                    audio = document.getElementById("audioPlayer");
+                    audio.volume = currentVolume;
+                    audio.onvolumechange = (e) => currentVolume = e.target.volume;
+                    setupAudioNormalization(audio);
+                    maybeWireMediaControls(audio);
+                    document.getElementById("streamInfoBtn").addEventListener("click", copyStreamInfo);
+                } else {
+                    if (currentHls) { currentHls.destroy(); currentHls = null; }
+                    const titleEl = n.querySelector(".playlist-now-playing");
+                    if (titleEl) titleEl.textContent = s;
+                }
+
+                audio.onloadeddata = () => {
+                    if (streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
+                    setPlaylistBuffering(false);
+                };
+                audio.onerror = () => skipToNext();
+                audio.onended = () => {
+                    if (streamTimeout) clearTimeout(streamTimeout);
+                    goToNextTrack();
+                };
 
                 if (Hls.isSupported() && (o.includes('.m3u8') || o.includes('application/x-mpegurl'))) {
                     currentHls = new Hls();
                     currentHls.loadSource(finalUrl);
                     currentHls.attachMedia(audio);
                     currentHls.on(Hls.Events.FRAG_LOADED, function() {
-                        if(streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
+                        if (streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
+                        setPlaylistBuffering(false);
                     });
                     currentHls.on(Hls.Events.ERROR, function(event, data) {
                         if (data.fatal) skipToNext();
                     });
                 } else {
                     audio.src = finalUrl;
+                    audio.load();
+                    audio.play().catch(() => {});
                 }
-
-                audio.onloadeddata = () => {
-                     if(streamTimeout) { clearTimeout(streamTimeout); streamTimeout = null; }
-                };
-                audio.onerror = () => skipToNext();
-
-                audio.onended = () => {
-                    if (streamTimeout) clearTimeout(streamTimeout);
-                    if (currentPlaylistIndex < currentPlaylist.length - 1) {
-                        playPlaylistTrack(currentPlaylistIndex + 1);
-                    }
-                };
             }
         }
 
         async function openFile(e, t, n) {
+            lastFocusedElement = document.activeElement;
             const r = document.getElementById("modal"),
                 c = document.getElementById("modalTitle"),
                 s = document.getElementById("modalBody"),
@@ -1001,9 +2306,14 @@
                 (s.innerHTML = '<div class="loading"><div class="spinner"></div></div>'),
                 (currentPlaylist = []),
                 (currentPlaylistIndex = 0),
+                (shuffleBag = []),
+                (shuffleHistory = []),
+                closeGotoPopover(),
                 d.classList.remove("active"),
                 isPlaylistFile ? a.classList.remove("hidden") : a.classList.add("hidden"),
+                document.getElementById("modalContent").classList.remove("video-modal"),
                 r.classList.add("active");
+            requestAnimationFrame(() => document.getElementById("closeBtn").focus());
             const o = `./${e}`;
             try {
                 switch (t) {
@@ -1011,12 +2321,15 @@
                         s.innerHTML = `<img class="preview-image" src="${o}" alt="${escapeHtml(n)}">`;
                         break;
                     case "video":
+                        document.getElementById("modalContent").classList.add("video-modal");
                         s.innerHTML = `
               <div class="preview-media-container">
-                <video class="preview-video" controls autoplay controlsList="nodownload" crossOrigin="anonymous">
+                <button class="player-info-btn" id="streamInfoBtn" title="Copy stream link" aria-label="Copy stream link">${icons.info}</button>
+                <video class="preview-video" autoplay playsinline crossOrigin="anonymous" ${mediaTagAttrs()}>
                   <source src="${o}">
                   Your browser does not support video playback.
                 </video>
+                ${mediaControlsMarkup()}
               </div>
             `;
                         // Apply volume and normalization to single files too
@@ -1025,17 +2338,21 @@
                             singleVideo.volume = currentVolume;
                             singleVideo.onvolumechange = (e) => currentVolume = e.target.volume;
                             setupAudioNormalization(singleVideo);
+                            maybeWireMediaControls(singleVideo);
                         }
+                        document.getElementById("streamInfoBtn").addEventListener("click", copyStreamInfo);
                         break;
                     case "audio":
                         s.innerHTML = `
               <div class="preview-audio-container">
+                <button class="player-info-btn" id="streamInfoBtn" title="Copy stream link" aria-label="Copy stream link">${icons.info}</button>
                 <div class="audio-icon">${icons.audio}</div>
-                <div style="font-weight: 500; text-align: center;">${escapeHtml(n)}</div>
-                <audio class="preview-audio" controls autoplay controlsList="nodownload" crossOrigin="anonymous">
+                <div class="playlist-now-playing">${escapeHtml(n)}</div>
+                <audio class="preview-audio" autoplay crossOrigin="anonymous" ${mediaTagAttrs()}>
                   <source src="${o}">
                   Your browser does not support audio playback.
                 </audio>
+                ${mediaControlsMarkup()}
               </div>
             `;
                         // Apply volume and normalization to single files too
@@ -1044,32 +2361,31 @@
                             singleAudio.volume = currentVolume;
                             singleAudio.onvolumechange = (e) => currentVolume = e.target.volume;
                             setupAudioNormalization(singleAudio);
+                            maybeWireMediaControls(singleAudio);
                         }
+                        document.getElementById("streamInfoBtn").addEventListener("click", copyStreamInfo);
                         break;
                     case "document":
                         n.toLowerCase().endsWith(".pdf")
                             ? (s.innerHTML = `<iframe class="preview-pdf" src="${o}"></iframe>`)
                             : showUnavailable(s, n, o);
                         break;
+                    case "playlist":
+                        // Start playing right away instead of waiting for a manual
+                        // "Play" click — opening the file is the trigger.
+                        await startPlaylistMode();
+                        break;
                     case "code":
                     case "markup":
                     case "style":
                     case "data":
                     case "text":
-                    case "playlist":
-                        const e = await fetch(o);
-                        if (e.ok) {
-                            const t = await e.text(),
-                                n = t
-                                    .split("\n")
-                                    .slice(0, 1e4),
-                                o = n.map((e) => `<span class="line">${escapeHtml(e)}</span>`).join("\n");
-                            s.innerHTML = `
-                <div class="preview-code line-numbers">
-                  <pre>${o}</pre>
-                </div>
-              `;
-                        } else showUnavailable(s, n, o);
+                        try {
+                            const text = await fetchTextCached(o);
+                            renderTextPreview(s, text);
+                        } catch (err) {
+                            showUnavailable(s, n, o, err);
+                        }
                         break;
                     case "font":
                         const t = "PreviewFont" + Date.now(),
@@ -1092,14 +2408,18 @@
                 console.error(e), showUnavailable(s, n, o);
             }
         }
-        function showUnavailable(e, t, n) {
+        function showUnavailable(e, t, n, err) {
+            let reason = "This file cannot be previewed.";
+            if (err && err.status === 404) reason = "This file could not be found (404).";
+            else if (err && err.status) reason = `The server returned an error (HTTP ${err.status}).`;
+            else if (err) reason = "This file couldn't be loaded — it may be blocked by CORS or a network issue.";
             e.innerHTML = `
         <div class="preview-unavailable">
           <svg viewBox="0 0 24 24" fill="currentColor">
             <path d="M6 2c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6H6zm7 7V3.5L18.5 9H13z"/>
           </svg>
           <h3>Preview not available</h3>
-          <p>This file cannot be previewed.</p>
+          <p>${reason}</p>
           <a class="download-btn" href="${n}" download="${escapeHtml(t)}">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
               <path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/>
@@ -1108,6 +2428,31 @@
           </a>
         </div>
       `;
+        }
+        function handleModalKeydown(key) {
+            const modalBody = document.getElementById("modalBody");
+            switch (key) {
+                case "ArrowUp":
+                    modalBody.scrollBy({ top: -120, behavior: "smooth" });
+                    break;
+                case "ArrowDown":
+                    modalBody.scrollBy({ top: 120, behavior: "smooth" });
+                    break;
+                case "ArrowLeft":
+                    // If a playlist is actively playing, stop it and drop back
+                    // into the (now-static) preview rather than closing outright.
+                    currentPlaylist.length > 0 ? stopPlaylist() : closeModal();
+                    break;
+                case "ArrowRight": {
+                    if (isPlaylistFile && currentPlaylist.length === 0) {
+                        startPlaylistMode();
+                    } else {
+                        const media = modalBody.querySelector("audio, video");
+                        media && media.play().catch(() => {});
+                    }
+                    break;
+                }
+            }
         }
         function closeModal() {
             const e = document.getElementById("modal");
@@ -1128,11 +2473,35 @@
                 n && n.pause(),
                 (currentPlaylist = []),
                 (currentPlaylistIndex = 0),
+                (shuffleBag = []),
+                (shuffleHistory = []),
                 (currentFilePath = ""),
                 (currentFileName = ""),
                 (isPlaylistFile = !1),
+                closeGotoPopover(),
                 document.getElementById("playlistBar").classList.remove("active"),
                 document.getElementById("playPlaylistBtn").classList.add("hidden");
+            if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+                lastFocusedElement.focus();
+            }
+            lastFocusedElement = null;
+        }
+        function trapModalFocus(e) {
+            if (e.key !== "Tab") return;
+            const modal = document.getElementById("modalContent");
+            const focusable = modal.querySelectorAll(
+                'button:not([disabled]), a[href], [tabindex]:not([tabindex="-1"])'
+            );
+            if (focusable.length === 0) return;
+            const first = focusable[0],
+                last = focusable[focusable.length - 1];
+            if (e.shiftKey && document.activeElement === first) {
+                e.preventDefault();
+                last.focus();
+            } else if (!e.shiftKey && document.activeElement === last) {
+                e.preventDefault();
+                first.focus();
+            }
         }
         function escapeHtml(e) {
             const t = document.createElement("div");
