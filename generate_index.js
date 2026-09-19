@@ -61,7 +61,7 @@ function getFileCategory(filename) {
     markup: [
       ".html", ".htm", ".xml", ".xhtml", ".xaml", ".svg", ".wxml", ".jsp",
       ".asp", ".aspx", ".erb", ".ejs", ".haml", ".slim", ".pug", ".jade",
-      ".twig", ".blade.php", ".hbs", ".mustache", ".njk", ".liquid",
+      ".twig", ".hbs", ".mustache", ".njk", ".liquid",
     ],
     style: [".css", ".scss", ".sass", ".less", ".styl", ".stylus", ".postcss"],
     data: [
