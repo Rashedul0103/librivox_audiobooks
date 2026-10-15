@@ -123,8 +123,7 @@ function languageFromChapter(label, url) {
   if (match) {
     const token = match[1].trim().replace(/[\s-]+/g, "_");
     if (aliases[token]) return aliases[token];
-    // A label explicitly identifying a different language must not be assigned to the book's fallback language.
-    if (token.length > 1) return null;
+    // Unknown labels may be chapter titles; check the audio filename before rejecting them.
   }
   const filename = decodeURIComponent(String(url || "").split(/[?#]/)[0].split("/").pop() || "").toLowerCase();
   const prefix = filename.split("_")[0];
@@ -147,6 +146,11 @@ function displayChapter(title, book) {
   const split = value.split(" · ");
   if (split.length > 1) value = split[split.length - 1];
   value = value.replace(/^\s*(?:English|Bengali|Bangla|Hindi|Urdu|Arabic|Turkish)\s*[-–—:]\s*/i, "");
+  value = value
+    .replace(/\s*[-–—]\s*Read by\b.*$/i, "")
+    .replace(/\s*[-–—]\s*Duration\s+\d{1,2}:\d{2}:\d{2}\b.*$/i, "")
+    .replace(/\s+Duration\s+\d{1,2}:\d{2}:\d{2}\b.*$/i, "")
+    .trim();
   return value || "Chapter";
 }
 
