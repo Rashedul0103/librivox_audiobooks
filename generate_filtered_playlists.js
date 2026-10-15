@@ -62,8 +62,10 @@ function metadata(rel) {
   const tax = p[0];
   const stem = path.basename(rel, path.extname(rel));
   const title = pretty(stem.replace(/-by-.+$/i, ""));
+  const suffix = stem.match(/-by-(.+)$/i);
+  const titleAuthor = suffix ? pretty(suffix[1].replace(/.*-by-/i, "")) : "";
   const result = {
-    tax, language: "", genre: "", author: "", title, titlePath: "",
+    tax, language: "", genre: "", author: "", title, titlePath: "", titleAuthor,
     multilingual: /multilingual|language[-_]learning/i.test(stem)
   };
 
@@ -174,6 +176,7 @@ function main() {
       if (meta.titlePath) {
         t.titlePath = meta.titlePath;
         t.title = meta.title;
+        if (meta.titleAuthor) t.author = meta.titleAuthor;
       } else if (!t.title && meta.title) {
         t.title = meta.title;
       }
@@ -187,7 +190,15 @@ function main() {
     t.genres = t.genreSet.size ? [...t.genreSet].sort() : ["Other - Unclassified"];
     t.genre = t.genres[0];
     t.title = t.title || t.fallbackTitle || "Unknown title";
-    t.display = (t.title || t.label) + (t.author ? " — " + t.author : "") + " · " + t.label;
+    // Source taxonomy sometimes files collection titles under "by-author".
+    if (/^(multilingual|librivox language learning|librivox multilingual|poetry multi-version|short works collection|short story collection)\b/i.test(t.author)) {
+      t.author = "Various";
+    }
+    let descriptor = clean(t.label);
+    if (descriptor.toLowerCase().startsWith(t.title.toLowerCase())) {
+      descriptor = descriptor.slice(t.title.length).replace(/^\s*[-–—:]\s*/, "");
+    }
+    t.display = (t.title || t.label) + (t.author ? " — " + t.author : "") + (descriptor ? " · " + descriptor : "");
     if (!t.titlePath) {
       t.titlePath = "uncategorized/" + (slug(t.title) || slug(t.label) || "unknown") + ".m3u";
     }
