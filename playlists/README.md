@@ -1,6 +1,6 @@
 # LibriVox playlist index
 
-Generated: 2026-10-15T10:55:28.339Z
+Generated: 2026-10-15T11:07:23.304Z
 Source book playlists parsed: 84851
 Audio entries scanned before deduplication: 1917526
 Unique audio URLs in the master: 476036
