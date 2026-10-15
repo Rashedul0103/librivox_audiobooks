@@ -345,7 +345,7 @@ function main() {
     "",
     "## Nuvio Enhanced addon",
     "- Generated book-level catalogue: filtered/nuvio/catalog.json",
-    "- Supports language-specific catalogue rows, genre filtering, title/author search, and chapter metadata.";
+    "- Supports language-specific catalogue rows, genre filtering, title/author search, and chapter metadata.",
     "- Genre categories: " + genres.length,
     "- Author categories: " + authors.length,
     "",
