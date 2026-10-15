@@ -11,14 +11,14 @@ The source playlist.m3u is not modified. Audio URLs are linked, not copied.
 - [By individual title](by-title/)
 
 ## Track counts
-- English: 365542 tracks
-- Bangla: 1 tracks
-- Hindi: 27 tracks
+- English: 365545 tracks
+- Bangla: 5 tracks
+- Hindi: 44 tracks
 - Urdu: 35 tracks
-- Arabic: 45 tracks
+- Arabic: 48 tracks
 - Turkish: 4 tracks
-- Unique audio URLs: 365654
-- Per-title playlists: 16341
+- Unique audio URLs: 365681
+- Per-title playlists: 16352
 - Genre categories: 147
 - Author categories: 6346
 
