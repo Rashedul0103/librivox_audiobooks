@@ -1,8 +1,8 @@
 # LibriVox playlist index
 
-Generated: 2026-10-15T07:10:21.678Z
-Source book playlists parsed: 84851
-Audio entries scanned before deduplication: 1917526
+Generated: 2026-10-15T08:32:40.818Z
+Source book playlists parsed: 107784
+Audio entries scanned before deduplication: 3882528
 Unique audio URLs in the master: 476036
 IPTV group categories: 668
 Master playlist size: 90.39 MiB
