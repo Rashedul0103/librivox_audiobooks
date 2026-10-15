@@ -1,5 +1,15 @@
 #EXTM3U
 #PLAYLIST:LibriVox — selected languages
+#EXTINF:444 group-title="Epistolary Fiction",A Collection Of Letters — Jane Austen · Letter the First - Read by Group - Duration 00:07:24
+https://www.archive.org/download/collectionofletters_2209_librivox/collectionofletters_1_austen_128kb.mp3
+#EXTINF:536 group-title="Epistolary Fiction",A Collection Of Letters — Jane Austen · Letter the Second - Read by Group - Duration 00:08:56
+https://www.archive.org/download/collectionofletters_2209_librivox/collectionofletters_2_austen_128kb.mp3
+#EXTINF:577 group-title="Epistolary Fiction",A Collection Of Letters — Jane Austen · Letter the Third - Read by Group - Duration 00:09:37
+https://www.archive.org/download/collectionofletters_2209_librivox/collectionofletters_3_austen_128kb.mp3
+#EXTINF:363 group-title="Epistolary Fiction",A Collection Of Letters — Jane Austen · Letter the Fourth - Read by Group - Duration 00:06:03
+https://www.archive.org/download/collectionofletters_2209_librivox/collectionofletters_4_austen_128kb.mp3
+#EXTINF:1046 group-title="Epistolary Fiction",A Collection Of Letters — Jane Austen · Letter the Fifth - Read by Group - Duration 00:17:26
+https://www.archive.org/download/collectionofletters_2209_librivox/collectionofletters_5_austen_128kb.mp3
 #EXTINF:116 group-title="Epistolary Fiction",A Laodicean — Thomas Hardy · Preface - Read by Simon Evers - Duration 00:01:56
 https://archive.org/download/laodicean_1505_librivox/laodicean_00_hardy_128kb.mp3
 #EXTINF:845 group-title="Epistolary Fiction",A Laodicean — Thomas Hardy · Book the First- Part 1 - Read by Simon Evers - Duration 00:14:05
@@ -116,6 +126,42 @@ https://archive.org/download/laodicean_1505_librivox/laodicean_55_hardy_128kb.mp
 https://archive.org/download/laodicean_1505_librivox/laodicean_56_hardy_128kb.mp3
 #EXTINF:939 group-title="Epistolary Fiction",A Laodicean — Thomas Hardy · Book the Sixth- Part 5 - Read by Simon Evers - Duration 00:15:39
 https://archive.org/download/laodicean_1505_librivox/laodicean_57_hardy_128kb.mp3
+#EXTINF:942 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Abbotsford- Part One - Read by Greg Giordano - Duration 00:15:42
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_01_irving_128kb.mp3
+#EXTINF:1441 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Abbotsford- Part Two - Read by Greg Giordano - Duration 00:24:01
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_02_irving_128kb.mp3
+#EXTINF:1008 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Abbotsford- Part Three - Read by Greg Giordano - Duration 00:16:48
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_03_irving_128kb.mp3
+#EXTINF:1358 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Abbotsford- Part Four - Read by Greg Giordano - Duration 00:22:38
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_04_irving_128kb.mp3
+#EXTINF:702 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Abbotsford- Part Five - Read by Greg Giordano - Duration 00:11:42
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_05_irving_128kb.mp3
+#EXTINF:1484 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Abbotsford- Part Six - Read by Greg Giordano - Duration 00:24:44
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_06_irving_128kb.mp3
+#EXTINF:1181 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Abbotsford- Part Seven - Read by Greg Giordano - Duration 00:19:41
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_07_irving_128kb.mp3
+#EXTINF:1211 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - Historical Notice - Read by Greg Giordano - Duration 00:20:11
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_08_irving_128kb.mp3
+#EXTINF:830 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - Arrival at the Abbey - Read by Greg Giordano - Duration 00:13:50
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_09_irving_128kb.mp3
+#EXTINF:801 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - The Abbey Garden - Read by Greg Giordano - Duration 00:13:21
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_10_irving_128kb.mp3
+#EXTINF:425 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - Plough Monday - Read by Greg Giordano - Duration 00:07:05
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_11_irving_128kb.mp3
+#EXTINF:623 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - Old Servants - Read by Greg Giordano - Duration 00:10:23
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_12_irving_128kb.mp3
+#EXTINF:1072 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - Superstitions of the Abbey - Read by Greg Giordano - Duration 00:17:52
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_13_irving_128kb.mp3
+#EXTINF:2530 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - Annesley Hall - Read by Greg Giordano - Duration 00:42:10
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_14_irving_128kb.mp3
+#EXTINF:417 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - The Lake - Read by Greg Giordano - Duration 00:06:57
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_15_irving_128kb.mp3
+#EXTINF:1055 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - Robin Hood and Sherwood Forest - Read by Greg Giordano - Duration 00:17:35
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_16_irving_128kb.mp3
+#EXTINF:705 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - The Rook Cell - Read by Greg Giordano - Duration 00:11:45
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_17_irving_128kb.mp3
+#EXTINF:2550 group-title="Epistolary Fiction",Abbotsford And Newstead Abbey — Washington Irving · Newstead Abbey - The Little White Lady - Read by Greg Giordano - Duration 00:42:30
+https://www.archive.org/download/abbotsford_newstead_abbey_gg_1701_librivox/abbotsfordandnewsteadabbey_18_irving_128kb.mp3
 #EXTINF:1086 group-title="Epistolary Fiction",Clarissa Harlowe Or The History Of A Young Lady Volume 3 — Samuel Richardson · Summary of the Letters of Volume 3 - Read by Rebecca Braunert-Plunkett - Duration 00:18:06
 https://www.archive.org/download/clarissaharlowevolume3_1412_librivox/clarissaharlowevolume3_00_richardson_128kb.mp3
 #EXTINF:218 group-title="Epistolary Fiction",Clarissa Harlowe Or The History Of A Young Lady Volume 3 — Samuel Richardson · Letter I - Read by Lynne T - Duration 00:03:38
@@ -1214,6 +1260,78 @@ https://www.archive.org/download/daddy-long-legs_librivox/daddy-long-legs_07_web
 https://www.archive.org/download/daddy-long-legs_librivox/daddy-long-legs_08_webster.mp3
 #EXTINF:1192 group-title="Epistolary Fiction",Daddy Long Legs — Jean Webster · Part 09 - Read by Kymm Zuckert - Duration 00:19:52
 https://www.archive.org/download/daddy-long-legs_librivox/daddy-long-legs_09_webster.mp3
+#EXTINF:885 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Introduction and dramatis personae - Read by Group - Duration 00:14:45
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_00_laclos.mp3
+#EXTINF:1667 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 01 to 05 - Read by Unknown - Duration 00:27:47
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_01_laclos.mp3
+#EXTINF:2045 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 06 to 10 - Read by Unknown - Duration 00:34:05
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_02_laclos.mp3
+#EXTINF:1008 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 11 to 15 - Read by Unknown - Duration 00:16:48
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_03_laclos.mp3
+#EXTINF:1189 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 16 to 20 - Read by Unknown - Duration 00:19:49
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_04_laclos.mp3
+#EXTINF:2364 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 21 to 25 - Read by Unknown - Duration 00:39:24
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_05_laclos.mp3
+#EXTINF:1067 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 26 to 30 - Read by Unknown - Duration 00:17:47
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_06_laclos.mp3
+#EXTINF:1973 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 31 to 35 - Read by Unknown - Duration 00:32:53
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_07_laclos.mp3
+#EXTINF:1250 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 36 to 39 - Read by Unknown - Duration 00:20:50
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_08_laclos.mp3
+#EXTINF:2741 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 40 to 45 - Read by Unknown - Duration 00:45:41
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_09_laclos.mp3
+#EXTINF:1296 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 46 to 50 - Read by Unknown - Duration 00:21:36
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_10_laclos.mp3
+#EXTINF:1591 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 51 to 55 - Read by Unknown - Duration 00:26:31
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_11_laclos.mp3
+#EXTINF:1306 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 56 to 60 - Read by Unknown - Duration 00:21:46
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_12_laclos.mp3
+#EXTINF:2018 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 61 to 65 - Read by Unknown - Duration 00:33:38
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_13_laclos.mp3
+#EXTINF:1468 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 66 to 70 - Read by Unknown - Duration 00:24:28
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_14_laclos.mp3
+#EXTINF:1731 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 71 to 75 - Read by Unknown - Duration 00:28:51
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_15_laclos.mp3
+#EXTINF:3524 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 76 to 80 - Read by Unknown - Duration 00:58:44
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_16_laclos.mp3
+#EXTINF:3146 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 81 to 84 - Read by Unknown - Duration 00:52:26
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_17_laclos.mp3
+#EXTINF:2865 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 85 to 90 - Read by Unknown - Duration 00:47:45
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_18_laclos.mp3
+#EXTINF:1169 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 91 to 95 - Read by Unknown - Duration 00:19:29
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_19_laclos.mp3
+#EXTINF:4051 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 96 to 100 - Read by Unknown - Duration 01:07:31
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_20_laclos.mp3
+#EXTINF:2589 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 101 to 105 - Read by Unknown - Duration 00:43:09
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_21_laclos.mp3
+#EXTINF:2431 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 106 to 110 - Read by Unknown - Duration 00:40:31
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_22_laclos.mp3
+#EXTINF:2366 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 111 to 115 - Read by Unknown - Duration 00:39:26
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_23_laclos.mp3
+#EXTINF:1099 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 116 to 120 - Read by Unknown - Duration 00:18:19
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_24_laclos.mp3
+#EXTINF:3258 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 121 to 125 - Read by Unknown - Duration 00:54:18
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_25_laclos.mp3
+#EXTINF:1652 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 126 to 130 - Read by Unknown - Duration 00:27:32
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_26_laclos.mp3
+#EXTINF:2029 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 131 to 135 - Read by Unknown - Duration 00:33:49
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_27_laclos.mp3
+#EXTINF:1762 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 136 to 140 - Read by Unknown - Duration 00:29:22
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_28_laclos.mp3
+#EXTINF:1704 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 141 to 145 - Read by Unknown - Duration 00:28:24
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_29_laclos.mp3
+#EXTINF:1565 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 146 to 150 - Read by Unknown - Duration 00:26:05
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_30_laclos.mp3
+#EXTINF:1887 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 151 to 155 - Read by Unknown - Duration 00:31:27
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_31_laclos.mp3
+#EXTINF:881 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 156 to 160 - Read by Unknown - Duration 00:14:41
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_32_laclos.mp3
+#EXTINF:1247 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 161 to 165 - Read by Unknown - Duration 00:20:47
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_33_laclos.mp3
+#EXTINF:1308 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 166 to 170 - Read by Unknown - Duration 00:21:48
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_34_laclos.mp3
+#EXTINF:1427 group-title="Epistolary Fiction",Dangerous Connections — Pierre Choderlos De Laclos · Letters 171 to 175 - Read by Unknown - Duration 00:23:47
+https://www.archive.org/download/dangerous_connections_1303_librivox/dangerousconnections_35_laclos.mp3
 #EXTINF:881 group-title="Epistolary Fiction",Dear Enemy — Jean Webster · Section 01 - Read by Kymm Zuckert - Duration 00:14:41
 https://www.archive.org/download/dear_enemy_0710_librivox/dear_enemy_01_webster.mp3
 #EXTINF:1077 group-title="Epistolary Fiction",Dear Enemy — Jean Webster · Section 02 - Read by Kymm Zuckert - Duration 00:17:57
@@ -1494,6 +1612,58 @@ https://www.archive.org/download/goldsmiths_friend_abroad_again_jg_librivox/gold
 https://www.archive.org/download/goldsmiths_friend_abroad_again_jg_librivox/gold_03_twain.mp3
 #EXTINF:1061 group-title="Epistolary Fiction",Goldsmiths Friend Abroad Again — Mark Twain · Letter 6 &amp; Letter 7 - Read by John Greenman - Duration 00:17:41
 https://www.archive.org/download/goldsmiths_friend_abroad_again_jg_librivox/gold_04_twain.mp3
+#EXTINF:596 group-title="Epistolary Fiction",Heroides — Ovid · 01 - Penelope to Ulysses - Read by Julie VW - Duration 00:09:56
+https://www.archive.org/download/heroides_0907_librivox1/heroides_01_ovid.mp3
+#EXTINF:688 group-title="Epistolary Fiction",Heroides — Ovid · 02 - Phyllis to Demophoon - Read by Anna Simon - Duration 00:11:28
+https://www.archive.org/download/heroides_0907_librivox1/heroides_02_ovid.mp3
+#EXTINF:773 group-title="Epistolary Fiction",Heroides — Ovid · 03 - Briseis to Achilles - Read by Philippa - Duration 00:12:53
+https://www.archive.org/download/heroides_0907_librivox1/heroides_03_ovid.mp3
+#EXTINF:688 group-title="Epistolary Fiction",Heroides — Ovid · 04 - Phaedra to Hippolytus - Read by Kalynda - Duration 00:11:28
+https://www.archive.org/download/heroides_0907_librivox1/heroides_04_ovid.mp3
+#EXTINF:723 group-title="Epistolary Fiction",Heroides — Ovid · 05 - Oenone to Paris - Read by Julie VW - Duration 00:12:03
+https://www.archive.org/download/heroides_0907_librivox1/heroides_05_ovid.mp3
+#EXTINF:734 group-title="Epistolary Fiction",Heroides — Ovid · 06 - Hypsipyle to Jason - Read by Anna Simon - Duration 00:12:14
+https://www.archive.org/download/heroides_0907_librivox1/heroides_06_ovid.mp3
+#EXTINF:980 group-title="Epistolary Fiction",Heroides — Ovid · 07 - Dido to Aeneas - Read by Julie VW - Duration 00:16:20
+https://www.archive.org/download/heroides_0907_librivox1/heroides_07_ovid.mp3
+#EXTINF:553 group-title="Epistolary Fiction",Heroides — Ovid · 08 - Hermione to Orestes - Read by SopranoHarmony - Duration 00:09:13
+https://www.archive.org/download/heroides_0907_librivox1/heroides_08_ovid.mp3
+#EXTINF:746 group-title="Epistolary Fiction",Heroides — Ovid · 09 - Deianira to Hercules - Read by MorganScorpion - Duration 00:12:26
+https://www.archive.org/download/heroides_0907_librivox1/heroides_09_ovid.mp3
+#EXTINF:787 group-title="Epistolary Fiction",Heroides — Ovid · 10 - Ariadne to Theseus - Read by Kristin Hughes (1974-2021) - Duration 00:13:07
+https://www.archive.org/download/heroides_0907_librivox1/heroides_10_ovid.mp3
+#EXTINF:573 group-title="Epistolary Fiction",Heroides — Ovid · 11 - Canace to Macareus - Read by Anna Simon - Duration 00:09:33
+https://www.archive.org/download/heroides_0907_librivox1/heroides_11_ovid.mp3
+#EXTINF:937 group-title="Epistolary Fiction",Heroides — Ovid · 12 - Medea to Jason - Read by Leni - Duration 00:15:37
+https://www.archive.org/download/heroides_0907_librivox1/heroides_12_ovid.mp3
+#EXTINF:737 group-title="Epistolary Fiction",Heroides — Ovid · 13 - Laodamia to Protesilaus - Read by Ransom - Duration 00:12:17
+https://www.archive.org/download/heroides_0907_librivox1/heroides_13_ovid.mp3
+#EXTINF:733 group-title="Epistolary Fiction",Heroides — Ovid · 14 - Hypermnestra to Lynceus - Read by Julie VW - Duration 00:12:13
+https://www.archive.org/download/heroides_0907_librivox1/heroides_14_ovid.mp3
+#EXTINF:966 group-title="Epistolary Fiction",Heroides — Ovid · 15 - Sappho to Phaon - Read by Anna Simon - Duration 00:16:06
+https://www.archive.org/download/heroides_0907_librivox1/heroides_15_ovid.mp3
+#EXTINF:1967 group-title="Epistolary Fiction",Heroides — Ovid · 16 - Paris to Helen - Read by Graham Redman - Duration 00:32:47
+https://www.archive.org/download/heroides_0907_librivox1/heroides_16_ovid.mp3
+#EXTINF:1237 group-title="Epistolary Fiction",Heroides — Ovid · 17 - Helen to Paris - Read by Philippa - Duration 00:20:37
+https://www.archive.org/download/heroides_0907_librivox1/heroides_17_ovid.mp3
+#EXTINF:1303 group-title="Epistolary Fiction",Heroides — Ovid · 18 - Leander to Hero - Read by Andrew Coleman - Duration 00:21:43
+https://www.archive.org/download/heroides_0907_librivox1/heroides_18_ovid.mp3
+#EXTINF:1010 group-title="Epistolary Fiction",Heroides — Ovid · 19 - Hero to Leander - Read by Julie VW - Duration 00:16:50
+https://www.archive.org/download/heroides_0907_librivox1/heroides_19_ovid.mp3
+#EXTINF:1102 group-title="Epistolary Fiction",Heroides — Ovid · 20 - Acontius to Cydippe - Read by woggy298 - Duration 00:18:22
+https://www.archive.org/download/heroides_0907_librivox1/heroides_20_ovid.mp3
+#EXTINF:1043 group-title="Epistolary Fiction",Heroides — Ovid · 21 - Cydippe to Acontius - Read by Kalynda - Duration 00:17:23
+https://www.archive.org/download/heroides_0907_librivox1/heroides_21_ovid.mp3
+#EXTINF:1489 group-title="Epistolary Fiction",History Of Emily Montague Voliv — Frances Moore Brooke · Section 1 - Letters 181-190 - Read by Group - Duration 00:24:49
+https://www.archive.org/download/history_emilymontague_voliv_dr_2004_librivox/historyofemilymontague4_01_brooke_128kb.mp3
+#EXTINF:1551 group-title="Epistolary Fiction",History Of Emily Montague Voliv — Frances Moore Brooke · Section 2 - Letters 191-202 - Read by Group - Duration 00:25:51
+https://www.archive.org/download/history_emilymontague_voliv_dr_2004_librivox/historyofemilymontague4_02_brooke_128kb.mp3
+#EXTINF:2175 group-title="Epistolary Fiction",History Of Emily Montague Voliv — Frances Moore Brooke · Section 3 - Letters 203-207 - Read by Group - Duration 00:36:15
+https://www.archive.org/download/history_emilymontague_voliv_dr_2004_librivox/historyofemilymontague4_03_brooke_128kb.mp3
+#EXTINF:1820 group-title="Epistolary Fiction",History Of Emily Montague Voliv — Frances Moore Brooke · Section 4 - Letters 208-216 - Read by Group - Duration 00:30:20
+https://www.archive.org/download/history_emilymontague_voliv_dr_2004_librivox/historyofemilymontague4_04_brooke_128kb.mp3
+#EXTINF:2416 group-title="Epistolary Fiction",History Of Emily Montague Voliv — Frances Moore Brooke · Section 5 - Letters 217-228 - Read by Group - Duration 00:40:16
+https://www.archive.org/download/history_emilymontague_voliv_dr_2004_librivox/historyofemilymontague4_05_brooke_128kb.mp3
 #EXTINF:1454 group-title="Epistolary Fiction",Jane Austens Juvenilia — Jane Austen · Love and Freindship- Part 1 (Letters 1-9) - Read by Claudia Wilson - Duration 00:24:14
 https://www.archive.org/download/janeaustenjuvenilia_1101_librivox/janeaustenjuvenilia_01_austen.mp3
 #EXTINF:1625 group-title="Epistolary Fiction",Jane Austens Juvenilia — Jane Austen · Love and Freindship- Part 2 (Letters 10-13) - Read by Claudia Wilson - Duration 00:27:05
@@ -1626,6 +1796,16 @@ https://www.archive.org/download/lady_susan_0811_librivox/lady_susan_austen_40.m
 https://www.archive.org/download/lady_susan_0811_librivox/lady_susan_austen_41.mp3
 #EXTINF:410 group-title="Epistolary Fiction",Lady Susan V2 — Jane Austen · Conclusion - Read by Sage Tyrtle - Duration 00:06:50
 https://www.archive.org/download/lady_susan_0811_librivox/lady_susan_austen_42.mp3
+#EXTINF:471 group-title="Epistolary Fiction",Lesley Castle — Jane Austen · Letter the Third - Read by Michele Eaton - Duration 00:07:51
+https://www.archive.org/download/lesleycastle_2111_librivox/lesleycastle_03_austen_128kb.mp3
+#EXTINF:510 group-title="Epistolary Fiction",Lesley Castle — Jane Austen · Letter the Fourth - Read by Kelly S. Taylor - Duration 00:08:30
+https://www.archive.org/download/lesleycastle_2111_librivox/lesleycastle_04_austen_128kb.mp3
+#EXTINF:174 group-title="Epistolary Fiction",Lesley Castle — Jane Austen · Letter the Fifth - Read by Michele Eaton - Duration 00:02:54
+https://www.archive.org/download/lesleycastle_2111_librivox/lesleycastle_05_austen_128kb.mp3
+#EXTINF:247 group-title="Epistolary Fiction",Lesley Castle — Jane Austen · Letter the Eighth - Read by Amatullah Talks - Duration 00:04:07
+https://www.archive.org/download/lesleycastle_2111_librivox/lesleycastle_08_austen_128kb.mp3
+#EXTINF:265 group-title="Epistolary Fiction",Lesley Castle — Jane Austen · Letter the Ninth - Read by Joanna Michal Hoyt - Duration 00:04:25
+https://www.archive.org/download/lesleycastle_2111_librivox/lesleycastle_09_austen_128kb.mp3
 #EXTINF:665 group-title="Epistolary Fiction",Letters From A Self Made Merchant To His Son — George Horace Lorimer · 01 - Letter 1 - Read by peac - Duration 00:11:05
 https://www.archive.org/download/letters_merchant_to_son_p_1111/lettersmerchanttoson_01_lorimer.mp3
 #EXTINF:639 group-title="Epistolary Fiction",Letters From A Self Made Merchant To His Son — George Horace Lorimer · 02 - Letter 2 - Read by peac - Duration 00:10:39
@@ -1820,6 +2000,10 @@ https://www.archive.org/download/lost_diaries_1706_librivox/lostdiaries_18_barin
 https://www.archive.org/download/lost_diaries_1706_librivox/lostdiaries_19_baring_128kb.mp3
 #EXTINF:659 group-title="Epistolary Fiction",Lost Diaries — Maurice Baring · FROM THE DIARY OF HAMLET- PRINCE OF DENMARK - Read by Nemo - Duration 00:10:59
 https://www.archive.org/download/lost_diaries_1706_librivox/lostdiaries_20_baring_128kb.mp3
+#EXTINF:65 group-title="Epistolary Fiction",Love And Freindship — Jane Austen · Letter 2nd - Read by James R. Hedrick - Duration 00:01:05
+https://www.archive.org/download/loveandfreindship_2306_librivox/loveandfreindship_02_austen_128kb.mp3
+#EXTINF:176 group-title="Epistolary Fiction",Love And Freindship — Jane Austen · Letter 3rd - Read by James R. Hedrick - Duration 00:02:56
+https://www.archive.org/download/loveandfreindship_2306_librivox/loveandfreindship_03_austen_128kb.mp3
 #EXTINF:982 group-title="Epistolary Fiction",Love Freindship And Other Early Works — Jane Austen · Preface by G. K. Chesterton - Read by NoelBadrian - Duration 00:16:22
 https://www.archive.org/download/lovefreindship_1410_librivox/lovefreindship_00_austen_128kb.mp3
 #EXTINF:1867 group-title="Epistolary Fiction",Love Freindship And Other Early Works — Jane Austen · Love and Freindship - Letters 1 to 9 - Read by NoelBadrian - Duration 00:31:07
@@ -2768,6 +2952,90 @@ https://www.archive.org/download/biterbit_2205_librivox/biterbit_03_collins_128k
 https://www.archive.org/download/biterbit_2205_librivox/biterbit_04_collins_128kb.mp3
 #EXTINF:982 group-title="Epistolary Fiction",The Biter Bit — Wilkie Collins · July 9-10-12 - Read by Louise J. Belle - Duration 00:16:22
 https://www.archive.org/download/biterbit_2205_librivox/biterbit_05_collins_128kb.mp3
+#EXTINF:2552 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 0 - 1 - Before the Story- First Scene - Read by Barbara Derksen - Duration 00:42:32
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_0_1_collins.mp3
+#EXTINF:1754 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 0 - 2 - Before the Story- Second Scene - Read by Iskander Shafikov - Duration 00:29:14
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_0_2_collins.mp3
+#EXTINF:1101 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 01 - Book the First- Chapter 1 - Read by Lars Rolander (1942-2016) - Duration 00:18:21
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_01_collins.mp3
+#EXTINF:852 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 02 - Book the First- Chapter 2 - Read by Lars Rolander (1942-2016) - Duration 00:14:12
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_02_collins.mp3
+#EXTINF:1038 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 03 - Book the First- Chapter 3 - Read by Lars Rolander (1942-2016) - Duration 00:17:18
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_03_collins.mp3
+#EXTINF:615 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 04 - Book the First- Chapter 4 - Read by Lars Rolander (1942-2016) - Duration 00:10:15
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_04_collins.mp3
+#EXTINF:923 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 05 - Book the First- Chapter 5 - Read by Lars Rolander (1942-2016) - Duration 00:15:23
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_05_collins.mp3
+#EXTINF:986 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 06 - Book the First- Chapter 6 - Read by Lars Rolander (1942-2016) - Duration 00:16:26
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_06_collins.mp3
+#EXTINF:707 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 07 - Book the First- Chapter 7 - Read by Lars Rolander (1942-2016) - Duration 00:11:47
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_07_collins.mp3
+#EXTINF:1170 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 08 - Book the First- Chapter 8 - Read by Lars Rolander (1942-2016) - Duration 00:19:30
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_08_collins.mp3
+#EXTINF:366 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 09 - Book the First- Chapter 9 - Read by Lars Rolander (1942-2016) - Duration 00:06:06
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_09_collins.mp3
+#EXTINF:956 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 10 - Book the First- Chapter 10 - Read by Lars Rolander (1942-2016) - Duration 00:15:56
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_10_collins.mp3
+#EXTINF:740 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 11 - Book the First- Chapter 11 - Read by Lars Rolander (1942-2016) - Duration 00:12:20
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_11_collins.mp3
+#EXTINF:1644 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 12 - Book the First- Chapter 12 - Read by Lars Rolander (1942-2016) - Duration 00:27:24
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_12_collins.mp3
+#EXTINF:184 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 1 - 13 - Book the First- Chapter 13 - Read by Anqi Wang - Duration 00:03:04
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_1_13_collins.mp3
+#EXTINF:919 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 2 - 1 - Book the Second- Chapter 1 - Read by Lars Rolander (1942-2016) - Duration 00:15:19
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_2_1_collins.mp3
+#EXTINF:1048 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 2 - 2 - Book the Second- Chapter 2 - Read by Lars Rolander (1942-2016) - Duration 00:17:28
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_2_2_collins.mp3
+#EXTINF:647 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 2 - 3 - Book the Second- Chapter 3 - Read by Lars Rolander (1942-2016) - Duration 00:10:47
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_2_3_collins.mp3
+#EXTINF:1168 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 2 - 4 - Book the Second- Chapter 4 - Read by Lars Rolander (1942-2016) - Duration 00:19:28
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_2_4_collins.mp3
+#EXTINF:440 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 3 - 1 - Book the Third- Chapter 1 - Read by Lars Rolander (1942-2016) - Duration 00:07:20
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_3_1_collins.mp3
+#EXTINF:1028 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 3 - 2 - Book the Third- Chapter 2 - Read by Lars Rolander (1942-2016) - Duration 00:17:08
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_3_2_collins.mp3
+#EXTINF:902 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 3 - 3 - Book the Third- Chapter 3 - Read by Lars Rolander (1942-2016) - Duration 00:15:02
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_3_3_collins.mp3
+#EXTINF:1173 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 3 - 4 - Book the Third- Chapter 4 - Read by Lars Rolander (1942-2016) - Duration 00:19:33
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_3_4_collins.mp3
+#EXTINF:1479 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 3 - 5 - 1 - Book the Third- Chapter 5- Part 1 - Read by Lars Rolander (1942-2016) - Duration 00:24:39
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_3_5_collins.mp3
+#EXTINF:1689 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 3 - 5 - 2 - Book the Third- Chapter 5- Part 2 - Read by Lars Rolander (1942-2016) - Duration 00:28:09
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_3_6_collins.mp3
+#EXTINF:541 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 1 - Book the Fourth- Chapter 1 - Read by Sandra Estenson - Duration 00:09:01
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_1_collins.mp3
+#EXTINF:1338 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 2 - Book the Fourth- Chapter 2 - Read by Sandra Estenson - Duration 00:22:18
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_2_collins.mp3
+#EXTINF:1090 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 3 - Book the Fourth- Chapter 3 - Read by Sandra Estenson - Duration 00:18:10
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_3_collins.mp3
+#EXTINF:721 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 4 - Book the Fourth- Chapter 4 - Read by Sandra Estenson - Duration 00:12:01
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_4_collins.mp3
+#EXTINF:282 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 5 - Book the Fourth- Chapter 5 - Read by Sandra Estenson - Duration 00:04:42
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_5_collins.mp3
+#EXTINF:806 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 6 - Book the Fourth- Chapter 6 - Read by Sandra Estenson - Duration 00:13:26
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_6_collins.mp3
+#EXTINF:1086 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 7 - Book the Fourth- Chapter 7 - Read by Sandra Estenson - Duration 00:18:06
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_7_collins.mp3
+#EXTINF:99 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 4 - 8 - Book the Fourth- Chapter 8 - Read by Diana Majlinger - Duration 00:01:39
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_4_8_collins.mp3
+#EXTINF:850 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 5 - 1 - Book the Fifth- Chapter 1 - Read by lennich - Duration 00:14:10
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_5_1_collins.mp3
+#EXTINF:501 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 5 - 2 - Book the Fifth- Chapter 2 - Read by lennich - Duration 00:08:21
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_5_2_collins.mp3
+#EXTINF:1128 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 5 - 3 - Book the Fifth- Chapter 3 - Read by lennich - Duration 00:18:48
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_5_3_collins.mp3
+#EXTINF:920 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 5 - 4 - Book the Fifth- Chapter 4 - Read by lennich - Duration 00:15:20
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_5_4_collins.mp3
+#EXTINF:237 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 6 - 1 - After the Story- Chapter 1 - Read by Lars Rolander (1942-2016) - Duration 00:03:57
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_6_1_collins.mp3
+#EXTINF:2408 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 6 - 2 - 1 - After the Story- Chapter 2- Part 1 - Read by Lars Rolander (1942-2016) - Duration 00:40:08
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_6_2_collins.mp3
+#EXTINF:2857 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 6 - 2 - 2 - After the Story- Chapter 2- Part 2 - Read by Lars Rolander (1942-2016) - Duration 00:47:37
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_6_3_collins.mp3
+#EXTINF:1885 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 6 - 2 - 3 - After the Story- Chapter 2- Part 3 - Read by Lars Rolander (1942-2016) - Duration 00:31:25
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_6_4_collins.mp3
+#EXTINF:1548 group-title="Epistolary Fiction",The Black Robe — Wilkie Collins · 6 - 2 - 4 - After the Story- Chapter 2- Part 4 - Read by Lars Rolander (1942-2016) - Duration 00:25:48
+https://www.archive.org/download/black_robe_1011_librivox/blackrobe_6_5_collins.mp3
 #EXTINF:2287 group-title="Epistolary Fiction",The Coquette Or The History Of Eliza Wharton — Hannah Webster Foster · Introduction - Read by Michele Eaton - Duration 00:38:07
 https://www.archive.org/download/coquette_1508_librivox/coquette_00_foster_128kb.mp3
 #EXTINF:1579 group-title="Epistolary Fiction",The Coquette Or The History Of Eliza Wharton — Hannah Webster Foster · Letters I through VII - Read by Jon Miller - Duration 00:26:19
@@ -2966,6 +3234,168 @@ https://www.archive.org/download/expedition_humphry_clinker_0908_librivox/expedi
 https://www.archive.org/download/expedition_humphry_clinker_0908_librivox/expeditionofhumphryclinker_84_smollett.mp3
 #EXTINF:178 group-title="Epistolary Fiction",The Expedition Of Humphry Clinker — Tobias Smollett · from WIN. LOYD To Mrs MARY JONES - Read by TriciaG - Duration 00:02:58
 https://www.archive.org/download/expedition_humphry_clinker_0908_librivox/expeditionofhumphryclinker_85_smollett.mp3
+#EXTINF:546 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · Preface - Read by April Mendis - Duration 00:09:06
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_01_al-muqaffa_128kb.mp3
+#EXTINF:564 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · Introduction - Read by Craig Campbell - Duration 00:09:24
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_02_al-muqaffa_128kb.mp3
+#EXTINF:1042 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Story Of Dabschelim And Pilpay - Read by czandra - Duration 00:17:22
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_03_al-muqaffa_128kb.mp3
+#EXTINF:867 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Travelling Pidgeon - Read by Craig Campbell - Duration 00:14:27
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_04_al-muqaffa_128kb.mp3
+#EXTINF:326 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Falcon and the Raven - Read by Rebecca Eden Walker - Duration 00:05:26
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_05_al-muqaffa_128kb.mp3
+#EXTINF:410 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The greedy and ambitious Cat - Read by Tasha C Mapes - Duration 00:06:50
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_06_al-muqaffa_128kb.mp3
+#EXTINF:406 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The poor Man who became a great King - Read by plspark - Duration 00:06:46
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_07_al-muqaffa_128kb.mp3
+#EXTINF:421 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Leopard and the Lion - Read by Kingsnake - Duration 00:07:01
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_08_al-muqaffa_128kb.mp3
+#EXTINF:255 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Merchant and his Children - Read by plspark - Duration 00:04:15
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_09_al-muqaffa_128kb.mp3
+#EXTINF:291 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The King and his two Sons - Read by Tasha C Mapes - Duration 00:04:51
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_10_al-muqaffa_128kb.mp3
+#EXTINF:178 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Demise- the Falcon- and the Raven - Read by Monicha1 - Duration 00:02:58
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_11_al-muqaffa_128kb.mp3
+#EXTINF:466 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Countryman and several Rats - Read by Monicha1 - Duration 00:07:46
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_12_al-muqaffa_128kb.mp3
+#EXTINF:109 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Carpenter and the Ape - Read by Monicha1 - Duration 00:01:49
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_13_al-muqaffa_128kb.mp3
+#EXTINF:1048 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The two Travellers- and the Lion carved in Stone - Read by Craig Campbell - Duration 00:17:28
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_14_al-muqaffa_128kb.mp3
+#EXTINF:484 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Fox and the Hen - Read by Christina Fu - Duration 00:08:04
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_15_al-muqaffa_128kb.mp3
+#EXTINF:359 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Sparrow and the Sparrow-hawk - Read by Michael MacTaggert - Duration 00:05:59
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_16_al-muqaffa_128kb.mp3
+#EXTINF:228 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The King who from a savage Tyrant- became benign and just - Read by Alan Mapstone - Duration 00:03:48
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_17_al-muqaffa_128kb.mp3
+#EXTINF:115 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · A Raven- a Fox- and a Serpent - Read by Rebecca Eden Walker - Duration 00:01:55
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_18_al-muqaffa_128kb.mp3
+#EXTINF:416 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Crane and the Craw-fish - Read by Craig Campbell - Duration 00:06:56
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_19_al-muqaffa_128kb.mp3
+#EXTINF:332 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Rabbit- the Fox- and the Wolf - Read by Craig Campbell - Duration 00:05:32
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_20_al-muqaffa_128kb.mp3
+#EXTINF:517 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Lion and the Rabbit - Read by Hannah Dormor - Duration 00:08:37
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_21_al-muqaffa_128kb.mp3
+#EXTINF:184 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The two Fishermen and the three Fishes - Read by Hannah Dormor - Duration 00:03:04
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_22_al-muqaffa_128kb.mp3
+#EXTINF:624 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Scorpion and the Tortoise - Read by Hannah Dormor - Duration 00:10:24
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_23_al-muqaffa_128kb.mp3
+#EXTINF:174 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Falcon and the Hen - Read by Hannah Dormor - Duration 00:02:54
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_24_al-muqaffa_128kb.mp3
+#EXTINF:211 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Nightingale and the Countryman - Read by April Mendis - Duration 00:03:31
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_25_al-muqaffa_128kb.mp3
+#EXTINF:153 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Hunter- the Fox- and the Leopard - Read by Gini Pug - Duration 00:02:33
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_26_al-muqaffa_128kb.mp3
+#EXTINF:530 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Wolf- the Fox- the Raven- and the Camel - Read by Gini Pug - Duration 00:08:50
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_27_al-muqaffa_128kb.mp3
+#EXTINF:160 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Angel Ruler of the Sea and two Birds- called Gerandi - Read by Ellies - Duration 00:02:40
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_28_al-muqaffa_128kb.mp3
+#EXTINF:452 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Tortoise and two Ducks - Read by Craig Campbell - Duration 00:07:32
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_29_al-muqaffa_128kb.mp3
+#EXTINF:299 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · Two young Merchants- the one crafty- and the other without Deceit - Read by Michael MacTaggert - Duration 00:04:59
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_30_al-muqaffa_128kb.mp3
+#EXTINF:282 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Frog- the Craw-fish- and the Serpent - Read by Jonathan Gary - Duration 00:04:42
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_31_al-muqaffa_128kb.mp3
+#EXTINF:189 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Gardener and the Bear - Read by Gini Pug - Duration 00:03:09
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_32_al-muqaffa_128kb.mp3
+#EXTINF:397 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Merchant and his Friend - Read by plspark - Duration 00:06:37
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_33_al-muqaffa_128kb.mp3
+#EXTINF:238 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Fox- the Wolf- and the Raven - Read by plspark - Duration 00:03:58
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_34_al-muqaffa_128kb.mp3
+#EXTINF:301 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Ass and the Gardener - Read by plspark - Duration 00:05:01
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_35_al-muqaffa_128kb.mp3
+#EXTINF:339 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Prince and his Minister - Read by plspark - Duration 00:05:39
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_36_al-muqaffa_128kb.mp3
+#EXTINF:409 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · A Hermit who quitted the Desert to live at Court - Read by plspark - Duration 00:06:49
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_37_al-muqaffa_128kb.mp3
+#EXTINF:393 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The blind Man who travelled with one of his Friends - Read by plspark - Duration 00:06:33
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_38_al-muqaffa_128kb.mp3
+#EXTINF:604 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · A religious Doctor and a Dervise - Read by plspark - Duration 00:10:04
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_39_al-muqaffa_128kb.mp3
+#EXTINF:571 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · Three envious Persons that found Money - Read by plspark - Duration 00:09:31
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_40_al-muqaffa_128kb.mp3
+#EXTINF:879 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The ignorant Physician - Read by Ellies - Duration 00:14:39
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_41_al-muqaffa_128kb.mp3
+#EXTINF:445 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Raven- the Rat- and the Pigeons - Read by Gini Pug - Duration 00:07:25
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_42_al-muqaffa_128kb.mp3
+#EXTINF:346 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Partridge and the Falcon - Read by Michael MacTaggert - Duration 00:05:46
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_43_al-muqaffa_128kb.mp3
+#EXTINF:738 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Man and the Adder - Read by Mary in Arkansas - Duration 00:12:18
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_44_al-muqaffa_128kb.mp3
+#EXTINF:259 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Adventures of Zirac - Read by Alan Mapstone - Duration 00:04:19
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_45_al-muqaffa_128kb.mp3
+#EXTINF:141 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · A Husband and his Wife - Read by Rebecca Eden Walker - Duration 00:02:21
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_46_al-muqaffa_128kb.mp3
+#EXTINF:533 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Hunter and the Wolf - Read by Michael MacTaggert - Duration 00:08:53
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_47_al-muqaffa_128kb.mp3
+#EXTINF:244 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The ravenous Cat - Read by holtonhj64 - Duration 00:04:04
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_48_al-muqaffa_128kb.mp3
+#EXTINF:670 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The two Friends - Read by Sandy Kurtz - Duration 00:11:10
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_49_al-muqaffa_128kb.mp3
+#EXTINF:657 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Ravens and the Owls - Read by Craig Campbell - Duration 00:10:57
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_50_al-muqaffa_128kb.mp3
+#EXTINF:236 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Origin of the Hatred between the Ravens and the Owls - Read by Craig Campbell - Duration 00:03:56
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_51_al-muqaffa_128kb.mp3
+#EXTINF:465 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Elephants and the Rabbits - Read by Jennifer Louise - Duration 00:07:45
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_52_al-muqaffa_128kb.mp3
+#EXTINF:325 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Cat and the two Birds - Read by April Mendis - Duration 00:05:25
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_53_al-muqaffa_128kb.mp3
+#EXTINF:426 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Dervise and the Four Robbers - Read by ThomasGibby - Duration 00:07:06
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_54_al-muqaffa_128kb.mp3
+#EXTINF:171 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Merchant- his Wife- and the Robber - Read by April Mendis - Duration 00:02:51
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_55_al-muqaffa_128kb.mp3
+#EXTINF:375 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Dervise- the Thief- and the Devil - Read by Alan Mapstone - Duration 00:06:15
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_56_al-muqaffa_128kb.mp3
+#EXTINF:956 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Monkeys and the Bears - Read by Mary in Arkansas - Duration 00:15:56
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_57_al-muqaffa_128kb.mp3
+#EXTINF:354 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Mouse that was changed into a little Girl - Read by Michael MacTaggert - Duration 00:05:54
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_58_al-muqaffa_128kb.mp3
+#EXTINF:285 group-title="Epistolary Fiction",The Fables Of Pilpay — Abdullah Ibn Al Muqaffa · The Serpent and the Frogs - Read by czandra - Duration 00:04:45
+https://www.archive.org/download/pilpay_2106_librivox/pilpay_59_al-muqaffa_128kb.mp3
+#EXTINF:2333 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 1-6 - Read by Group - Duration 00:38:53
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_01_brooke_128kb.mp3
+#EXTINF:1899 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 7-12 - Read by Unknown - Duration 00:31:39
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_02_brooke_128kb.mp3
+#EXTINF:1212 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 13-18 - Read by Unknown - Duration 00:20:12
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_03_brooke_128kb.mp3
+#EXTINF:1518 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 19-24 - Read by Unknown - Duration 00:25:18
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_04_brooke_128kb.mp3
+#EXTINF:625 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 25-30 - Read by Unknown - Duration 00:10:25
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_05_brooke_128kb.mp3
+#EXTINF:1104 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 31-36 - Read by Unknown - Duration 00:18:24
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_06_brooke_128kb.mp3
+#EXTINF:694 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 37-42 - Read by Unknown - Duration 00:11:34
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_07_brooke_128kb.mp3
+#EXTINF:855 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 43-48 - Read by Unknown - Duration 00:14:15
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_08_brooke_128kb.mp3
+#EXTINF:1044 group-title="Epistolary Fiction",The History Of Emily Montague Vol 1 Dramatic Reading — Frances Moore Brooke · Letters 49-54 - Read by Unknown - Duration 00:17:24
+https://www.archive.org/download/emilymontague1_1506_librivox/emilymontague1_09_brooke_128kb.mp3
+#EXTINF:1651 group-title="Epistolary Fiction",The History Of Emily Montague Vol Ii — Frances Moore Brooke · Letters 55-64 - Read by Group - Duration 00:27:31
+https://www.archive.org/download/history_of_emily_montague_vol_ii_1912_librivox/emilymontague2_1_brooke_128kb.mp3
+#EXTINF:1674 group-title="Epistolary Fiction",The History Of Emily Montague Vol Ii — Frances Moore Brooke · Letters 65-74 - Read by Group - Duration 00:27:54
+https://www.archive.org/download/history_of_emily_montague_vol_ii_1912_librivox/emilymontague2_2_brooke_128kb.mp3
+#EXTINF:1849 group-title="Epistolary Fiction",The History Of Emily Montague Vol Ii — Frances Moore Brooke · Letters 75-84 - Read by Group - Duration 00:30:49
+https://www.archive.org/download/history_of_emily_montague_vol_ii_1912_librivox/emilymontague2_3_brooke_128kb.mp3
+#EXTINF:1634 group-title="Epistolary Fiction",The History Of Emily Montague Vol Ii — Frances Moore Brooke · Letters 85-94 - Read by Group - Duration 00:27:14
+https://www.archive.org/download/history_of_emily_montague_vol_ii_1912_librivox/emilymontague2_4_brooke_128kb.mp3
+#EXTINF:1726 group-title="Epistolary Fiction",The History Of Emily Montague Vol Ii — Frances Moore Brooke · Letters 95-104 - Read by Group - Duration 00:28:46
+https://www.archive.org/download/history_of_emily_montague_vol_ii_1912_librivox/emilymontague2_5_brooke_128kb.mp3
+#EXTINF:1472 group-title="Epistolary Fiction",The History Of Emily Montague Vol Ii — Frances Moore Brooke · Letters 105-114 - Read by Group - Duration 00:24:32
+https://www.archive.org/download/history_of_emily_montague_vol_ii_1912_librivox/emilymontague2_6_brooke_128kb.mp3
+#EXTINF:2912 group-title="Epistolary Fiction",The History Of Emily Montague Vol Ii — Frances Moore Brooke · Letters 115-124 - Read by Group - Duration 00:48:32
+https://www.archive.org/download/history_of_emily_montague_vol_ii_1912_librivox/emilymontague2_7_brooke_128kb.mp3
+#EXTINF:1864 group-title="Epistolary Fiction",The History Of Emily Montague Vol Iii — Frances Moore Brooke · Section 1 - Letters 125-132 - Read by Group - Duration 00:31:04
+https://www.archive.org/download/emilymontaguevoliii_2003_librivox/historyofemilymontaguevol3_01_brooke_128kb.mp3
+#EXTINF:1827 group-title="Epistolary Fiction",The History Of Emily Montague Vol Iii — Frances Moore Brooke · Section 2 - Letters 133-141 - Read by Group - Duration 00:30:27
+https://www.archive.org/download/emilymontaguevoliii_2003_librivox/historyofemilymontaguevol3_02_brooke_128kb.mp3
+#EXTINF:1646 group-title="Epistolary Fiction",The History Of Emily Montague Vol Iii — Frances Moore Brooke · Section 3 - Letters 142-151 - Read by Group - Duration 00:27:26
+https://www.archive.org/download/emilymontaguevoliii_2003_librivox/historyofemilymontaguevol3_03_brooke_128kb.mp3
+#EXTINF:1881 group-title="Epistolary Fiction",The History Of Emily Montague Vol Iii — Frances Moore Brooke · Section 4 - Letters 152-159 - Read by Group - Duration 00:31:21
+https://www.archive.org/download/emilymontaguevoliii_2003_librivox/historyofemilymontaguevol3_04_brooke_128kb.mp3
+#EXTINF:1719 group-title="Epistolary Fiction",The History Of Emily Montague Vol Iii — Frances Moore Brooke · Section 5 - Letters 160-169 - Read by Group - Duration 00:28:39
+https://www.archive.org/download/emilymontaguevoliii_2003_librivox/historyofemilymontaguevol3_05_brooke_128kb.mp3
+#EXTINF:2094 group-title="Epistolary Fiction",The History Of Emily Montague Vol Iii — Frances Moore Brooke · Section 6 - Letters 170-180 - Read by Group - Duration 00:34:54
+https://www.archive.org/download/emilymontaguevoliii_2003_librivox/historyofemilymontaguevol3_06_brooke_128kb.mp3
 #EXTINF:317 group-title="Epistolary Fiction",The History Of Lady Barton — Elizabeth Griffith · Preface - Read by Beth Thomas (1974-2020) - Duration 00:05:17
 https://www.archive.org/download/lady_barton_1908_librivox/historyofladybarton_00_griffith_128kb.mp3
 #EXTINF:2084 group-title="Epistolary Fiction",The History Of Lady Barton — Elizabeth Griffith · Letters 1-4: from Lady Barton to Miss Cleveland - Read by Lynda Marie Neilson - Duration 00:34:44
@@ -3086,6 +3516,36 @@ https://www.archive.org/download/lady_barton_1908_librivox/historyofladybarton_5
 https://www.archive.org/download/lady_barton_1908_librivox/historyofladybarton_58_griffith_128kb.mp3
 #EXTINF:225 group-title="Epistolary Fiction",The History Of Lady Barton — Elizabeth Griffith · Letters 77-78: from Lady Hume to Sir George Cleveland - Read by Devorah Allen - Duration 00:03:45
 https://www.archive.org/download/lady_barton_1908_librivox/historyofladybarton_59_griffith_128kb.mp3
+#EXTINF:2970 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 1 - Read by Thomas A. Copeland - Duration 00:49:30
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_01_stoker_128kb.mp3
+#EXTINF:3164 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 2 - Read by Thomas A. Copeland - Duration 00:52:44
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_02_stoker_128kb.mp3
+#EXTINF:2215 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 3 - Read by Thomas A. Copeland - Duration 00:36:55
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_03_stoker_128kb.mp3
+#EXTINF:3076 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 4 - Read by Thomas A. Copeland - Duration 00:51:16
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_04_stoker_128kb.mp3
+#EXTINF:3006 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 5 - Read by Thomas A. Copeland - Duration 00:50:06
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_05_stoker_128kb.mp3
+#EXTINF:1958 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 6 - Read by Thomas A. Copeland - Duration 00:32:38
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_06_stoker_128kb.mp3
+#EXTINF:3944 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 7 - Read by Thomas A. Copeland - Duration 01:05:44
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_07_stoker_128kb.mp3
+#EXTINF:4040 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 8 - Read by Thomas A. Copeland - Duration 01:07:20
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_08_stoker_128kb.mp3
+#EXTINF:2735 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 9 - Read by Thomas A. Copeland - Duration 00:45:35
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_09_stoker_128kb.mp3
+#EXTINF:2570 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 10 - Read by Thomas A. Copeland - Duration 00:42:50
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_10_stoker_128kb.mp3
+#EXTINF:2481 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 11 - Read by Thomas A. Copeland - Duration 00:41:21
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_11_stoker_128kb.mp3
+#EXTINF:3068 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 12 - Read by Thomas A. Copeland - Duration 00:51:08
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_12_stoker_128kb.mp3
+#EXTINF:3395 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 13 - Read by Thomas A. Copeland - Duration 00:56:35
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_13_stoker_128kb.mp3
+#EXTINF:3427 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 14 - Read by Thomas A. Copeland - Duration 00:57:07
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_14_stoker_128kb.mp3
+#EXTINF:3868 group-title="Epistolary Fiction",The Lady Of The Shroud — Bram Stoker · Part 15 - Read by Thomas A. Copeland - Duration 01:04:28
+https://www.archive.org/download/ladyoftheshroud_2007_librivox/ladyoftheshroud_15_stoker_128kb.mp3
 #EXTINF:1573 group-title="Epistolary Fiction",The Leader Dramatic Reading — Murray Leinster · Section 1 - Read by Group - Duration 00:26:13
 https://www.archive.org/download/leader_dr_2307_librivox/leader_1_leinster_128kb.mp3
 #EXTINF:1544 group-title="Epistolary Fiction",The Leader Dramatic Reading — Murray Leinster · Section 2 - Read by Group - Duration 00:25:44
@@ -3160,6 +3620,38 @@ https://www.archive.org/download/nature_crime_ml_2302_librivox/natureofacrime_06
 https://www.archive.org/download/nature_crime_ml_2302_librivox/natureofacrime_07_conrad_128kb.mp3
 #EXTINF:719 group-title="Epistolary Fiction",The Nature Of A Crime — Joseph Conrad · Chapter 8 - Read by Mark Leder - Duration 00:11:59
 https://www.archive.org/download/nature_crime_ml_2302_librivox/natureofacrime_08_conrad_128kb.mp3
+#EXTINF:711 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Dedicatory- Editor’s Introduction- Preface- Dramatis Personae - Read by TriciaG - Duration 00:11:51
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_01_brown_128kb.mp3
+#EXTINF:516 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 1-3 - Read by ToddHW - Duration 00:08:36
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_02_brown_128kb.mp3
+#EXTINF:1482 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letter 11 - Read by Availle - Duration 00:24:42
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_05_brown_128kb.mp3
+#EXTINF:661 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 12-13 - Read by Availle - Duration 00:11:01
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_06_brown_128kb.mp3
+#EXTINF:775 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 14-20 - Read by Larry Wilson - Duration 00:12:55
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_07_brown_128kb.mp3
+#EXTINF:1093 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 21-24 - Read by Jenn Broda - Duration 00:18:13
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_08_brown_128kb.mp3
+#EXTINF:520 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 25-26 - Read by Devorah Allen - Duration 00:08:40
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_09_brown_128kb.mp3
+#EXTINF:760 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 27-28 - Read by ToddHW - Duration 00:12:40
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_10_brown_128kb.mp3
+#EXTINF:943 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 29-31 - Read by Availle - Duration 00:15:43
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_11_brown_128kb.mp3
+#EXTINF:1566 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letter 39 - Read by Availle - Duration 00:26:06
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_13_brown_128kb.mp3
+#EXTINF:733 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 40-41 - Read by Availle - Duration 00:12:13
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_14_brown_128kb.mp3
+#EXTINF:568 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letter 49 - Read by KevinS - Duration 00:09:28
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_16_brown_128kb.mp3
+#EXTINF:598 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letter 50 - Read by Jenn Broda - Duration 00:09:58
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_17_brown_128kb.mp3
+#EXTINF:804 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 51-57 - Read by Larry Wilson - Duration 00:13:24
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_18_brown_128kb.mp3
+#EXTINF:658 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 58-62 - Read by ToddHW - Duration 00:10:58
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_19_brown_128kb.mp3
+#EXTINF:683 group-title="Epistolary Fiction",The Power Of Sympathy — William Hill Brown · Letters 63-65 - Read by ToddHW - Duration 00:11:23
+https://www.archive.org/download/power_of_sympathy_2103_librivox/powerofsympathy_20_brown_128kb.mp3
 #EXTINF:1121 group-title="Epistolary Fiction",The Prairie Wife — Arthur Stringer · Thursday the Nineteenth - Read by Jennifer Perree - Duration 00:18:41
 https://www.archive.org/download/prairie_wife_2207_librivox/prairiewife_01_stringer_128kb.mp3
 #EXTINF:1203 group-title="Epistolary Fiction",The Prairie Wife — Arthur Stringer · Saturday the Twenty-first - Read by Jennifer Perree - Duration 00:20:03

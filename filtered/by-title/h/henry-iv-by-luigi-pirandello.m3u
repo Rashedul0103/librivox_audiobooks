@@ -1,0 +1,8 @@
+#EXTM3U
+#PLAYLIST:LibriVox — selected languages
+#EXTINF:3292 group-title="Henry Iv",Henry Iv — Luigi Pirandello · Act I - Read by Group - Duration 00:54:52
+https://archive.org/download/henryiv_1506_librivox/henryiv_1_pirandello_128kb.mp3
+#EXTINF:2758 group-title="Henry Iv",Henry Iv — Luigi Pirandello · Act II - Read by Group - Duration 00:45:58
+https://archive.org/download/henryiv_1506_librivox/henryiv_2_pirandello_128kb.mp3
+#EXTINF:1312 group-title="Henry Iv",Henry Iv — Luigi Pirandello · Act III - Read by Group - Duration 00:21:52
+https://archive.org/download/henryiv_1506_librivox/henryiv_3_pirandello_128kb.mp3

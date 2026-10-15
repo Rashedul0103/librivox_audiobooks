@@ -1,0 +1,10 @@
+#EXTM3U
+#PLAYLIST:LibriVox — selected languages
+#EXTINF:96 group-title="Fatherland",Fatherland — Sir Henry Parkes · Fatherland - Read by CC - Read by Chris Caron - Duration 00:01:36
+https://www.archive.org/download/fatherland_1101_librivox/fatherland_parkes_cc.mp3
+#EXTINF:102 group-title="Fatherland",Fatherland — Sir Henry Parkes · Fatherland - Read by DL - Read by David Lawrence - Duration 00:01:42
+https://www.archive.org/download/fatherland_1101_librivox/fatherland_parkes_dl.mp3
+#EXTINF:104 group-title="Fatherland",Fatherland — Sir Henry Parkes · Fatherland - Read by GHS - Read by Algy Pug - Duration 00:01:44
+https://www.archive.org/download/fatherland_1101_librivox/fatherland_parkes_ghs.mp3
+#EXTINF:115 group-title="Fatherland",Fatherland — Sir Henry Parkes · Fatherland - Read by LLW - Read by Leonard Wilson (1930-2024) - Duration 00:01:55
+https://www.archive.org/download/fatherland_1101_librivox/fatherland_parkes_llw.mp3

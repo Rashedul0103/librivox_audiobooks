@@ -1,0 +1,12 @@
+#EXTM3U
+#PLAYLIST:LibriVox — selected languages
+#EXTINF:3340 group-title="Hamlet Version 2",Hamlet Version 2 — William Shakespeare · Act I - Read by Sam Stinson - Duration 00:55:40
+https://www.archive.org/download/hamlet2_1206_librivox/hamlet_1.mp3
+#EXTINF:2766 group-title="Hamlet Version 2",Hamlet Version 2 — William Shakespeare · Act II - Read by Sam Stinson - Duration 00:46:06
+https://www.archive.org/download/hamlet2_1206_librivox/hamlet_2.mp3
+#EXTINF:3579 group-title="Hamlet Version 2",Hamlet Version 2 — William Shakespeare · Act III - Read by Sam Stinson - Duration 00:59:39
+https://www.archive.org/download/hamlet2_1206_librivox/hamlet_3.mp3
+#EXTINF:2553 group-title="Hamlet Version 2",Hamlet Version 2 — William Shakespeare · Act IV - Read by Sam Stinson - Duration 00:42:33
+https://www.archive.org/download/hamlet2_1206_librivox/hamlet_4.mp3
+#EXTINF:2633 group-title="Hamlet Version 2",Hamlet Version 2 — William Shakespeare · Act V - Read by Sam Stinson - Duration 00:43:53
+https://www.archive.org/download/hamlet2_1206_librivox/hamlet_5.mp3

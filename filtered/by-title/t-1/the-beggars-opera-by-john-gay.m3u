@@ -1,0 +1,10 @@
+#EXTM3U
+#PLAYLIST:LibriVox — selected languages
+#EXTINF:320 group-title="The Beggars Opera",The Beggars Opera — John Gay · Introduction and Dramatis Personae - Read by Group - Duration 00:05:20
+https://www.archive.org/download/beggarsopera_2308_librivox/beggarsopera_0_gay_128kb.mp3
+#EXTINF:2245 group-title="The Beggars Opera",The Beggars Opera — John Gay · Act 1 - Read by Group - Duration 00:37:25
+https://www.archive.org/download/beggarsopera_2308_librivox/beggarsopera_1_gay_128kb.mp3
+#EXTINF:2865 group-title="The Beggars Opera",The Beggars Opera — John Gay · Act 2 - Read by Group - Duration 00:47:45
+https://www.archive.org/download/beggarsopera_2308_librivox/beggarsopera_2_gay_128kb.mp3
+#EXTINF:2657 group-title="The Beggars Opera",The Beggars Opera — John Gay · Act 3 - Read by Group - Duration 00:44:17
+https://www.archive.org/download/beggarsopera_2308_librivox/beggarsopera_3_gay_128kb.mp3

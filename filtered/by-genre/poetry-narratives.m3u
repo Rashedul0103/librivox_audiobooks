@@ -1,5 +1,13 @@
 #EXTM3U
 #PLAYLIST:LibriVox — selected languages
+#EXTINF:1204 group-title="Poetry Narratives",Balder Dead — Matthew Arnold · Part 1 - Read by Thomas A. Copeland - Duration 00:20:04
+https://www.archive.org/download/balder_dead_1502_librivox/balderdead_1_arnold_128kb.mp3
+#EXTINF:1087 group-title="Poetry Narratives",Balder Dead — Matthew Arnold · Part 2 - Read by Thomas A. Copeland - Duration 00:18:07
+https://www.archive.org/download/balder_dead_1502_librivox/balderdead_2_arnold_128kb.mp3
+#EXTINF:2123 group-title="Poetry Narratives",Balder Dead — Matthew Arnold · Part 3 - Read by Thomas A. Copeland - Duration 00:35:23
+https://www.archive.org/download/balder_dead_1502_librivox/balderdead_3_arnold_128kb.mp3
+#EXTINF:1946 group-title="Poetry Narratives",Brittains Ida Or Venus And Anchises — Edmund Spenser · Brittain's Ida - Read by Thomas A. Copeland - Duration 00:32:26
+https://www.archive.org/download/brittains_ida_1412_librivox/brittainsida_01_spenser_128kb.mp3
 #EXTINF:1311 group-title="Poetry Narratives",Captain Craig A Book Of Poems — Edwin Arlington Robinson · Captain Craig- I - Read by Subhash Chander - Duration 00:21:51
 https://www.archive.org/download/captain_craig_1607_librivox/captaincraig_01_robinson_128kb.mp3
 #EXTINF:2350 group-title="Poetry Narratives",Captain Craig A Book Of Poems — Edwin Arlington Robinson · Captain Craig- II - Read by Subhash Chander - Duration 00:39:10
@@ -42,6 +50,30 @@ https://www.archive.org/download/captain_craig_1607_librivox/captaincraig_19_rob
 https://www.archive.org/download/captain_craig_1607_librivox/captaincraig_20_robinson_128kb.mp3
 #EXTINF:208 group-title="Poetry Narratives",Captain Craig A Book Of Poems — Edwin Arlington Robinson · The Field of Glory - Read by Ryan Finch - Duration 00:03:28
 https://www.archive.org/download/captain_craig_1607_librivox/captaincraig_21_robinson_128kb.mp3
+#EXTINF:246 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by AF - Read by Astrid Fingerhut - Duration 00:04:06
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_af.mp3
+#EXTINF:262 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by CMP - Read by CaprishaPage - Duration 00:04:22
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_cmp.mp3
+#EXTINF:233 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by DJ - Read by Doug Jeffery - Duration 00:03:53
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_dj.mp3
+#EXTINF:273 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by DL - Read by David Lawrence - Duration 00:04:33
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_dl.mp3
+#EXTINF:270 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by GC - Read by Snapdragon - Duration 00:04:30
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_gc.mp3
+#EXTINF:221 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by JCM - Read by Jason Mills - Duration 00:03:41
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_jcm.mp3
+#EXTINF:184 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by JJW - Read by J.J. Wazman - Duration 00:03:04
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_jjw.mp3
+#EXTINF:221 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by LAW - Read by Laurie Anne Walden - Duration 00:03:41
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_law.mp3
+#EXTINF:283 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by LLW - Read by Leonard Wilson (1930-2024) - Duration 00:04:43
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_llw.mp3
+#EXTINF:259 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by MDM - Read by Mark Mickelson - Duration 00:04:19
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_mdm.mp3
+#EXTINF:261 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by ND - Read by Zloot - Duration 00:04:21
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_nd.mp3
+#EXTINF:246 group-title="Poetry Narratives",Casey At The Bat — Ernest Lawrence Thayer · Casey at the Bat - Read by TG - Read by TriciaG - Duration 00:04:06
+https://www.archive.org/download/caseyatthebat_1212_librivox/caseyatthebat_thayer_tg.mp3
 #EXTINF:767 group-title="Poetry Narratives",Childe Harolds Pilgrimage Canto Iv — George Gordon Lord Byron · Verses 1-19 - Read by Alan Mapstone - Duration 00:12:47
 https://www.archive.org/download/childeharold_1307_librivox/childeharoldspilgrimagecantoiv_01_byron.mp3
 #EXTINF:829 group-title="Poetry Narratives",Childe Harolds Pilgrimage Canto Iv — George Gordon Lord Byron · Verses 20-41 - Read by Alan Weyman - Duration 00:13:49
@@ -130,6 +162,24 @@ https://www.archive.org/download/digger_smith_2003_librivox/diggersmith_11_denni
 https://www.archive.org/download/digger_smith_2003_librivox/diggersmith_12_dennis_128kb.mp3
 #EXTINF:354 group-title="Poetry Narratives",Digger Smith — C J Dennis · A Square Deal - Read by Son of the Exiles - Duration 00:05:54
 https://www.archive.org/download/digger_smith_2003_librivox/diggersmith_13_dennis_128kb.mp3
+#EXTINF:818 group-title="Poetry Narratives",Dymer — C S Lewis · Canto I - Read by Devorah Allen - Duration 00:13:38
+https://www.archive.org/download/dymer_2206_librivox/dymer_01_lewis_128kb.mp3
+#EXTINF:813 group-title="Poetry Narratives",Dymer — C S Lewis · Canto II - Read by Devorah Allen - Duration 00:13:33
+https://www.archive.org/download/dymer_2206_librivox/dymer_02_lewis_128kb.mp3
+#EXTINF:802 group-title="Poetry Narratives",Dymer — C S Lewis · Canto III - Read by Devorah Allen - Duration 00:13:22
+https://www.archive.org/download/dymer_2206_librivox/dymer_03_lewis_128kb.mp3
+#EXTINF:889 group-title="Poetry Narratives",Dymer — C S Lewis · Canto IV - Read by Devorah Allen - Duration 00:14:49
+https://www.archive.org/download/dymer_2206_librivox/dymer_04_lewis_128kb.mp3
+#EXTINF:796 group-title="Poetry Narratives",Dymer — C S Lewis · Canto V - Read by Devorah Allen - Duration 00:13:16
+https://www.archive.org/download/dymer_2206_librivox/dymer_05_lewis_128kb.mp3
+#EXTINF:882 group-title="Poetry Narratives",Dymer — C S Lewis · Canto VI - Read by Devorah Allen - Duration 00:14:42
+https://www.archive.org/download/dymer_2206_librivox/dymer_06_lewis_128kb.mp3
+#EXTINF:836 group-title="Poetry Narratives",Dymer — C S Lewis · Canto VII - Read by Devorah Allen - Duration 00:13:56
+https://www.archive.org/download/dymer_2206_librivox/dymer_07_lewis_128kb.mp3
+#EXTINF:658 group-title="Poetry Narratives",Dymer — C S Lewis · Canto VIII - Read by Devorah Allen - Duration 00:10:58
+https://www.archive.org/download/dymer_2206_librivox/dymer_08_lewis_128kb.mp3
+#EXTINF:880 group-title="Poetry Narratives",Dymer — C S Lewis · Canto IX - Read by Devorah Allen - Duration 00:14:40
+https://www.archive.org/download/dymer_2206_librivox/dymer_09_lewis_128kb.mp3
 #EXTINF:832 group-title="Poetry Narratives",Evangeline — Henry Wadsworth Longfellow · Intro and Part the First- section 1 - Read by Leonard Wilson (1930-2024) - Duration 00:13:52
 https://www.archive.org/download/evangeline_lw_librivox/evangeline_01_longfellow.mp3
 #EXTINF:641 group-title="Poetry Narratives",Evangeline — Henry Wadsworth Longfellow · Part the First- section 2 - Read by Leonard Wilson (1930-2024) - Duration 00:10:41
@@ -150,6 +200,154 @@ https://www.archive.org/download/evangeline_lw_librivox/evangeline_08_longfellow
 https://www.archive.org/download/evangeline_lw_librivox/evangeline_09_longfellow.mp3
 #EXTINF:792 group-title="Poetry Narratives",Evangeline — Henry Wadsworth Longfellow · Part the Second- section 5 - Read by Leonard Wilson (1930-2024) - Duration 00:13:12
 https://www.archive.org/download/evangeline_lw_librivox/evangeline_10_longfellow.mp3
+#EXTINF:1141 group-title="Poetry Narratives",Fairy Realm — Thomas Hood · The Sleeping Beauty - Part 1 - Read by NoelBadrian - Duration 00:19:01
+https://www.archive.org/download/fairyrealm_1607_librivox/fairyrealm_01_hood_128kb.mp3
+#EXTINF:1544 group-title="Poetry Narratives",Fairy Realm — Thomas Hood · The Sleeping Beauty - Part 2 - Read by NoelBadrian - Duration 00:25:44
+https://www.archive.org/download/fairyrealm_1607_librivox/fairyrealm_02_hood_128kb.mp3
+#EXTINF:1236 group-title="Poetry Narratives",Fairy Realm — Thomas Hood · Little Red Riding Hood - Read by NoelBadrian - Duration 00:20:36
+https://www.archive.org/download/fairyrealm_1607_librivox/fairyrealm_03_hood_128kb.mp3
+#EXTINF:1643 group-title="Poetry Narratives",Fairy Realm — Thomas Hood · Puss in Boots - Read by NoelBadrian - Duration 00:27:23
+https://www.archive.org/download/fairyrealm_1607_librivox/fairyrealm_04_hood_128kb.mp3
+#EXTINF:1357 group-title="Poetry Narratives",Fairy Realm — Thomas Hood · Cinderella - Read by NoelBadrian - Duration 00:22:37
+https://www.archive.org/download/fairyrealm_1607_librivox/fairyrealm_05_hood_128kb.mp3
+#EXTINF:1114 group-title="Poetry Narratives",Fairy Realm — Thomas Hood · Hop O' My Thumb - Part 1 - Read by NoelBadrian - Duration 00:18:34
+https://www.archive.org/download/fairyrealm_1607_librivox/fairyrealm_06_hood_128kb.mp3
+#EXTINF:1159 group-title="Poetry Narratives",Fairy Realm — Thomas Hood · Hop O' My Thumb - Part 2 - Read by NoelBadrian - Duration 00:19:19
+https://www.archive.org/download/fairyrealm_1607_librivox/fairyrealm_07_hood_128kb.mp3
+#EXTINF:298 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · Swingin’ Douglas - Read by Son of the Exiles - Duration 00:04:58
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_01_dennis_128kb.mp3
+#EXTINF:548 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · A Lonely Man - Read by Son of the Exiles - Duration 00:09:08
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_02_dennis_128kb.mp3
+#EXTINF:303 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · A Morning Song - Read by Son of the Exiles - Duration 00:05:03
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_03_dennis_128kb.mp3
+#EXTINF:470 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · A Freak of Spring - Read by Son of the Exiles - Duration 00:07:50
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_04_dennis_128kb.mp3
+#EXTINF:579 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · The Vision - Read by Son of the Exiles - Duration 00:09:39
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_05_dennis_128kb.mp3
+#EXTINF:505 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · Old Bob Blair - Read by Son of the Exiles - Duration 00:08:25
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_06_dennis_128kb.mp3
+#EXTINF:462 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · The Wooer - Read by Son of the Exiles - Duration 00:07:42
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_07_dennis_128kb.mp3
+#EXTINF:429 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · Red Robin - Read by Son of the Exiles - Duration 00:07:09
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_08_dennis_128kb.mp3
+#EXTINF:274 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · Murray’s Ride - Read by Son of the Exiles - Duration 00:04:34
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_09_dennis_128kb.mp3
+#EXTINF:298 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · The Reaper in the Bush - Read by Son of the Exiles - Duration 00:04:58
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_10_dennis_128kb.mp3
+#EXTINF:437 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · Flames - Read by Son of the Exiles - Duration 00:07:17
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_11_dennis_128kb.mp3
+#EXTINF:314 group-title="Poetry Narratives",Jim Of The Hills A Story In Rhyme — C J Dennis · Grey Thrush - Read by Son of the Exiles - Duration 00:05:14
+https://www.archive.org/download/jim_of_the_hills_1809_librivox/jimofthehills_12_dennis_128kb.mp3
+#EXTINF:664 group-title="Poetry Narratives",Poetic Trios — Various · Inferno- Canto 5 - Read by Group - Duration 00:11:04
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_01_various_128kb.mp3
+#EXTINF:1828 group-title="Poetry Narratives",Poetic Trios — Various · Rubaiyat of Omar Khayyam - Read by Group - Duration 00:30:28
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_02_various_128kb.mp3
+#EXTINF:1011 group-title="Poetry Narratives",Poetic Trios — Various · The Pied Piper of Hamelin - Read by Group - Duration 00:16:51
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_03_various_128kb.mp3
+#EXTINF:191 group-title="Poetry Narratives",Poetic Trios — Various · The Hour and the Ghost - Read by Group - Duration 00:03:11
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_04_various_128kb.mp3
+#EXTINF:782 group-title="Poetry Narratives",Poetic Trios — Various · The Book of Thel - Read by Group - Duration 00:13:02
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_05_various_128kb.mp3
+#EXTINF:684 group-title="Poetry Narratives",Poetic Trios — Various · Peter and Paul - Read by Group - Duration 00:11:24
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_06_various_128kb.mp3
+#EXTINF:1135 group-title="Poetry Narratives",Poetic Trios — Various · Jubilate Agno- Fragment B- Part 4 - Read by Group - Duration 00:18:55
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_07_various_128kb.mp3
+#EXTINF:851 group-title="Poetry Narratives",Poetic Trios — Various · The Statue and the Bust - Read by Group - Duration 00:14:11
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_08_various_128kb.mp3
+#EXTINF:365 group-title="Poetry Narratives",Poetic Trios — Various · Alice Brand - Read by Group - Duration 00:06:05
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_09_various_128kb.mp3
+#EXTINF:168 group-title="Poetry Narratives",Poetic Trios — Various · The Broom- the Shovel- the Poker- and the Tongs - Read by Group - Duration 00:02:48
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_10_various_128kb.mp3
+#EXTINF:257 group-title="Poetry Narratives",Poetic Trios — Various · The Sea-Swallows - Read by Group - Duration 00:04:17
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_11_various_128kb.mp3
+#EXTINF:336 group-title="Poetry Narratives",Poetic Trios — Various · The Bells - Read by Group - Duration 00:05:36
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_12_various_128kb.mp3
+#EXTINF:309 group-title="Poetry Narratives",Poetic Trios — Various · The Walrus and the Carpenter - Read by Group - Duration 00:05:09
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_13_various_128kb.mp3
+#EXTINF:1664 group-title="Poetry Narratives",Poetic Trios — Various · The Eve of St Agnes - Read by Group - Duration 00:27:44
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_14_various_128kb.mp3
+#EXTINF:317 group-title="Poetry Narratives",Poetic Trios — Various · Mary Ambree - Read by Group - Duration 00:05:17
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_15_various_128kb.mp3
+#EXTINF:862 group-title="Poetry Narratives",Poetic Trios — Various · Lenore - Read by Group - Duration 00:14:22
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_16_various_128kb.mp3
+#EXTINF:330 group-title="Poetry Narratives",Poetic Trios — Various · Lord Walter's Wife - Read by Group - Duration 00:05:30
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_17_various_128kb.mp3
+#EXTINF:521 group-title="Poetry Narratives",Poetic Trios — Various · The Haystack in the Floods - Read by Group - Duration 00:08:41
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_18_various_128kb.mp3
+#EXTINF:1994 group-title="Poetry Narratives",Poetic Trios — Various · Paradise Lost- Book VIII- Part 1 - Read by Group - Duration 00:33:14
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_19_various_128kb.mp3
+#EXTINF:2893 group-title="Poetry Narratives",Poetic Trios — Various · Paradise Lost- Book VIII- Part 2 - Read by Group - Duration 00:48:13
+https://www.archive.org/download/poetictrios_1706_librivox/poetictrios_20_various_128kb.mp3
+#EXTINF:914 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · Preface by George Bernard Shaw - Read by Expatriate - Duration 00:15:14
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_00_davies_128kb.mp3
+#EXTINF:947 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · I. Childhood - Read by Expatriate - Duration 00:15:47
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_01_davies_128kb.mp3
+#EXTINF:914 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · II. Youth - Read by Expatriate - Duration 00:15:14
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_02_davies_128kb.mp3
+#EXTINF:796 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · III. Manhood - Read by Expatriate - Duration 00:13:16
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_03_davies_128kb.mp3
+#EXTINF:546 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · IV. Brum - Read by Expatriate - Duration 00:09:06
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_04_davies_128kb.mp3
+#EXTINF:561 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · V. A Tramp's Summer Vacation - Read by Expatriate - Duration 00:09:21
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_05_davies_128kb.mp3
+#EXTINF:863 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · VI. A Night's Ride - Read by Expatriate - Duration 00:14:23
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_06_davies_128kb.mp3
+#EXTINF:815 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · VII. Law in America - Read by Expatriate - Duration 00:13:35
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_07_davies_128kb.mp3
+#EXTINF:847 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · VIII. A Prisoner His Own Judge - Read by Expatriate - Duration 00:14:07
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_08_davies_128kb.mp3
+#EXTINF:794 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · IX. Berry Picking - Read by Expatriate - Duration 00:13:14
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_09_davies_128kb.mp3
+#EXTINF:1193 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · X. The Cattleman's Office - Read by Expatriate - Duration 00:19:53
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_10_davies_128kb.mp3
+#EXTINF:873 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XI. A Strange Cattleman - Read by Expatriate - Duration 00:14:33
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_11_davies_128kb.mp3
+#EXTINF:520 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XII. Thieves - Read by Expatriate - Duration 00:08:40
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_12_davies_128kb.mp3
+#EXTINF:597 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XIII. The Canal - Read by Expatriate - Duration 00:09:57
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_13_davies_128kb.mp3
+#EXTINF:1014 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XIV. The House-Boat - Read by Expatriate - Duration 00:16:54
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_14_davies_128kb.mp3
+#EXTINF:721 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XV. A Lynching - Read by Expatriate - Duration 00:12:01
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_15_davies_128kb.mp3
+#EXTINF:805 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XVI. The Camp - Read by Expatriate - Duration 00:13:25
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_16_davies_128kb.mp3
+#EXTINF:926 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XVII. Home - Read by Expatriate - Duration 00:15:26
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_17_davies_128kb.mp3
+#EXTINF:901 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XVIII. Off Again - Read by Expatriate - Duration 00:15:01
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_18_davies_128kb.mp3
+#EXTINF:1138 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XIX. A Voice in the Dark - Read by Expatriate - Duration 00:18:58
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_19_davies_128kb.mp3
+#EXTINF:445 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XX. Hospitality - Read by Expatriate - Duration 00:07:25
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_20_davies_128kb.mp3
+#EXTINF:1369 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXI. London - Read by Expatriate - Duration 00:22:49
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_21_davies_128kb.mp3
+#EXTINF:1231 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXII. The Ark - Read by Expatriate - Duration 00:20:31
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_22_davies_128kb.mp3
+#EXTINF:1290 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXIII. Gridling - Read by Expatriate - Duration 00:21:30
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_23_davies_128kb.mp3
+#EXTINF:1021 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXIV. On the Downright - Read by Expatriate - Duration 00:17:01
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_24_davies_128kb.mp3
+#EXTINF:1048 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXV. The Farmhouse - Read by Expatriate - Duration 00:17:28
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_25_davies_128kb.mp3
+#EXTINF:619 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXVI. Rain &amp; Poverty - Read by Expatriate - Duration 00:10:19
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_26_davies_128kb.mp3
+#EXTINF:683 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXVII. False Hopes - Read by Expatriate - Duration 00:11:23
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_27_davies_128kb.mp3
+#EXTINF:1130 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXVIII. On Tramp Again - Read by Expatriate - Duration 00:18:50
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_28_davies_128kb.mp3
+#EXTINF:560 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXIX. A Day's Companion - Read by Expatriate - Duration 00:09:20
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_29_davies_128kb.mp3
+#EXTINF:586 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXX. The Fortune - Read by Expatriate - Duration 00:09:46
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_30_davies_128kb.mp3
+#EXTINF:614 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXXI. Some Ways of Making a Living - Read by Expatriate - Duration 00:10:14
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_31_davies_128kb.mp3
+#EXTINF:1032 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXXII. At Last - Read by Expatriate - Duration 00:17:12
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_32_davies_128kb.mp3
+#EXTINF:691 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXXIII. Success - Read by Expatriate - Duration 00:11:31
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_33_davies_128kb.mp3
+#EXTINF:683 group-title="Poetry Narratives",The Autobiography Of A Super Tramp — William Henry Davies · XXXIV. A House to Let - Read by Expatriate - Duration 00:11:23
+https://www.archive.org/download/autobiographyofsupertramp_1502_librivox/autobiographyofsupertramp_34_davies_128kb.mp3
 #EXTINF:1703 group-title="Poetry Narratives",The Battle Of Marathon — Elizabeth Barrett Browning · Book 1 - Read by Nathan - Duration 00:28:23
 https://www.archive.org/download/battle_marathon_n_librivox/battleofmarathon_1_browning.mp3
 #EXTINF:1700 group-title="Poetry Narratives",The Battle Of Marathon — Elizabeth Barrett Browning · Book 2 - Read by Nathan - Duration 00:28:20
@@ -234,6 +432,30 @@ https://www.archive.org/download/bridal_triermain_1007_librivox/thebridaloftrier
 https://www.archive.org/download/bridal_triermain_1007_librivox/thebridaloftriermain_03_scott.mp3
 #EXTINF:205 group-title="Poetry Narratives",The Bridal Of Triermain — Sir Walter Scott · 04 Conclusion - Read by Nathan - Duration 00:03:25
 https://www.archive.org/download/bridal_triermain_1007_librivox/thebridaloftriermain_04_scott.mp3
+#EXTINF:153 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - AAM - Read by Alan Mapstone - Duration 00:02:33
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_aam_128kb.mp3
+#EXTINF:141 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - ALP - Read by Algy Pug - Duration 00:02:21
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_alp_128kb.mp3
+#EXTINF:153 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - APS - Read by Adrian Stephens - Duration 00:02:33
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_aps_128kb.mp3
+#EXTINF:174 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - BK - Read by Bruce Kachuk - Duration 00:02:54
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_bk_128kb.mp3
+#EXTINF:133 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - CZ - Read by czandra - Duration 00:02:13
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_cz_128kb.mp3
+#EXTINF:179 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - ELO - Read by Newgatenovelist - Duration 00:02:59
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_el0_128kb.mp3
+#EXTINF:127 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - JT - Read by J. Thurgood - Duration 00:02:07
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_jt_128kb.mp3
+#EXTINF:154 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - KAZ - Read by Kazbek - Duration 00:02:34
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_kaz_128kb.mp3
+#EXTINF:164 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - KLA - Read by Kerry Adams - Duration 00:02:44
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_kla_128kb.mp3
+#EXTINF:139 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - LCW - Read by Larry Wilson - Duration 00:02:19
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_lcw_128kb.mp3
+#EXTINF:144 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - LS - Read by LeeSalter - Duration 00:02:24
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_ls_128kb.mp3
+#EXTINF:173 group-title="Poetry Narratives",The Castled Crag Of Drachenfels — George Gordon Lord Byron · The Castled Crag of Drachenfels - VR - Read by radar - Duration 00:02:53
+https://www.archive.org/download/castledcragofdrachenfels_2109.poem_librivox/drachenfels_byron_vr_128kb.mp3
 #EXTINF:777 group-title="Poetry Narratives",The Corsair — George Gordon Lord Byron · Canto 1 Stanza 1-7 - Read by Alan Mapstone - Duration 00:12:57
 https://www.archive.org/download/corsair_2210_librivox/corsair_01_byron_128kb.mp3
 #EXTINF:731 group-title="Poetry Narratives",The Corsair — George Gordon Lord Byron · Canto 1 Stanza 8-13 - Read by Ariphron - Duration 00:12:11
@@ -272,6 +494,20 @@ https://www.archive.org/download/courtship_miles_standish_lw_librivox/courtshipo
 https://www.archive.org/download/courtship_miles_standish_lw_librivox/courtshipofstandish_8_longfellow.mp3
 #EXTINF:516 group-title="Poetry Narratives",The Courtship Of Miles Standish — Henry Wadsworth Longfellow · Part 9 - The Wedding-Day - Read by Leonard Wilson (1930-2024) - Duration 00:08:36
 https://www.archive.org/download/courtship_miles_standish_lw_librivox/courtshipofstandish_9_longfellow.mp3
+#EXTINF:437 group-title="Poetry Narratives",The Divine Comedy Version 2 Dramatic Reading — Dante Alighieri · 068 - Paradiso I - Read by Peter Tucker - Duration 00:07:17
+https://www.archive.org/download/divinecomedy2dramatic_1509_librivox/divinecomedy_068_alighieri_128kb.mp3
+#EXTINF:423 group-title="Poetry Narratives",The Divine Comedy Version 2 Dramatic Reading — Dante Alighieri · 069 - Paradiso II - Read by Peter Tucker - Duration 00:07:03
+https://www.archive.org/download/divinecomedy2dramatic_1509_librivox/divinecomedy_069_alighieri_128kb.mp3
+#EXTINF:412 group-title="Poetry Narratives",The Divine Comedy Version 2 Dramatic Reading — Dante Alighieri · 071 - Paradiso IV - Read by Peter Tucker - Duration 00:06:52
+https://www.archive.org/download/divinecomedy2dramatic_1509_librivox/divinecomedy_071_alighieri_128kb.mp3
+#EXTINF:551 group-title="Poetry Narratives",The Divine Comedy Version 2 Dramatic Reading — Dante Alighieri · 073 - Paradiso VI - Read by Andrew Coleman - Duration 00:09:11
+https://www.archive.org/download/divinecomedy2dramatic_1509_librivox/divinecomedy_073_alighieri_128kb.mp3
+#EXTINF:387 group-title="Poetry Narratives",The Divine Comedy Version 2 Dramatic Reading — Dante Alighieri · 095 - Paradiso XXVIII - Read by Peter Tucker - Duration 00:06:27
+https://www.archive.org/download/divinecomedy2dramatic_1509_librivox/divinecomedy_095_alighieri_128kb.mp3
+#EXTINF:384 group-title="Poetry Narratives",The Divine Comedy Version 2 Dramatic Reading — Dante Alighieri · 096 - Paradiso XXIX - Read by Peter Tucker - Duration 00:06:24
+https://www.archive.org/download/divinecomedy2dramatic_1509_librivox/divinecomedy_096_alighieri_128kb.mp3
+#EXTINF:418 group-title="Poetry Narratives",The Divine Comedy Version 2 Dramatic Reading — Dante Alighieri · 097 - Paradiso XXX - Read by Peter Tucker - Duration 00:06:58
+https://www.archive.org/download/divinecomedy2dramatic_1509_librivox/divinecomedy_097_alighieri_128kb.mp3
 #EXTINF:826 group-title="Poetry Narratives",The Island — George Gordon Lord Byron · Canto the First - Read by Elizabeth Klett - Duration 00:13:46
 https://www.archive.org/download/island_etk_librivox/island_1_byron.mp3
 #EXTINF:1787 group-title="Poetry Narratives",The Island — George Gordon Lord Byron · Canto the Second - Read by Elizabeth Klett - Duration 00:29:47
@@ -280,6 +516,22 @@ https://www.archive.org/download/island_etk_librivox/island_2_byron.mp3
 https://www.archive.org/download/island_etk_librivox/island_3_byron.mp3
 #EXTINF:1322 group-title="Poetry Narratives",The Island — George Gordon Lord Byron · Canto the Fourth - Read by Elizabeth Klett - Duration 00:22:02
 https://www.archive.org/download/island_etk_librivox/island_4_byron.mp3
+#EXTINF:94 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 1 - Read by Barbara Clements - Duration 00:01:34
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_bc.mp3
+#EXTINF:103 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 2 - Read by David Lawrence - Duration 00:01:43
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_dl.mp3
+#EXTINF:127 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 3 - Read by Harry Caufield - Duration 00:02:07
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_hc.mp3
+#EXTINF:123 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 4 - Read by Kim Stich - Duration 00:02:03
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_kts.mp3
+#EXTINF:126 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 5 - Read by Mark F. Smith - Duration 00:02:06
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_mfs.mp3
+#EXTINF:129 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 6 - Read by ravenotation - Duration 00:02:09
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_rn.mp3
+#EXTINF:104 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 7 - Read by Sean Michael Hogan - Duration 00:01:44
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_smh.mp3
+#EXTINF:100 group-title="Poetry Narratives",The Last Buccaneer — Thomas Babbington Macaulay · Version 8 - Read by TriciaG - Duration 00:01:40
+https://www.archive.org/download/last_buccaneer_0910_librivox/lastbuccaneer_macaulay_tg.mp3
 #EXTINF:1662 group-title="Poetry Narratives",The Lay Of The Last Minstrel — Sir Walter Scott · Introduction by Author- 1831 - Read by Peter Tucker - Duration 00:27:42
 https://www.archive.org/download/lastminstrel_1508_librivox/lastminstrel_00_scott_128kb.mp3
 #EXTINF:128 group-title="Poetry Narratives",The Lay Of The Last Minstrel — Sir Walter Scott · Inscription and foreword - Read by Peter Tucker - Duration 00:02:08
