@@ -129,7 +129,7 @@ function chooseFirst(values, fallback) {
 function getGroup(track, mode) {
   const genre = track.genre || "Other / Unclassified";
   const language = track.language || "Unknown language";
-  return mode === "genre-language" ? "🎭 " + genre + " | 🌐 " + language : "🎭 " + genre;
+  return mode === "genre-language" ? "🎭 " + genre + " · 🌐 " + language : "🎭 " + genre;
 }
 function makeLabel(track, options) {
   const number = String(track.order || 1).padStart(2, "0");
@@ -138,6 +138,7 @@ function makeLabel(track, options) {
   if (options.style === "rich") return shorten(book + author + " · " + number + " — " + track.chapterTitle, options.maxLabel);
   if (options.style === "author") return shorten(book + author + " · " + number, options.maxLabel);
   if (options.style === "chapter") return shorten(book + " · " + number + " — " + track.chapterTitle, options.maxLabel);
+  if (options.style === "compact") return shorten(number + " · " + book, options.maxLabel);
   return shorten(book + " · " + number, options.maxLabel);
 }
 function renderMaster(tracks, options) {
@@ -210,6 +211,15 @@ function main() {
     { groupMode: "genre-language", style: "author", maxLabel: 48, duration: true },
     { groupMode: "genre-language", style: "chapter", maxLabel: 42, duration: true },
     { groupMode: "genre-language", style: "book", maxLabel: 34, duration: true },
+    // If full chapter details do not fit under GitHub's 100 MiB file limit,
+    // keep a chapter number + compact book label and combine genre/language groups.
+    { groupMode: "genre-language", style: "compact", maxLabel: 34, duration: false },
+    { groupMode: "genre-language", style: "compact", maxLabel: 30, duration: false },
+    { groupMode: "genre-language", style: "compact", maxLabel: 28, duration: false },
+    { groupMode: "genre-language", style: "compact", maxLabel: 26, duration: false },
+    { groupMode: "genre-language", style: "compact", maxLabel: 24, duration: false },
+    { groupMode: "genre-language", style: "compact", maxLabel: 22, duration: false },
+    { groupMode: "genre-language", style: "compact", maxLabel: 20, duration: false },
     { groupMode: "genre", style: "author", maxLabel: 42, duration: true },
     { groupMode: "genre", style: "chapter", maxLabel: 38, duration: true },
     { groupMode: "genre", style: "book", maxLabel: 32, duration: true },
