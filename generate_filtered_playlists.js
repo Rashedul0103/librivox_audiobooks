@@ -276,7 +276,7 @@ function main() {
     "- Genre categories: " + genres.length,
     "- Author categories: " + authors.length,
     "",
-    "Multilingual collection tracks are included only when their audio filenames have a recognizable prefix for one of the six requested languages. Tracks with an unknown or missing language marker are excluded from such mixed collections rather than being mislabelled.",
+    "Multilingual collection tracks are included only when their EXTINF label or audio filename identifies one of the six requested languages. Tracks with an unknown or missing language marker are excluded from mixed collections rather than being mislabelled.",
     "",
     "Generated from source M3U taxonomy files by generate_filtered_playlists.js.",
     ""
