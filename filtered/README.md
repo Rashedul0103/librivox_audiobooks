@@ -19,6 +19,10 @@ The source playlist.m3u is not modified. Audio URLs are linked, not copied.
 - Turkish: 4 tracks
 - Unique audio URLs: 365681
 - Per-title playlists: 16352
+
+## Nuvio Enhanced addon
+- Generated book-level catalogue: filtered/nuvio/catalog.json
+- Supports language-specific catalogue rows, genre filtering, title/author search, and chapter metadata.
 - Genre categories: 147
 - Author categories: 6346
 
