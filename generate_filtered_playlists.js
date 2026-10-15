@@ -89,7 +89,8 @@ function main(){
    if((!t.title || t.title==="Unknown") && meta.title) t.title=meta.title;
   }
  }
- const all=[...tracks.values()].filter(t=>ALLOWED.has([...ALLOWED.entries()].find(([,v])=>v===t.language)?.[0] || t.language));
+ const allowedValues=new Set(ALLOWED.values());
+ const all=[...tracks.values()].filter(t=>allowedValues.has(t.language));
  if(!all.length) throw new Error("No matching tracks; refusing to write empty playlists.");
  for(const t of all) {
   t.genre=[...t.genres].sort()[0]||"Other / Unclassified";
