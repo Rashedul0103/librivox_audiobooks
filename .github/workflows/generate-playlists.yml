@@ -3,9 +3,13 @@ name: Generate complete audiobook playlists
 on:
   push:
     branches: [main, master]
-    paths-ignore:
-      - "playlist.m3u"
-      - "playlists/**"
+    paths:
+      - "by-author/**"
+      - "by-genre/**"
+      - "by-language/**"
+      - "by-title/**"
+      - "generate_playlists.js"
+      - ".github/workflows/generate-playlists.yml"
   workflow_dispatch:
 
 permissions:
