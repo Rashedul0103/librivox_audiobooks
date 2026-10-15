@@ -20,7 +20,7 @@ The source playlist.m3u is not modified. Audio URLs are linked, not copied.
 - Unique audio URLs: 365654
 - Per-title playlists: 16341
 - Genre categories: 147
-- Author categories: 6082
+- Author categories: 6346
 
 Multilingual collection tracks are included only when their audio filenames have a recognizable prefix for one of the six requested languages. Tracks with an unknown or missing language marker are excluded from such mixed collections rather than being mislabelled.
 

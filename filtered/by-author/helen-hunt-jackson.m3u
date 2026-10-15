@@ -1,29 +1,5 @@
 #EXTM3U
 #PLAYLIST:LibriVox — selected languages
-#EXTINF:104 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · January - Read by Newgatenovelist - Duration 00:01:44
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_01_jackson_128kb.mp3
-#EXTINF:85 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · February - Read by Newgatenovelist - Duration 00:01:25
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_02_jackson_128kb.mp3
-#EXTINF:80 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · March - Read by Newgatenovelist - Duration 00:01:20
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_03_jackson_128kb.mp3
-#EXTINF:79 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · April - Read by Newgatenovelist - Duration 00:01:19
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_04_jackson_128kb.mp3
-#EXTINF:76 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · May - Read by Newgatenovelist - Duration 00:01:16
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_05_jackson_128kb.mp3
-#EXTINF:78 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · June - Read by Newgatenovelist - Duration 00:01:18
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_06_jackson_128kb.mp3
-#EXTINF:82 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · July - Read by Newgatenovelist - Duration 00:01:22
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_07_jackson_128kb.mp3
-#EXTINF:76 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · August - Read by Newgatenovelist - Duration 00:01:16
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_08_jackson_128kb.mp3
-#EXTINF:82 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · September - Read by Newgatenovelist - Duration 00:01:22
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_09_jackson_128kb.mp3
-#EXTINF:74 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · October - Read by Newgatenovelist - Duration 00:01:14
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_10_jackson_128kb.mp3
-#EXTINF:85 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · November - Read by Newgatenovelist - Duration 00:01:25
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_11_jackson_128kb.mp3
-#EXTINF:91 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · December - Read by Newgatenovelist - Duration 00:01:31
-https://www.archive.org/download/a_calendar_of_sonnets_1910_librivox/calendarofsonnets_12_jackson_128kb.mp3
 #EXTINF:80 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · January - Read by Fox in the Stars - Duration 00:01:20
 https://www.archive.org/download/calendar_of_sonnets_librivox/calendar_sonnets_01_jackson.mp3
 #EXTINF:74 group-title="Helen Hunt Jackson",A Calendar Of Sonnets — Helen Hunt Jackson · February - Read by Fox in the Stars - Duration 00:01:14
@@ -216,21 +192,21 @@ https://www.archive.org/download/bits_home_matters_1301_librivox/bitsabouthomema
 https://www.archive.org/download/bits_home_matters_1301_librivox/bitsabouthomematters_39_jackson.mp3
 #EXTINF:759 group-title="Helen Hunt Jackson",Bits About Home Matters — Helen Hunt Jackson · 40 - Wanted - a Home - Read by ashleighjane - Duration 00:12:39
 https://www.archive.org/download/bits_home_matters_1301_librivox/bitsabouthomematters_40_jackson.mp3
-#EXTINF:77 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by ALP - Read by Algy Pug - Duration 00:01:17
+#EXTINF:77 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by ALP - Read by Algy Pug - Duration 00:01:17
 https://www.archive.org/download/january_1301_librivox/january_jackson_alp.mp3
-#EXTINF:84 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by CMP - Read by CaprishaPage - Duration 00:01:24
+#EXTINF:84 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by CMP - Read by CaprishaPage - Duration 00:01:24
 https://www.archive.org/download/january_1301_librivox/january_jackson_cmp.mp3
-#EXTINF:69 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by DL - Read by David Lawrence - Duration 00:01:09
+#EXTINF:69 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by DL - Read by David Lawrence - Duration 00:01:09
 https://www.archive.org/download/january_1301_librivox/january_jackson_dl.mp3
-#EXTINF:67 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by JCM - Read by Jason Mills - Duration 00:01:07
+#EXTINF:67 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by JCM - Read by Jason Mills - Duration 00:01:07
 https://www.archive.org/download/january_1301_librivox/january_jackson_jcm.mp3
-#EXTINF:68 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by JM - Read by Jannie Meisberger - Duration 00:01:08
+#EXTINF:68 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by JM - Read by Jannie Meisberger - Duration 00:01:08
 https://www.archive.org/download/january_1301_librivox/january_jackson_jm2.mp3
-#EXTINF:71 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by LAH - Read by Lee Ann Howlett - Duration 00:01:11
+#EXTINF:71 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by LAH - Read by Lee Ann Howlett - Duration 00:01:11
 https://www.archive.org/download/january_1301_librivox/january_jackson_lah.mp3
-#EXTINF:75 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by MC - Read by mlcui - Duration 00:01:15
+#EXTINF:75 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by MC - Read by mlcui - Duration 00:01:15
 https://www.archive.org/download/january_1301_librivox/january_jackson_mc.mp3
-#EXTINF:79 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · January - Read by RN - Read by ravenotation - Duration 00:01:19
+#EXTINF:79 group-title="Helen Hunt Jackson",January — Helen Hunt Jackson · Read by RN - Read by ravenotation - Duration 00:01:19
 https://www.archive.org/download/january_1301_librivox/january_jackson_rn.mp3
 #EXTINF:948 group-title="Helen Hunt Jackson",Letters From A Cat — Helen Hunt Jackson · Introduction - Read by NoelBadrian - Duration 00:15:48
 https://www.archive.org/download/lettersfromacat_1309_librivox/lettersfromacat_00_hh_128kb.mp3
@@ -240,55 +216,55 @@ https://www.archive.org/download/lettersfromacat_1309_librivox/lettersfromacat_0
 https://www.archive.org/download/lettersfromacat_1309_librivox/lettersfromacat_02_hh_128kb.mp3
 #EXTINF:709 group-title="Helen Hunt Jackson",Letters From A Cat — Helen Hunt Jackson · Chapters 6 &amp; 7 - Read by NoelBadrian - Duration 00:11:49
 https://www.archive.org/download/lettersfromacat_1309_librivox/lettersfromacat_03_hh_128kb.mp3
-#EXTINF:82 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by BK - Read by Bruce Kachuk - Duration 00:01:22
+#EXTINF:82 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by BK - Read by Bruce Kachuk - Duration 00:01:22
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_bk_128kb.mp3
-#EXTINF:64 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by CB - Read by Caitlin Buckley - Duration 00:01:04
+#EXTINF:64 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by CB - Read by Caitlin Buckley - Duration 00:01:04
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_cb_128kb.mp3
-#EXTINF:59 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by CJPH - Read by ChadH94 - Duration 00:00:59
+#EXTINF:59 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by CJPH - Read by ChadH94 - Duration 00:00:59
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_cjph_128kb.mp3
-#EXTINF:67 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by DL - Read by David Lawrence - Duration 00:01:07
+#EXTINF:67 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by DL - Read by David Lawrence - Duration 00:01:07
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_dl_128kb.mp3
-#EXTINF:80 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by EC - Read by Ellies - Duration 00:01:20
+#EXTINF:80 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by EC - Read by Ellies - Duration 00:01:20
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_ec_128kb.mp3
-#EXTINF:59 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by EJPA - Read by E. Preske Ahrenholtz - Duration 00:00:59
+#EXTINF:59 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by EJPA - Read by E. Preske Ahrenholtz - Duration 00:00:59
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_ejpa_128kb.mp3
-#EXTINF:71 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by EL - Read by Newgatenovelist - Duration 00:01:11
+#EXTINF:71 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by EL - Read by Newgatenovelist - Duration 00:01:11
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_el_128kb.mp3
-#EXTINF:60 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by KS - Read by KevinS - Duration 00:01:00
+#EXTINF:60 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by KS - Read by KevinS - Duration 00:01:00
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_ks_128kb.mp3
-#EXTINF:76 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by LAH - Read by Lee Ann Howlett - Duration 00:01:16
+#EXTINF:76 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by LAH - Read by Lee Ann Howlett - Duration 00:01:16
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_lah_128kb.mp3
-#EXTINF:63 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by LCW - Read by Larry Wilson - Duration 00:01:03
+#EXTINF:63 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by LCW - Read by Larry Wilson - Duration 00:01:03
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_lcw_128kb.mp3
-#EXTINF:77 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by NR - Read by Nemo - Duration 00:01:17
+#EXTINF:77 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by NR - Read by Nemo - Duration 00:01:17
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_nr_128kb.mp3
-#EXTINF:62 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by PS - Read by Phil Schempf - Duration 00:01:02
+#EXTINF:62 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by PS - Read by Phil Schempf - Duration 00:01:02
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_ps_128kb.mp3
-#EXTINF:78 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Morn - Read by VB - Read by tovarisch - Duration 00:01:18
+#EXTINF:78 group-title="Helen Hunt Jackson",Morn — Helen Hunt Jackson · Read by VB - Read by tovarisch - Duration 00:01:18
 https://www.archive.org/download/morn_2003.poem_librivox/morn_jackson_vb_128kb.mp3
-#EXTINF:62 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by ABB - Read by ABabington - Duration 00:01:02
+#EXTINF:62 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by ABB - Read by ABabington - Duration 00:01:02
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_abb_128kb.mp3
-#EXTINF:89 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by BK - Read by Bruce Kachuk - Duration 00:01:29
+#EXTINF:89 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by BK - Read by Bruce Kachuk - Duration 00:01:29
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_bk_128kb.mp3
-#EXTINF:77 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by CAM - Read by millianna - Duration 00:01:17
+#EXTINF:77 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by CAM - Read by millianna - Duration 00:01:17
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_cam_128kb.mp3
-#EXTINF:72 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by DL - Read by David Lawrence - Duration 00:01:12
+#EXTINF:72 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by DL - Read by David Lawrence - Duration 00:01:12
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_dl_128kb.mp3
-#EXTINF:76 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by EL - Read by Newgatenovelist - Duration 00:01:16
+#EXTINF:76 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by EL - Read by Newgatenovelist - Duration 00:01:16
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_el_128kb.mp3
-#EXTINF:80 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by GB - Read by Garth Burton - Duration 00:01:20
+#EXTINF:80 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by GB - Read by Garth Burton - Duration 00:01:20
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_gb_128kb.mp3
-#EXTINF:68 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by JM - Read by J. McDougall - Duration 00:01:08
+#EXTINF:68 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by JM - Read by J. McDougall - Duration 00:01:08
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_jm_128kb.mp3
-#EXTINF:74 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by LAH - Read by Lee Ann Howlett - Duration 00:01:14
+#EXTINF:74 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by LAH - Read by Lee Ann Howlett - Duration 00:01:14
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_lah_128kb.mp3
-#EXTINF:84 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by LLW - Read by Leonard Wilson (1930-2024) - Duration 00:01:24
+#EXTINF:84 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by LLW - Read by Leonard Wilson (1930-2024) - Duration 00:01:24
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_llw_128kb.mp3
-#EXTINF:79 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by MK - Read by Maria Kasper - Duration 00:01:19
+#EXTINF:79 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by MK - Read by Maria Kasper - Duration 00:01:19
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_mk_128kb.mp3
-#EXTINF:64 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by PS - Read by Phil Schempf - Duration 00:01:04
+#EXTINF:64 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by PS - Read by Phil Schempf - Duration 00:01:04
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_ps_128kb.mp3
-#EXTINF:121 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · November - Read by TA - Read by Tony Addison - Duration 00:02:01
+#EXTINF:121 group-title="Helen Hunt Jackson",November — Helen Hunt Jackson · Read by TA - Read by Tony Addison - Duration 00:02:01
 https://www.archive.org/download/november_1511.poem_librivox/november_jackson_ta_128kb.mp3
 #EXTINF:1574 group-title="Helen Hunt Jackson",Ramona — Helen Hunt Jackson · Chapter I - Read by Elli - Duration 00:26:14
 https://www.archive.org/download/ramona_0911_librivox/ramona_01_jackson.mp3

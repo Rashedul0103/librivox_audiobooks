@@ -1,11 +1,5 @@
 #EXTM3U
 #PLAYLIST:LibriVox — selected languages
-#EXTINF:4532 group-title="Henrik Ibsen",A Dolls House — Henrik Ibsen · Act I - Read by Phil Chenevert - Duration 01:15:32
-https://www.archive.org/download/a_dolls_house_2104_librivox/adollshouse_01_ibsen_128kb.mp3
-#EXTINF:3628 group-title="Henrik Ibsen",A Dolls House — Henrik Ibsen · Act II - Read by Phil Chenevert - Duration 01:00:28
-https://www.archive.org/download/a_dolls_house_2104_librivox/adollshouse_02_ibsen_128kb.mp3
-#EXTINF:3658 group-title="Henrik Ibsen",A Dolls House — Henrik Ibsen · Act III - Read by Phil Chenevert - Duration 01:00:58
-https://www.archive.org/download/a_dolls_house_2104_librivox/adollshouse_03_ibsen_128kb.mp3
 #EXTINF:3544 group-title="Henrik Ibsen",A Dolls House — Henrik Ibsen · ACT I - Read by Group - Duration 00:59:04
 https://www.archive.org/download/dolls_house_0812_librivox/dollhouse_01_ibsen.mp3
 #EXTINF:2704 group-title="Henrik Ibsen",A Dolls House — Henrik Ibsen · ACT II - Read by Group - Duration 00:45:04
@@ -58,16 +52,6 @@ https://www.archive.org/download/hedda_gabler_1002_librivox/heddagabler_act2.mp3
 https://www.archive.org/download/hedda_gabler_1002_librivox/heddagabler_act3.mp3
 #EXTINF:1816 group-title="Henrik Ibsen",Hedda Gabler — Henrik Ibsen · Act 4 - Read by Availle - Duration 00:30:16
 https://www.archive.org/download/hedda_gabler_1002_librivox/heddagabler_act4.mp3
-#EXTINF:1523 group-title="Henrik Ibsen",Hedda Gabler — Henrik Ibsen · Introduction - Read by pintri - Duration 00:25:23
-https://www.archive.org/download/heddagabler_2402_librivox/heddagabler_00_ibsen_128kb.mp3
-#EXTINF:4391 group-title="Henrik Ibsen",Hedda Gabler — Henrik Ibsen · Act First - Read by pintri - Duration 01:13:11
-https://www.archive.org/download/heddagabler_2402_librivox/heddagabler_01_ibsen_128kb.mp3
-#EXTINF:3562 group-title="Henrik Ibsen",Hedda Gabler — Henrik Ibsen · Act Second - Read by pintri - Duration 00:59:22
-https://www.archive.org/download/heddagabler_2402_librivox/heddagabler_02_ibsen_128kb.mp3
-#EXTINF:2271 group-title="Henrik Ibsen",Hedda Gabler — Henrik Ibsen · Act Third - Read by pintri - Duration 00:37:51
-https://www.archive.org/download/heddagabler_2402_librivox/heddagabler_03_ibsen_128kb.mp3
-#EXTINF:2089 group-title="Henrik Ibsen",Hedda Gabler — Henrik Ibsen · Act Fourth - Read by pintri - Duration 00:34:49
-https://www.archive.org/download/heddagabler_2402_librivox/heddagabler_04_ibsen_128kb.mp3
 #EXTINF:1424 group-title="Henrik Ibsen",Hedda Gabler Version 2 — Henrik Ibsen · Translator's Introduction - Read by Expatriate - Duration 00:23:44
 https://www.archive.org/download/hedda_gabler_2_1603_librivox/heddagabler_00_ibsen_128kb.mp3
 #EXTINF:3716 group-title="Henrik Ibsen",Hedda Gabler Version 2 — Henrik Ibsen · Act I - Read by Expatriate - Duration 01:01:56
