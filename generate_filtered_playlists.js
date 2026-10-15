@@ -113,7 +113,13 @@ const KNOWN_LANGUAGE_PREFIXES = [...new Set([
   ...FOREIGN_PREFIXES
 ])].sort((a, b) => b.length - a.length);
 
-function urlLanguage(url, folderLanguage, isMultilingual) {
+function languageFromLabel(label) {
+  const normalized = clean(label).toLowerCase().normalize("NFKD");
+  const known = [...new Set([...Object.keys(PREFIX_LANGUAGE), ...FOREIGN_PREFIXES])]
+    .sort((a, b) => b.length - a.length);
+  for (const name of known) {
+    const escaped = name.split(/[_ -]+/).map(part =>
+      part.replace(/[.*+?^\\{}()|[\\]]/g, "\\function urlLanguage(url, folderLanguage, isMultilingual) {
   const file = decodeURIComponent(url.split(/[?#]/)[0].split("/").pop() || "").toLowerCase();
   // Match a known language token followed by an underscore. Longest-first preserves
   // multiword tokens such as old_english while avoiding a greedy read into the title.
@@ -124,6 +130,35 @@ function urlLanguage(url, folderLanguage, isMultilingual) {
   }
   // Multilingual collections must have a recognizable selected-language prefix.
   // Unknown or missing prefixes must not inherit the collection's folder language.
+  if (isMultilingual) return null;
+  return folderLanguage || null;
+}")
+    ).join("[\\s_-]+");
+    const pattern = new RegExp("^" + escaped + "\\s*[-–—:]");
+    if (pattern.test(normalized)) {
+      return { matched: true, language: PREFIX_LANGUAGE[name] || null };
+    }
+  }
+  return { matched: false, language: null };
+}
+
+function urlLanguage(url, folderLanguage, isMultilingual, label) {
+  // Multilingual M3Us often use neutral IDs like msw031_01 rather than language
+  // prefixes. Their EXTINF labels explicitly identify the spoken language, so use
+  // that reliable field first (e.g. "Bengali - ..." or "Hindi - ...").
+  if (isMultilingual) {
+    const fromLabel = languageFromLabel(label);
+    if (fromLabel.matched) return fromLabel.language;
+  }
+
+  const file = decodeURIComponent(url.split(/[?#]/)[0].split("/").pop() || "").toLowerCase();
+  // Match a known language token followed by an underscore. Longest-first preserves
+  // multiword tokens such as old_english while avoiding a greedy read into the title.
+  const token = KNOWN_LANGUAGE_PREFIXES.find(prefix => file.startsWith(prefix + "_"));
+  if (token) return PREFIX_LANGUAGE[token] || null;
+
+  // Unknown or missing language markers in mixed collections must never inherit
+  // the folder language, because that would pull unrelated languages into the filter.
   if (isMultilingual) return null;
   return folderLanguage || null;
 }
@@ -167,7 +202,7 @@ function main() {
       }
 
       if (meta.language) {
-        const language = urlLanguage(row.url, meta.language, meta.multilingual);
+        const language = urlLanguage(row.url, meta.language, meta.multilingual, row.label);
         if (language && ALLOWED_VALUES.has(language)) t.language = language;
       }
       if (meta.genre) t.genreSet.add(meta.genre);
