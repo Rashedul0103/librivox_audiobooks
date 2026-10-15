@@ -3,7 +3,7 @@ const path = require("path");
 
 const ROOT = process.cwd();
 const OUTPUT_DIR = path.join(ROOT, "playlists");
-const IGNORE_DIRS = new Set([".git", ".github", "node_modules", "playlists"]);
+const IGNORE_DIRS = new Set([".git", ".github", "node_modules", "playlists", "filtered"]);
 const AUDIO_EXTENSIONS = /\.(mp3|m4a|aac|ogg|oga|opus|flac|wav|wma|aiff)(?:[?#].*)?$/i;
 const MAX_MASTER_BYTES = 95000000;
 
