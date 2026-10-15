@@ -106,20 +106,23 @@ function parse(file) {
   return out;
 }
 
+const KNOWN_LANGUAGE_PREFIXES = [...new Set([
+  ...Object.keys(PREFIX_LANGUAGE),
+  ...FOREIGN_PREFIXES
+])].sort((a, b) => b.length - a.length);
+
 function urlLanguage(url, folderLanguage, isMultilingual) {
   const file = decodeURIComponent(url.split(/[?#]/)[0].split("/").pop() || "").toLowerCase();
-  const match = file.match(/^([a-z][a-z_-]{1,24})_/);
-  if (match) {
-    const token = match[1].replace(/-/g, "_");
+  // Match a known language token followed by an underscore. Longest-first preserves
+  // multiword tokens such as old_english while avoiding a greedy read into the title.
+  const token = KNOWN_LANGUAGE_PREFIXES.find(prefix => file.startsWith(prefix + "_"));
+  if (token) {
     if (PREFIX_LANGUAGE[token]) return PREFIX_LANGUAGE[token];
-    if (FOREIGN_PREFIXES.has(token)) return null;
-    // Multilingual collections must have a recognizable selected-language prefix.
-    // Unknown prefixes are not allowed to inherit the collection's folder language.
-    if (isMultilingual) return null;
-  } else if (isMultilingual) {
-    // No language marker: cannot safely claim this is one of the requested languages.
     return null;
   }
+  // Multilingual collections must have a recognizable selected-language prefix.
+  // Unknown or missing prefixes must not inherit the collection's folder language.
+  if (isMultilingual) return null;
   return folderLanguage || null;
 }
 
