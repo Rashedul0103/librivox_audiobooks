@@ -1,13 +1,13 @@
 # LibriVox playlist index
 
-Generated: 2026-10-14T20:47:21.616Z
+Generated: 2026-10-15T07:10:21.678Z
 Source book playlists parsed: 84851
 Audio entries scanned before deduplication: 1917526
 Unique audio URLs in the master: 476036
-IPTV group categories: 148
-Master playlist size: 90.10 MiB
-Compact label mode: author (42 characters max)
-Grouping mode: genre
+IPTV group categories: 668
+Master playlist size: 90.39 MiB
+Compact label mode: compact (28 characters max)
+Grouping mode: genre-language
 
 ## One-link master playlist
 
