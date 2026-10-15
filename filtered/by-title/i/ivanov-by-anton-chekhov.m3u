@@ -1,0 +1,10 @@
+#EXTM3U
+#PLAYLIST:LibriVox — selected languages
+#EXTINF:2191 group-title="Ivanov",Ivanov — Anton Chekhov · Act 1 - Read by Group - Duration 00:36:31
+https://www.archive.org/download/ivanov_1211_librivox/ivanov_1_chekhov.mp3
+#EXTINF:2383 group-title="Ivanov",Ivanov — Anton Chekhov · Act 2 - Read by Group - Duration 00:39:43
+https://www.archive.org/download/ivanov_1211_librivox/ivanov_2_chekhov.mp3
+#EXTINF:2583 group-title="Ivanov",Ivanov — Anton Chekhov · Act 3 - Read by Group - Duration 00:43:03
+https://www.archive.org/download/ivanov_1211_librivox/ivanov_3_chekhov.mp3
+#EXTINF:1926 group-title="Ivanov",Ivanov — Anton Chekhov · Act 4 - Read by Group - Duration 00:32:06
+https://www.archive.org/download/ivanov_1211_librivox/ivanov_4_chekhov.mp3

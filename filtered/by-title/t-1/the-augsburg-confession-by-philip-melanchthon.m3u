@@ -1,0 +1,10 @@
+#EXTM3U
+#PLAYLIST:LibriVox — selected languages
+#EXTINF:512 group-title="The Augsburg Confession",The Augsburg Confession — Philip Melanchthon · 0 - Preface - Read by Jonathan Lange - Duration 00:08:32
+https://www.archive.org/download/augsburg_confession_jl_librivox/augsburgconfession_0_melanchthon.mp3
+#EXTINF:1625 group-title="The Augsburg Confession",The Augsburg Confession — Philip Melanchthon · 1 - Chief Articles 1-21 - Read by Jonathan Lange - Duration 00:27:05
+https://www.archive.org/download/augsburg_confession_jl_librivox/augsburgconfession_1_melanchthon.mp3
+#EXTINF:1797 group-title="The Augsburg Confession",The Augsburg Confession — Philip Melanchthon · 2 - Abuse Articles 22-26 - Read by Jonathan Lange - Duration 00:29:57
+https://www.archive.org/download/augsburg_confession_jl_librivox/augsburgconfession_2_melanchthon.mp3
+#EXTINF:2025 group-title="The Augsburg Confession",The Augsburg Confession — Philip Melanchthon · 3 - Abuse Articles 27-28 - Read by Jonathan Lange - Duration 00:33:45
+https://www.archive.org/download/augsburg_confession_jl_librivox/augsburgconfession_3_melanchthon.mp3
