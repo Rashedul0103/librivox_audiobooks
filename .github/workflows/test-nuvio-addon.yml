@@ -1,0 +1,34 @@
+name: Test Nuvio audiobook addon
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "nuvio-addon/**"
+      - "generate_filtered_playlists.js"
+      - ".github/workflows/test-nuvio-addon.yml"
+  pull_request:
+    paths:
+      - "nuvio-addon/**"
+      - "generate_filtered_playlists.js"
+      - ".github/workflows/test-nuvio-addon.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check JavaScript syntax
+        run: |
+          node --check generate_filtered_playlists.js
+          node --check nuvio-addon/worker.js
+      - name: Test addon endpoints
+        working-directory: nuvio-addon
+        run: npm test
