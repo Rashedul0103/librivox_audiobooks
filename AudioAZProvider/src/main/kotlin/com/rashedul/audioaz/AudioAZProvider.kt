@@ -162,32 +162,59 @@ class AudioAZProvider : MainAPI() {
         val safeUrl = validateAudioAZUrl(url)
         return try {
             val doc = fetchDocument(safeUrl)
-            val title = pageTitle(doc).ifBlank { "AudioAZ audiobook" }
+            val readAlongPage = isReadAlongUrl(safeUrl)
+            val bookUrl = safeUrl.substringBefore("/read/")
+            val bookTitle = pageTitle(doc).ifBlank { "AudioAZ audiobook" }
+            val chapterTitle = if (readAlongPage) readAlongChapterTitle(doc) else ""
+            val displayTitle = if (readAlongPage) {
+                "$bookTitle — Read Along: ${chapterTitle.ifBlank { "Chapter ${readAlongNumber(safeUrl) ?: 1}" }}"
+            } else bookTitle
+
             val author = firstLinkedText(doc, "a[href*='/en/authors/'], a[href*='/en/author/']")
             val genres = doc.select("a[href*='/en/genres/'], a[href*='/en/genre/']")
-                .map { it.text().trim() }.filter { it.isNotBlank() }.distinct()
+                .map { it.text().trim() }
+                .filter { it.isNotBlank() }
+                .distinct()
             val narrators = doc.select("a[href*='/en/narrators/'], a[href*='/en/narrator/']")
-                .map { it.text().trim() }.filter { it.isNotBlank() }.distinct()
+                .map { it.text().trim() }
+                .filter { it.isNotBlank() }
+                .distinct()
             val language = firstLabelValue(doc, "Language")
             val length = firstLabelValue(doc, "Length")
-            val poster = doc.selectFirst("meta[property=og:image]")?.attr("content")
-                ?.takeIf { it.startsWith("https://") }
-                ?: doc.selectFirst("img[src]")?.let { imageUrl(it) }
+            val publicationDate = findReleaseDate(doc)
+            val poster = findBookPoster(doc, bookTitle)
+            val background = doc.selectFirst("meta[property=og:image], meta[name=twitter:image]")
+                ?.attr("content")?.takeIf { it.startsWith("https://") }
+            val summary = findDescription(doc)
+            val versions = parseOtherVersions(doc, bookUrl, poster)
+            val readAlongChapters = parseReadAlongChapters(doc, safeUrl, poster)
+            val chapterText = if (readAlongPage) findReadAlongText(doc) else ""
 
-            newMovieLoadResponse(title, safeUrl, TvType.Audio, safeUrl) {
-                plot = buildString {
-                    if (author.isNotBlank()) append("Author: ").append(author).append("\n\n")
-                    if (language.isNotBlank()) append("Language: ").append(language).append("\n\n")
-                    if (narrators.isNotEmpty()) append("Narrators: ").append(narrators.joinToString(", ")).append("\n\n")
-                    if (genres.isNotEmpty()) append("Genres: ").append(genres.joinToString(", ")).append("\n\n")
-                    val summary = findDescription(doc)
-                    if (summary.isNotBlank()) append(summary).append("\n\n")
-                    if (length.isNotBlank()) append("Length: ").append(length).append("\n\n")
-                    append("Source page: ").append(safeUrl)
-                }
+            newMovieLoadResponse(displayTitle, safeUrl, TvType.Audio, safeUrl) {
+                plot = buildDescription(
+                    author = author,
+                    language = language,
+                    narrators = narrators,
+                    genres = genres,
+                    length = length,
+                    publicationDate = publicationDate,
+                    summary = summary,
+                    sourceUrl = bookUrl,
+                    versions = versions,
+                    readAlongPage = readAlongPage,
+                    chapterTitle = chapterTitle,
+                    chapterText = chapterText,
+                    readAlongChaptersAvailable = readAlongChapters.isNotEmpty()
+                )
                 posterUrl = poster
+                backgroundPosterUrl = background
+                posterHeaders = requestHeaders
                 tags = genres
                 duration = parseDurationMinutes(length)
+                recommendations = (versions.map { it.card } + readAlongChapters)
+                    .distinctBy { it.url }
+                    .take(18)
+                    .map { it.toSearchResponse(this@AudioAZProvider) }
             }
         } catch (e: Exception) {
             logError(e)
