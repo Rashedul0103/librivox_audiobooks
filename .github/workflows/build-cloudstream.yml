@@ -1,0 +1,151 @@
+name: Build CloudStream extensions
+
+on:
+  push:
+    branches:
+      - audioaz-cloudstream
+    paths:
+      - "AudioAZProvider/**"
+      - "AudibleProvider/**"
+      - "build.gradle.kts"
+      - "settings.gradle.kts"
+      - "gradle.properties"
+      - ".github/workflows/build-cloudstream.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cloudstream-extension-publish
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v4
+        with:
+          ref: audioaz-cloudstream
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.9"
+
+      - name: Build CloudStream packages
+        run: gradle make
+
+      - name: Collect packages
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release
+          for module in AudioAZProvider AudibleProvider; do
+            cs3="$(find "$module/build" -type f -name '*.cs3' -print -quit)"
+            jar="$(find "$module/build/libs" -type f -name '*.jar' -print -quit)"
+            if [[ -z "$cs3" ]]; then
+              echo "No .cs3 package found for $module"
+              find "$module/build" -maxdepth 5 -type f | sort | tail -80
+              exit 1
+            fi
+            if [[ -z "$jar" ]]; then
+              echo "No plugin JAR found for $module"
+              find "$module/build" -maxdepth 5 -type f -name '*.jar' -print
+              exit 1
+            fi
+            cp "$cs3" "release/$module.cs3"
+            cp "$jar" "release/$module.jar"
+          done
+          ls -lh release
+
+      - name: Checkout published repository branch
+        uses: actions/checkout@v4
+        with:
+          ref: builds
+          path: publish
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update repository packages and manifest
+        env:
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cp release/AudioAZProvider.cs3 publish/AudioAZProvider.cs3
+          cp release/AudioAZProvider.jar publish/AudioAZProvider.jar
+          cp release/AudibleProvider.cs3 publish/AudibleProvider.cs3
+          cp release/AudibleProvider.jar publish/AudibleProvider.jar
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+
+          root = Path("publish")
+          repo = os.environ["GITHUB_REPOSITORY"]
+          raw = f"https://raw.githubusercontent.com/{repo}/builds"
+          manifest_path = root / "plugins.json"
+          plugins = json.loads(manifest_path.read_text(encoding="utf-8")) if manifest_path.exists() else []
+
+          def make_entry(name, internal_name, version, description, domain, tv_types):
+              cs3 = root / f"{internal_name}.cs3"
+              jar = root / f"{internal_name}.jar"
+              digest = lambda p: hashlib.sha256(p.read_bytes()).hexdigest()
+              entry = {
+                  "iconUrl": f"https://www.google.com/s2/favicons?domain={domain}&sz=%size%",
+                  "jarFileSize": jar.stat().st_size,
+                  "fileHash": "sha256-" + digest(cs3),
+                  "apiVersion": 1,
+                  "repositoryUrl": f"https://github.com/{repo}",
+                  "fileSize": cs3.stat().st_size,
+                  "status": 1 if name == "Audible" else 3,
+                  "authors": ["Rashedul0103"],
+                  "tvTypes": tv_types,
+                  "version": version,
+                  "internalName": internal_name,
+                  "jarUrl": f"{raw}/{internal_name}.jar",
+                  "description": description,
+                  "url": f"{raw}/{internal_name}.cs3",
+                  "name": name,
+                  "jarHash": "sha256-" + digest(jar),
+              }
+              return entry
+
+          entries = [
+              make_entry(
+                  "AudioAZProvider", "AudioAZProvider", 4,
+                  "AudioAZ audiobook catalogue with portrait posters, alternate recordings, and read-along chapter support.",
+                  "audioaz.com", ["Others"]
+              ),
+              make_entry(
+                  "Audible", "AudibleProvider", 1,
+                  "Audible catalogue powered by Libex metadata. Audio playback sources are not yet integrated.",
+                  "audible.com", ["Audio"]
+              ),
+          ]
+
+          # Keep unrelated entries intact, replacing only these two plugin identities.
+          replaced = {entry["internalName"] for entry in entries}
+          plugins = [item for item in plugins if item.get("internalName") not in replaced]
+          plugins.extend(entries)
+          manifest_path.write_text(json.dumps(plugins, indent=4, ensure_ascii=False) + "\n", encoding="utf-8")
+          PY
+
+      - name: Commit published packages
+        working-directory: publish
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add AudioAZProvider.cs3 AudioAZProvider.jar AudibleProvider.cs3 AudibleProvider.jar plugins.json
+          if git diff --cached --quiet; then
+            echo "No published changes."
+          else
+            git commit -m "Publish AudioAZ and Audible CloudStream extensions"
+            git push origin builds
+          fi
