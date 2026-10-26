@@ -38,9 +38,9 @@ class AudioAZProvider : MainAPI() {
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
             val popular = parseBookCards(app.get("$siteBase/browse?page=$page").document)
-                .map { it.toSearchResponse() }
+                .map { it.toSearchResponse(this@AudioAZProvider) }
             val recent = parseBookCards(app.get("$siteBase/browse?sort=recent&page=$page").document)
-                .map { it.toSearchResponse() }
+                .map { it.toSearchResponse(this@AudioAZProvider) }
             newHomePageResponse(
                 listOf(
                     HomePageList("Most Popular", popular, page < 100),
@@ -69,7 +69,7 @@ class AudioAZProvider : MainAPI() {
                     .getOrDefault(emptyList())
                 if (results.isNotEmpty()) break
             }
-            results.map { it.toSearchResponse() }.toNewSearchResponseList()
+            results.map { it.toSearchResponse(this@AudioAZProvider) }.toNewSearchResponseList()
         } catch (e: Exception) {
             logError(e)
             null
@@ -175,8 +175,8 @@ class AudioAZProvider : MainAPI() {
         val url: String,
         val poster: String?
     ) {
-        fun toSearchResponse(): SearchResponse =
-            newMovieSearchResponse(title, url, TvType.Audio) {
+        fun toSearchResponse(provider: AudioAZProvider): SearchResponse =
+            provider.newMovieSearchResponse(title, url, TvType.Audio) {
                 posterUrl = poster
             }
     }
