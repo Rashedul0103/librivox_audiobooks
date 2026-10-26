@@ -388,7 +388,7 @@ class AudioAZProvider : MainAPI() {
                     (parent.text().contains("narrated by", true) ||
                         parent.text().contains("several narrators", true) ||
                         parent.text().contains("one narrator", true) ||
-                        Regex("""\\b\\d+\\s*h(?:r|our)?s?(?:\\s*\\d+\\s*m(?:in(?:ute)?s?)?)?\\b""", RegexOption.IGNORE_CASE)
+                        Regex("""\b\d+\s*h(?:r|our)?s?(?:\s*\d+\s*m(?:in(?:ute)?s?)?)?\b""", RegexOption.IGNORE_CASE)
                             .containsMatchIn(parent.text()))
             } ?: anchor.parent()
             val details = detailElement?.text()?.trim().orEmpty()
@@ -464,7 +464,7 @@ class AudioAZProvider : MainAPI() {
 
         fun addSection(heading: String, value: String) {
             val trimmed = value.trim()
-            if (trimmed.isNotBlank()) sections += "$heading\\n$trimmed"
+            if (trimmed.isNotBlank()) sections += "$heading\n$trimmed"
         }
 
         addSection("AUTHOR", author)
@@ -472,22 +472,22 @@ class AudioAZProvider : MainAPI() {
         addSection("LENGTH", length)
         addSection("RELEASE / PUBLICATION DATE", publicationDate.orEmpty())
         if (genres.isNotEmpty()) {
-            addSection("GENRES", genres.distinct().joinToString("\\n") { "• $it" })
+            addSection("GENRES", genres.distinct().joinToString("\n") { "• $it" })
         }
         if (narrators.isNotEmpty()) {
-            addSection("NARRATORS", narrators.distinct().joinToString("\\n") { "• $it" })
+            addSection("NARRATORS", narrators.distinct().joinToString("\n") { "• $it" })
         }
         addSection(if (readAlongPage) "CHAPTER" else "ABOUT / SUMMARY", if (readAlongPage) chapterTitle else summary)
 
         if (versions.isNotEmpty()) {
-            val versionText = versions.joinToString("\\n\\n") { version ->
+            val versionText = versions.joinToString("\n\n") { version ->
                 buildString {
                     append("• ").append(version.title)
-                    append("\\n  Reader: ").append(version.reader ?: "Not listed on this version card")
-                    if (!version.language.isNullOrBlank()) append("\\n  Language: ").append(version.language)
-                    if (!version.duration.isNullOrBlank()) append("\\n  Duration: ").append(version.duration)
-                    append("\\n  Release date: ").append(version.releaseDate ?: "Not listed by AudioAZ")
-                    append("\\n  AudioAZ page: ").append(version.url)
+                    append("\n  Reader: ").append(version.reader ?: "Not listed on this version card")
+                    if (!version.language.isNullOrBlank()) append("\n  Language: ").append(version.language)
+                    if (!version.duration.isNullOrBlank()) append("\n  Duration: ").append(version.duration)
+                    append("\n  Release date: ").append(version.releaseDate ?: "Not listed by AudioAZ")
+                    append("\n  AudioAZ page: ").append(version.url)
                 }
             }
             addSection("OTHER RECORDINGS / VERSIONS", versionText)
@@ -511,7 +511,7 @@ class AudioAZProvider : MainAPI() {
 
         addSection("SOURCE PAGE", sourceUrl)
 
-        return sections.joinToString("\\n\\n━━━━━━━━━━━━━━━━━━━━\\n\\n")
+        return sections.joinToString("\n\n━━━━━━━━━━━━━━━━━━━━\n\n")
     }
 
     private fun absoluteUrl(element: Element, attribute: String): String {
@@ -546,16 +546,16 @@ class AudioAZProvider : MainAPI() {
         runCatching { URI(raw).path.orEmpty().substringAfterLast('/').toIntOrNull() }.getOrNull()
 
     private fun cleanChapterLabel(raw: String): String {
-        val text = raw.replace(Regex("""(?i)^read along\\s*"""), "").trim()
-        val cleaned = text.replace(Regex("""^\\d+\\s*[./-]\\s*"""), "").trim()
+        val text = raw.replace(Regex("""(?i)^read along\s*"""), "").trim()
+        val cleaned = text.replace(Regex("""^\d+\s*[./-]\s*"""), "").trim()
         return cleaned.takeIf { it.isNotBlank() && !it.equals("follow the text while you listen", true) }
             ?.take(120).orEmpty()
     }
 
     private fun parseReader(raw: String): String? {
-        val text = raw.replace('\\n', ' ').trim()
+        val text = raw.replace('\n', ' ').trim()
         val narrated = Regex(
-            """(?i)narrated by\\s+(.+?)(?=\\s*[·•|]\\s*|\\s+(?:English|French|German|Spanish|Italian|Vietnamese|Arabic|Urdu|Hindi|Portuguese|Dutch|Greek|Russian|Japanese|Chinese)\\b|\\s+\\d+\\s*h|$)"""
+            """(?i)narrated by\s+(.+?)(?=\s*[·•|]\s*|\s+(?:English|French|German|Spanish|Italian|Vietnamese|Arabic|Urdu|Hindi|Portuguese|Dutch|Greek|Russian|Japanese|Chinese)\b|\s+\d+\s*h|$)"""
         ).find(text)?.groupValues?.getOrNull(1)?.trim()?.trimEnd('.', '·', '•')
         if (!narrated.isNullOrBlank()) return narrated
         return when {
@@ -572,16 +572,16 @@ class AudioAZProvider : MainAPI() {
             "Italian", "Greek", "Russian", "Japanese", "Polish", "Chinese", "Arabic", "Urdu",
             "Hindi", "Latin", "Hebrew", "Finnish", "Czech", "Persian", "Korean"
         )
-        return languages.firstOrNull { Regex("""(?i)\\b${Regex.escape(it)}\\b""").containsMatchIn(raw) }
+        return languages.firstOrNull { Regex("""(?i)\b${Regex.escape(it)}\b""").containsMatchIn(raw) }
     }
 
     private fun parseVersionDuration(raw: String): String? =
-        Regex("""(?i)\\b\\d+\\s*h(?:r|our)?s?(?:\\s*\\d+\\s*m(?:in(?:ute)?s?)?)?\\b|\\b\\d+\\s*m(?:in(?:ute)?s?)\\b""")
-            .find(raw)?.value?.replace(Regex("""\\s+"""), " ")?.trim()
+        Regex("""(?i)\b\d+\s*h(?:r|our)?s?(?:\s*\d+\s*m(?:in(?:ute)?s?)?)?\b|\b\d+\s*m(?:in(?:ute)?s?)\b""")
+            .find(raw)?.value?.replace(Regex("""\s+"""), " ")?.trim()
 
     private fun parseReleaseDateFromText(raw: String): String? {
         val pattern = Regex(
-            """(?i)(?:release date|publication date|published date|date published|published on)\\s*[:–—-]?\\s*(.{3,45}?)(?=\\s*[·•|]|$)"""
+            """(?i)(?:release date|publication date|published date|date published|published on)\s*[:–—-]?\s*(.{3,45}?)(?=\s*[·•|]|$)"""
         )
         return pattern.find(raw)?.groupValues?.getOrNull(1)?.trim()?.trimEnd('.', ';')
             ?.takeIf { it.isNotBlank() }
@@ -595,9 +595,8 @@ class AudioAZProvider : MainAPI() {
         if (!labelled.isNullOrBlank()) return labelled
 
         val jsonLd = doc.select("script[type=application/ld+json]").joinToString(" ") { it.data() }
-        val jsonDate = Regex(
-            """(?i)"(?:datePublished|releaseDate)"\\s*:\\s*"([^"]+)""""
-        ).find(jsonLd)?.groupValues?.getOrNull(1)
+        val jsonDate = Regex("\"(?:datePublished|releaseDate)\"\\s*:\\s*\"([^\"]+)\"")
+            .find(jsonLd)?.groupValues?.getOrNull(1)
         return jsonDate?.takeIf { it.isNotBlank() }
     }
 
@@ -611,7 +610,7 @@ class AudioAZProvider : MainAPI() {
             val text = heading.text().trim()
             text.isNotBlank() &&
                 !text.startsWith("Other versions", true) &&
-                !text.matches(Regex("""\\d+\\s*/\\s*\\d+.*""")) &&
+                !text.matches(Regex("""\d+\s*/\s*\d+.*""")) &&
                 !text.contains("Free Audiobook", true) &&
                 text.length <= 160 &&
                 !text.equals("Now Playing", true)
@@ -640,7 +639,7 @@ class AudioAZProvider : MainAPI() {
                 ) parts += text
                 node = node.nextElementSibling()
             }
-            val gathered = parts.distinct().joinToString("\\n\\n").trim()
+            val gathered = parts.distinct().joinToString("\n\n").trim()
             if (gathered.length > 80) return gathered
         }
 
@@ -654,11 +653,9 @@ class AudioAZProvider : MainAPI() {
                     !it.contains("Free Audiobook", true)
             }
             .distinct()
-        return paragraphs.joinToString("\\n\\n")
+        return paragraphs.joinToString("\n\n")
     }
 
-    private fun buildDescriptionFromDocForDebugNotUsed(doc: Document): String =
-        doc.select("main").firstOrNull()?.text().orEmpty()
     private fun pageTitle(doc: Document): String {
         val h1 = doc.selectFirst("h1")?.text().orEmpty()
         val openGraph = doc.selectFirst("meta[property=og:title]")?.attr("content").orEmpty()
