@@ -24,9 +24,6 @@ import com.lagradost.cloudstream3.utils.newExtractorLink
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.net.URI
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
-import kotlinx.coroutines.coroutineScope
 
 class AudioAZProvider : MainAPI() {
     private val siteRoot = "https://audioaz.com"
@@ -111,12 +108,11 @@ class AudioAZProvider : MainAPI() {
                 )
             }
 
-            // Load shelves concurrently so adding categories does not make the
-            // entire home screen wait for every request in sequence.
-            val rows = coroutineScope {
-                rowQueries.map { (title, urls) ->
-                    async { fetchHomeRow(title, urls) }
-                }.awaitAll().filterNotNull()
+            // Use the provider API's available suspend requests without adding
+            // an extra coroutine dependency to the packaged extension.
+            val rows = mutableListOf<HomePageList>()
+            rowQueries.forEach { (title, urls) ->
+                fetchHomeRow(title, urls)?.let(rows::add)
             }
 
             newHomePageResponse(rows, page < 100 && rows.isNotEmpty())
