@@ -1,4 +1,4 @@
-version = 1
+version = 2
 
 cloudstream {
     description = "Browse AudioAZ audiobook metadata and authorized public-domain source links."
