@@ -4,7 +4,8 @@ A CloudStream provider for AudioAZ. It browses and searches the catalogue on dem
 
 ## Features
 
-- Home lists for most popular and most recent audiobooks.
+- Vertical, portrait-oriented audiobook covers on the home screen.
+- Home shelves for most popular and most recent audiobooks plus genre shelves such as History, Science Fiction, Horror, Mystery, Adventure, Romance, Children's Fiction, Poetry, Biography, Philosophy, Religion, Science, Nature and more.
 - Search by title, author, or keyword.
 - Audiobook detail pages with available metadata.
 - Playback attempts only links that the page explicitly exposes from LibriVox or Internet Archive and that point to recognized audio files.
@@ -22,4 +23,4 @@ The workflow builds the .cs3 package automatically when the audioaz-cloudstream 
 
 ## Project layout
 
-The source project lives in the AudioAZCloudStream folder on the audioaz-cloudstream branch. Main is not changed.
+The standalone source project is at the root of the audioaz-cloudstream branch. The main branch is not changed.
