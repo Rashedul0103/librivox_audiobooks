@@ -122,6 +122,7 @@ class AudioAZProvider : MainAPI() {
         val safeUrl = runCatching { validateAudioAZUrl(data) }.getOrNull() ?: return false
         return try {
             val doc = app.get(safeUrl).document
+            val pageConfirmsPublicDomain = doc.text().contains("public domain", ignoreCase = true)
             var found = false
 
             val directAudioUrls = doc.select(
@@ -131,7 +132,7 @@ class AudioAZProvider : MainAPI() {
                     element.attr("content")
                 } else element.attr("src")
                 val absolute = if (raw.startsWith("https://")) raw else element.absUrl("src")
-                absolute.takeIf { isAllowedPublicAudioUrl(it) }
+                absolute.takeIf { isAllowedPublicAudioUrl(it, pageConfirmsPublicDomain) }
             }.distinct()
 
             directAudioUrls.forEach { audioUrl ->
@@ -157,7 +158,7 @@ class AudioAZProvider : MainAPI() {
 
             sourcePages.forEach { sourceUrl ->
                 loadExtractor(sourceUrl, subtitleCallback) { link ->
-                    if (isAllowedPublicAudioUrl(link.url)) {
+                    if (isAllowedPublicAudioUrl(link.url, pageConfirmsPublicDomain)) {
                         callback(link)
                         found = true
                     }
@@ -285,11 +286,14 @@ class AudioAZProvider : MainAPI() {
         )
     }.getOrDefault(false)
 
-    private fun isAllowedPublicAudioUrl(raw: String): Boolean = runCatching {
+    private fun isAllowedPublicAudioUrl(raw: String, pageConfirmsPublicDomain: Boolean): Boolean = runCatching {
         val uri = URI(raw)
         val host = uri.host?.lowercase().orEmpty()
-        val approvedHost = host == "librivox.org" || host.endsWith(".librivox.org") ||
-            host == "archive.org" || host.endsWith(".archive.org")
+        val librivoxHost = host == "librivox.org" || host.endsWith(".librivox.org")
+        val archiveHost = host == "archive.org" || host.endsWith(".archive.org")
+        // Internet Archive also hosts copyrighted material; accept it only when
+        // the specific AudioAZ item explicitly identifies itself as public domain.
+        val approvedHost = librivoxHost || (archiveHost && pageConfirmsPublicDomain)
         val path = uri.path?.lowercase().orEmpty()
         val extension = listOf(".mp3", ".m4a", ".aac", ".ogg", ".oga", ".opus", ".wav", ".flac")
             .any { path.endsWith(it) }
