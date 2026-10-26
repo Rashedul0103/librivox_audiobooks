@@ -24,6 +24,9 @@ import com.lagradost.cloudstream3.utils.newExtractorLink
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.net.URI
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 
 class AudioAZProvider : MainAPI() {
     private val siteRoot = "https://audioaz.com"
@@ -113,16 +116,28 @@ class AudioAZProvider : MainAPI() {
                 .map { it.toSearchResponse(this@AudioAZProvider) }
             if (popular.isNotEmpty()) rows += HomePageList("Most Streamed", popular, false)
 
-            // AudioAZ identifies the audiobooks for which it exposes read-along text.
+            // Put distinct audio formats near the top, before general genre shelves.
+            val formatRows = coroutineScope {
+                formatShelves.map { shelf ->
+                    async { fetchHomeRow(shelf.title, listOf(shelf.url), page) }
+                }.awaitAll().filterNotNull()
+            }
+            rows += formatRows
+
+            // AudioAZ marks this homepage shelf for books with read-along text.
             val readAlong = homeDoc?.let { parseHomeSection(it, "Listen and read along") }.orEmpty()
                 .map { it.toSearchResponse(this@AudioAZProvider) }
             if (readAlong.isNotEmpty()) rows += HomePageList("Listen & Read Along", readAlong, false)
 
-            formatShelves.forEach { shelf ->
-                fetchHomeRow(shelf.title, listOf(shelf.url), page)?.let(rows::add)
-            }
-            discoveryShelves.forEach { shelf ->
-                fetchHomeRow(shelf.title, listOf(shelf.url), page)?.let(rows::add)
+            // Load up to four genre/topic pages concurrently to reduce total latency
+            // without sending a burst of requests to AudioAZ.
+            discoveryShelves.chunked(4).forEach { batch ->
+                val batchRows = coroutineScope {
+                    batch.map { shelf ->
+                        async { fetchHomeRow(shelf.title, listOf(shelf.url), page) }
+                    }.awaitAll().filterNotNull()
+                }
+                rows += batchRows
             }
 
             newHomePageResponse(rows, page < 100 && rows.isNotEmpty())
@@ -186,8 +201,28 @@ class AudioAZProvider : MainAPI() {
             val background = doc.selectFirst("meta[property=og:image], meta[name=twitter:image]")
                 ?.attr("content")?.takeIf { it.startsWith("https://") }
             val summary = findDescription(doc)
-            val versions = parseOtherVersions(doc, bookUrl, poster)
-            val readAlongChapters = parseReadAlongChapters(doc, safeUrl, poster)
+
+            var versions = parseOtherVersions(doc, bookUrl, poster)
+            var readAlongChapters = parseReadAlongChapters(doc, safeUrl, poster)
+
+            // Alternate recordings often live on /read/1 rather than the plain
+            // book landing page. Probe only when the main page gives a chapter count
+            // but does not expose any versions or chapter entries.
+            val companionReadAlongDoc = if (
+                !readAlongPage && versions.isEmpty() && parseChapterCount(doc.text()) > 0
+            ) {
+                runCatching { fetchDocument("$bookUrl/read/1") }
+                    .onFailure { logError(it) }
+                    .getOrNull()
+            } else null
+
+            if (versions.isEmpty() && companionReadAlongDoc != null) {
+                versions = parseOtherVersions(companionReadAlongDoc, bookUrl, poster)
+            }
+            if (readAlongChapters.isEmpty() && companionReadAlongDoc != null) {
+                readAlongChapters = parseReadAlongChapters(companionReadAlongDoc, safeUrl, poster)
+            }
+
             val chapterText = if (readAlongPage) findReadAlongText(doc) else ""
 
             newMovieLoadResponse(displayTitle, safeUrl, TvType.Audio, safeUrl) {
@@ -442,7 +477,25 @@ class AudioAZProvider : MainAPI() {
                 )
             )
         }
-        return chapters.values.toList().take(16)
+        if (chapters.isNotEmpty()) {
+            return chapters.values.toList().filter { it.url != current }.take(16)
+        }
+
+        val text = doc.text()
+        val chapterCount = parseChapterCount(text)
+        val readAlongSupported = text.contains("Read along Follow the text", true)
+        if (!readAlongSupported || chapterCount < 1) return emptyList()
+
+        val baseUrl = normalizeBookUrl(currentUrl)
+        return (1..minOf(chapterCount, 16))
+            .map { chapter ->
+                BookCard(
+                    title = "Read Along — Chapter $chapter",
+                    url = "$baseUrl/read/$chapter",
+                    poster = fallbackPoster
+                )
+            }
+            .filter { it.url != current }
     }
 
     private fun buildDescription(
@@ -544,6 +597,10 @@ class AudioAZProvider : MainAPI() {
 
     private fun readAlongNumber(raw: String): Int? =
         runCatching { URI(raw).path.orEmpty().substringAfterLast('/').toIntOrNull() }.getOrNull()
+
+    private fun parseChapterCount(raw: String): Int =
+        Regex("""(?i)\b(\d{1,3})\s+chapters?\b""")
+            .find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull()?.coerceIn(0, 60) ?: 0
 
     private fun cleanChapterLabel(raw: String): String {
         val text = raw.replace(Regex("""(?i)^read along\s*"""), "").trim()
@@ -663,18 +720,90 @@ class AudioAZProvider : MainAPI() {
     }
 
     private fun cleanBookTitle(value: String): String = value.trim()
+        .replace(Regex("^\\d+\\s*[.)-]\\s*"), "")
         .replace(Regex("(?i)^play\\s+"), "")
         .replace(Regex("(?i)^audiobook\\s+"), "")
         .replace(Regex("(?i)\\s*[-–—]\\s*Free Audiobook\\s*$"), "")
+        .replace(Regex("(?i)\\s+—\\s+narrated by\\s+.+$"), "")
         .replace(Regex("(?i)\\s+audiobook\\s*$"), "")
         .trim()
 
     private fun imageUrl(img: Element): String {
-        return listOf("src", "data-src", "data-lazy-src", "srcset")
-            .asSequence()
-            .map { img.attr(it).substringBefore(',').substringBefore(' ').trim() }
-            .firstOrNull { it.startsWith("https://") || it.startsWith("http://") }
-            ?: img.absUrl("src")
+        // Prefer the largest srcset candidate; some listing images are low-res crops.
+        val srcsetCandidates = img.attr("srcset").split(',')
+            .mapNotNull { part ->
+                val pieces = part.trim().split(Regex("\\s+"))
+                val rawUrl = pieces.firstOrNull().orEmpty()
+                if (rawUrl.isBlank()) return@mapNotNull null
+                val descriptor = pieces.getOrNull(1).orEmpty()
+                val size = Regex("""(\\d+)(?:w|x)?""").matchEntire(descriptor)
+                    ?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
+                val url = normalizeImageUrl(rawUrl)
+                if (url.isBlank()) null else size to url
+            }
+            .sortedByDescending { it.first }
+            .map { it.second }
+
+        val directCandidates = listOf("data-src", "data-lazy-src", "data-original", "src")
+            .map { img.attr(it).trim() }
+            .map(::normalizeImageUrl)
+            .filter { it.isNotBlank() }
+
+        return (srcsetCandidates + directCandidates)
+            .distinct()
+            .firstOrNull { it.startsWith("https://") }
+            .orEmpty()
+    }
+
+    private fun normalizeImageUrl(raw: String): String {
+        val value = raw.trim()
+        if (value.isBlank() || value.startsWith("data:")) return ""
+        return runCatching {
+            val resolved = if (value.startsWith("//")) "https:$value"
+            else URI(siteRoot).resolve(value).toString()
+            val uri = URI(resolved)
+            if (uri.scheme == "https" && !uri.host.isNullOrBlank()) uri.toString() else ""
+        }.getOrDefault("")
+    }
+
+    private fun findBookPoster(doc: Document, title: String): String? {
+        val normalizedTitle = title.lowercase().replace(Regex("[^a-z0-9]+"), " ").trim()
+        val titleWords = normalizedTitle.split(' ').filter { it.length > 2 }.toSet()
+        val images = doc.select("main img[src], main img[data-src], main img[data-lazy-src], article img[src], img[src], img[data-src], img[data-lazy-src]")
+            .take(80)
+
+        val scored = images.mapNotNull { img ->
+            val url = imageUrl(img).takeIf { it.startsWith("https://") } ?: return@mapNotNull null
+            val alt = img.attr("alt").lowercase().replace(Regex("[^a-z0-9]+"), " ").trim()
+            val urlLower = url.lowercase()
+            if (urlLower.endsWith(".svg") || alt.contains("avatar") || alt.contains("logo") ||
+                alt.contains("profile") || urlLower.contains("avatar") || urlLower.contains("logo")
+            ) return@mapNotNull null
+
+            val width = img.attr("width").toIntOrNull()
+            val height = img.attr("height").toIntOrNull()
+            val hasDimensions = width != null && height != null && width > 0 && height > 0
+            var score = 0
+            if (alt.contains(normalizedTitle) && normalizedTitle.isNotBlank()) score += 100
+            else if (titleWords.count { it in alt } >= 2) score += 50
+            if (urlLower.contains("cover") || urlLower.contains("book")) score += 12
+            if (alt.contains("audiobook")) score += 10
+            if (hasDimensions) {
+                val ratio = height!!.toDouble() / width!!.toDouble()
+                if (ratio in 1.1..2.2) score += 40
+                else if (ratio in 0.75..1.1) score += 10
+                else if (ratio < 0.75) score -= 25
+            }
+            val dimensions = if (hasDimensions) width.toString() + "x" + height.toString() else ""
+            Triple(score, url, dimensions)
+        }
+        val best = scored.maxByOrNull { it.first }?.second
+        if (!best.isNullOrBlank()) return best
+
+        return doc.selectFirst("meta[property=og:image], meta[name=twitter:image]")
+            ?.attr("content")
+            ?.let(::normalizeImageUrl)
+            ?.takeIf { it.isNotBlank() }
     }
 
     private fun firstLinkedText(doc: Document, selector: String): String =
@@ -691,13 +820,31 @@ class AudioAZProvider : MainAPI() {
     }
 
     private fun findDescription(doc: Document): String {
-        val heading = doc.select("h2, h3").firstOrNull {
+        val heading = doc.select("h2, h3, h4").firstOrNull {
             it.text().equals("About", true) || it.text().equals("Summary", true)
         }
-        val text = heading?.nextElementSibling()?.text()?.trim().orEmpty()
-        return text.ifBlank {
-            doc.selectFirst("meta[name=description]")?.attr("content")?.trim().orEmpty()
+        if (heading != null) {
+            val paragraphs = mutableListOf<String>()
+            var node = heading.nextElementSibling()
+            var visited = 0
+            while (node != null && visited < 20) {
+                visited++
+                if (node.tagName() in setOf("h1", "h2", "h3", "h4")) break
+                val text = node.text().trim()
+                if (text.isNotBlank() &&
+                    !text.contains("Read More", true) &&
+                    !text.contains("Show less", true) &&
+                    !text.contains("Other versions", true) &&
+                    !text.contains("Related Audiobooks", true)
+                ) {
+                    if (text.length > 20) paragraphs += text
+                }
+                node = node.nextElementSibling()
+            }
+            val collected = paragraphs.distinct().joinToString("\\n\\n").trim()
+            if (collected.isNotBlank()) return collected
         }
+        return doc.selectFirst("meta[name=description]")?.attr("content")?.trim().orEmpty()
     }
 
     private fun parseDurationMinutes(raw: String): Int? {
@@ -715,11 +862,14 @@ class AudioAZProvider : MainAPI() {
     private fun validateAudioAZUrl(raw: String): String {
         val uri = URI(raw)
         val host = uri.host?.lowercase().orEmpty()
+        val path = uri.path.orEmpty()
+        val isBookPage = path.matches(Regex("^/en/audiobook/[^/]+/?$"))
+        val isReadAlongPage = path.matches(Regex("^/en/audiobook/[^/]+/read/[^/]+/?$"))
         if (uri.scheme != "https" ||
             (host != "audioaz.com" && !host.endsWith(".audioaz.com")) ||
-            !uri.path.startsWith("/en/audiobook/")
+            (!isBookPage && !isReadAlongPage)
         ) {
-            throw IllegalArgumentException("Only AudioAZ HTTPS audiobook pages are supported")
+            throw IllegalArgumentException("Only AudioAZ HTTPS audiobook and read-along pages are supported")
         }
         return uri.toString()
     }
