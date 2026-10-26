@@ -508,9 +508,9 @@ class AudioAZProvider : MainAPI() {
         .replace("'", "&#39;")
 
     private fun htmlText(value: String): String = escapeHtml(value.trim())
-        .replace("\\r\\n", "\\n")
-        .replace("\\r", "\\n")
-        .replace("\\n", "<br>")
+        .replace("\r\n", "\n")
+        .replace("\r", "\n")
+        .replace("\n", "<br>")
 
     private fun buildDescription(
         author: String,
@@ -541,10 +541,10 @@ class AudioAZProvider : MainAPI() {
         addSection("LENGTH", length)
         addSection("RELEASE / PUBLICATION DATE", publicationDate.orEmpty())
         if (genres.isNotEmpty()) {
-            addSection("GENRES", genres.distinct().joinToString("\\n") { "• $it" })
+            addSection("GENRES", genres.distinct().joinToString("\n") { "• $it" })
         }
         if (narrators.isNotEmpty()) {
-            addSection("NARRATORS", narrators.distinct().joinToString("\\n") { "• $it" })
+            addSection("NARRATORS", narrators.distinct().joinToString("\n") { "• $it" })
         }
         addSection(
             if (readAlongPage) "CHAPTER" else "ABOUT / SUMMARY",
