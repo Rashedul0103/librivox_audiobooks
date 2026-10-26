@@ -250,7 +250,7 @@ class AudioAZProvider : MainAPI() {
                 duration = parseDurationMinutes(length)
                 recommendations = (versions.map { it.card } + readAlongChapters)
                     .distinctBy { it.url }
-                    .take(18)
+                    .take(26)
                     .map { it.toSearchResponse(this@AudioAZProvider) }
             }
         } catch (e: Exception) {
@@ -500,6 +500,18 @@ class AudioAZProvider : MainAPI() {
             .filter { it.url != current }
     }
 
+    private fun escapeHtml(value: String): String = value
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("\"", "&quot;")
+        .replace("'", "&#39;")
+
+    private fun htmlText(value: String): String = escapeHtml(value.trim())
+        .replace("\\r\\n", "\\n")
+        .replace("\\r", "\\n")
+        .replace("\\n", "<br>")
+
     private fun buildDescription(
         author: String,
         language: String,
@@ -519,7 +531,9 @@ class AudioAZProvider : MainAPI() {
 
         fun addSection(heading: String, value: String) {
             val trimmed = value.trim()
-            if (trimmed.isNotBlank()) sections += "$heading\n$trimmed"
+            if (trimmed.isNotBlank()) {
+                sections += "<b>\${escapeHtml(heading)}</b><br>\${htmlText(trimmed)}"
+            }
         }
 
         addSection("AUTHOR", author)
@@ -527,22 +541,30 @@ class AudioAZProvider : MainAPI() {
         addSection("LENGTH", length)
         addSection("RELEASE / PUBLICATION DATE", publicationDate.orEmpty())
         if (genres.isNotEmpty()) {
-            addSection("GENRES", genres.distinct().joinToString("\n") { "• $it" })
+            addSection("GENRES", genres.distinct().joinToString("\\n") { "• $it" })
         }
         if (narrators.isNotEmpty()) {
-            addSection("NARRATORS", narrators.distinct().joinToString("\n") { "• $it" })
+            addSection("NARRATORS", narrators.distinct().joinToString("\\n") { "• $it" })
         }
-        addSection(if (readAlongPage) "CHAPTER" else "ABOUT / SUMMARY", if (readAlongPage) chapterTitle else summary)
+        addSection(
+            if (readAlongPage) "CHAPTER" else "ABOUT / SUMMARY",
+            if (readAlongPage) chapterTitle else summary
+        )
 
         if (versions.isNotEmpty()) {
-            val versionText = versions.joinToString("\n\n") { version ->
+            val versionText = versions.joinToString("<br><br>") { version ->
                 buildString {
-                    append("• ").append(version.title)
-                    append("\n  Reader: ").append(version.reader ?: "Not listed on this version card")
-                    if (!version.language.isNullOrBlank()) append("\n  Language: ").append(version.language)
-                    if (!version.duration.isNullOrBlank()) append("\n  Duration: ").append(version.duration)
-                    append("\n  Release date: ").append(version.releaseDate ?: "Not listed by AudioAZ")
-                    append("\n  AudioAZ page: ").append(version.url)
+                    append("• <b>").append(escapeHtml(version.title)).append("</b>")
+                    append("<br>Reader: ").append(escapeHtml(version.reader ?: "Not listed on this version card"))
+                    if (!version.language.isNullOrBlank()) {
+                        append("<br>Language: ").append(escapeHtml(version.language))
+                    }
+                    if (!version.duration.isNullOrBlank()) {
+                        append("<br>Duration: ").append(escapeHtml(version.duration))
+                    }
+                    append("<br>Release date: ")
+                        .append(escapeHtml(version.releaseDate ?: "Not listed by AudioAZ"))
+                    append("<br><i>Open this recording using its matching clickable card below.</i>")
                 }
             }
             addSection("OTHER RECORDINGS / VERSIONS", versionText)
@@ -555,18 +577,18 @@ class AudioAZProvider : MainAPI() {
             )
             addSection(
                 "READ-ALONG NOTE",
-                "This chapter page can be opened from CloudStream. CloudStream can display the extracted text and play the chapter when a supported audio source is available, but it cannot reproduce AudioAZ's synchronized word highlighting."
+                "Chapter text is shown here. CloudStream can play a supported source when one is exposed, but AudioAZ's synchronized word highlighting belongs to its own website player and cannot be reproduced by a standard CloudStream provider."
             )
         } else if (readAlongChaptersAvailable) {
             addSection(
                 "READ ALONG",
-                "Chapter text pages are available in the related-title cards below. Open a “Read Along” chapter to see its text inside CloudStream."
+                "Read-along chapters are available as clickable related cards below. Open a chapter card to view its text inside CloudStream."
             )
         }
 
         addSection("SOURCE PAGE", sourceUrl)
 
-        return sections.joinToString("\n\n━━━━━━━━━━━━━━━━━━━━\n\n")
+        return sections.joinToString("<br><br>━━━━━━━━━━━━━━━━━━━━<br><br>")
     }
 
     private fun absoluteUrl(element: Element, attribute: String): String {
