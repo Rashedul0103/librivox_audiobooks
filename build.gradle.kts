@@ -64,7 +64,11 @@ subprojects {
 
     dependencies {
         val implementation by configurations
+        val compileOnly by configurations
         implementation("com.github.recloudstream.cloudstream:library:-SNAPSHOT")
+        // The CloudStream runtime already supplies coroutines; compile against
+        // the stable API without bundling a second copy into the plugin.
+        compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
         implementation(kotlin("stdlib"))
         implementation("com.github.Blatzar:NiceHttp:0.4.11")
         implementation("org.jsoup:jsoup:1.18.3")
