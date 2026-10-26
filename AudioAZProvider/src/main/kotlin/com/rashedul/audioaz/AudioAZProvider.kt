@@ -68,9 +68,12 @@ class AudioAZProvider : MainAPI() {
         GenreShelf("Poetry", "poetry"),
         GenreShelf("Biography & Autobiography", "biography-and-autobiography"),
         GenreShelf("Philosophy", "philosophy"),
-        GenreShelf("Religion", "religion"),
+        GenreShelf("Religion", "non-fiction-religion"),
         GenreShelf("Short Stories", "short-stories"),
-        GenreShelf("Self-Help", "self-help")
+        GenreShelf("Self-Help", "self-help"),
+        GenreShelf("Science", "non-fiction-science"),
+        GenreShelf("Nature", "nature"),
+        GenreShelf("Political Science", "political-science")
     )
 
     private suspend fun fetchHomeRow(title: String, urls: List<String>): HomePageList? {
