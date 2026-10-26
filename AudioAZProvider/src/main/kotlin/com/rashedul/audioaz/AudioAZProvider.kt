@@ -209,7 +209,9 @@ class AudioAZProvider : MainAPI() {
             // book landing page. Probe only when the main page gives a chapter count
             // but does not expose any versions or chapter entries.
             val companionReadAlongDoc = if (
-                !readAlongPage && versions.isEmpty() && parseChapterCount(doc.text()) > 0
+                !readAlongPage &&
+                    (versions.isEmpty() || readAlongChapters.isEmpty()) &&
+                    parseChapterCount(doc.text()) > 0
             ) {
                 runCatching { fetchDocument("$bookUrl/read/1") }
                     .onFailure { logError(it) }
@@ -599,7 +601,7 @@ class AudioAZProvider : MainAPI() {
         runCatching { URI(raw).path.orEmpty().substringAfterLast('/').toIntOrNull() }.getOrNull()
 
     private fun parseChapterCount(raw: String): Int =
-        Regex("""(?i)\b(\d{1,3})\s+chapters?\b""")
+        Regex("""(?i)\b(\d{1,3})\s+chapter(?:s|\(s\))?(?=\b|\s|$)""")
             .find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull()?.coerceIn(0, 60) ?: 0
 
     private fun cleanChapterLabel(raw: String): String {
@@ -736,7 +738,7 @@ class AudioAZProvider : MainAPI() {
                 val rawUrl = pieces.firstOrNull().orEmpty()
                 if (rawUrl.isBlank()) return@mapNotNull null
                 val descriptor = pieces.getOrNull(1).orEmpty()
-                val size = Regex("""(\\d+)(?:w|x)?""").matchEntire(descriptor)
+                val size = Regex("""(\d+)(?:w|x)?""").matchEntire(descriptor)
                     ?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
                 val url = normalizeImageUrl(rawUrl)
                 if (url.isBlank()) null else size to url
@@ -841,7 +843,7 @@ class AudioAZProvider : MainAPI() {
                 }
                 node = node.nextElementSibling()
             }
-            val collected = paragraphs.distinct().joinToString("\\n\\n").trim()
+            val collected = paragraphs.distinct().joinToString("\n\n").trim()
             if (collected.isNotBlank()) return collected
         }
         return doc.selectFirst("meta[name=description]")?.attr("content")?.trim().orEmpty()
