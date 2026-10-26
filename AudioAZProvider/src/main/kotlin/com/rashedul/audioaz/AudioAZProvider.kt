@@ -248,7 +248,7 @@ class AudioAZProvider : MainAPI() {
                 posterHeaders = requestHeaders
                 tags = genres
                 duration = parseDurationMinutes(length)
-                recommendations = (versions.map { it.card } + readAlongChapters)
+                recommendations = (versions.map { it.toCard() } + readAlongChapters)
                     .distinctBy { it.url }
                     .take(26)
                     .map { it.toSearchResponse(this@AudioAZProvider) }
