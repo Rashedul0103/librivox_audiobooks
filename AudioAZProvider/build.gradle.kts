@@ -1,7 +1,7 @@
-version = 3
+version = 4
 
 cloudstream {
-    description = "Browse AudioAZ audiobook metadata and authorized public-domain source links."
+    description = "AudioAZ audiobook catalogue with portrait posters, alternate recordings, and read-along chapter support."
     authors = listOf("Rashedul0103")
     status = 3
     tvTypes = listOf("Others")
