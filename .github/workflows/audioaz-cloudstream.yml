@@ -33,10 +33,11 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "8.12"
-          cache-provider: basic
 
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
+        with:
+          packages: "platform-tools"
 
       - name: Build plugin and manifest
         run: gradle make makePluginsJson ensureJarCompatibility
