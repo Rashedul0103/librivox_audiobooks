@@ -288,23 +288,39 @@ class AudioAZProvider : MainAPI() {
         fun toSearchResponse(provider: AudioAZProvider): SearchResponse =
             provider.newMovieSearchResponse(title, url, TvType.Audio) {
                 posterUrl = poster
+                posterHeaders = provider.requestHeaders
             }
     }
 
-    private fun parseBookCards(doc: Document): List<BookCard> {
+    private data class VersionInfo(
+        val title: String,
+        val url: String,
+        val poster: String?,
+        val reader: String?,
+        val language: String?,
+        val duration: String?,
+        val releaseDate: String?
+    ) {
+        fun toCard(): BookCard {
+            val subtitle = listOfNotNull(reader, duration, language)
+                .map { it.trim() }
+                .filter { it.isNotBlank() }
+                .distinct()
+                .joinToString(" · ")
+            return BookCard(
+                title = if (subtitle.isBlank()) title else "$title — $subtitle",
+                url = url,
+                poster = poster
+            )
+        }
+    }
+
+    private fun parseBookCards(container: Element): List<BookCard> {
         val cards = linkedMapOf<String, BookCard>()
-        doc.select("a[href*='/en/audiobook/']").forEach { anchor ->
-            val rawHref = anchor.attr("href").trim()
-            val href = (
-                anchor.absUrl("href").ifBlank {
-                    runCatching { URI(siteRoot).resolve(rawHref).toString() }.getOrDefault("")
-                }
-            ).substringBefore('#').substringBefore('?').trimEnd('/')
-            val uri = runCatching { URI(href) }.getOrNull() ?: return@forEach
-            val host = uri.host?.lowercase().orEmpty()
-            if ((host != "audioaz.com" && !host.endsWith(".audioaz.com")) ||
-                !uri.path.orEmpty().contains("/en/audiobook/")
-            ) return@forEach
+        container.select("a[href*='/en/audiobook/']").forEach { anchor ->
+            val href = absoluteUrl(anchor, "href")
+                .substringBefore('#').substringBefore('?').trimEnd('/')
+            if (!isAudioAZBookUrl(href)) return@forEach
 
             val card = anchor.parents().firstOrNull {
                 it.selectFirst("h1, h2, h3, h4, h5") != null ||
@@ -312,7 +328,7 @@ class AudioAZProvider : MainAPI() {
             } ?: anchor
             val image = anchor.selectFirst("img") ?: card.selectFirst("img")
             val heading = anchor.selectFirst("h1, h2, h3, h4, h5")
-                ?: card.selectFirst("h1, h2, h3, h4, h5")
+                ?: card.selectFirst("h2, h3, h4, h5")
             val titleCandidates = listOf(
                 heading?.text().orEmpty(),
                 anchor.attr("aria-label"),
@@ -328,14 +344,321 @@ class AudioAZProvider : MainAPI() {
                         !it.equals("audiobook", true) &&
                         !it.equals("play", true) &&
                         !it.equals("read more", true) &&
+                        !it.equals("image", true) &&
                         it.length <= 180
                 }.orEmpty()
             if (title.isBlank()) return@forEach
-            cards.putIfAbsent(href, BookCard(title, href, image?.let(::imageUrl)))
+            val poster = image?.let(::imageUrl)
+            cards.putIfAbsent(href, BookCard(title, href, poster))
         }
         return cards.values.toList()
     }
 
+    private fun parseOtherVersions(
+        doc: Document,
+        currentBookUrl: String,
+        fallbackPoster: String?
+    ): List<VersionInfo> {
+        val heading = doc.select("h2, h3, h4").firstOrNull {
+            it.text().startsWith("Other versions", ignoreCase = true)
+        } ?: return emptyList()
+
+        val section = heading.parents().firstOrNull { parent ->
+            val links = parent.select("a[href*='/en/audiobook/']")
+            links.size in 1..14 &&
+                parent.text().contains("Other versions", ignoreCase = true)
+        } ?: heading.parent() ?: return emptyList()
+
+        val current = normalizeBookUrl(currentBookUrl)
+        val versions = linkedMapOf<String, VersionInfo>()
+        section.select("a[href*='/en/audiobook/']").forEach { anchor ->
+            val href = absoluteUrl(anchor, "href")
+                .substringBefore('#').substringBefore('?').trimEnd('/')
+            if (!isAudioAZBookUrl(href) || normalizeBookUrl(href) == current) return@forEach
+
+            val title = cleanBookTitle(
+                anchor.text().ifBlank {
+                    anchor.attr("aria-label").ifBlank { anchor.attr("title") }
+                }
+            ).take(180)
+            if (title.isBlank()) return@forEach
+
+            val detailElement = anchor.parents().firstOrNull { parent ->
+                parent.text().length <= 500 &&
+                    (parent.text().contains("narrated by", true) ||
+                        parent.text().contains("several narrators", true) ||
+                        parent.text().contains("one narrator", true) ||
+                        Regex("""\\b\\d+\\s*h(?:r|our)?s?(?:\\s*\\d+\\s*m(?:in(?:ute)?s?)?)?\\b""", RegexOption.IGNORE_CASE)
+                            .containsMatchIn(parent.text()))
+            } ?: anchor.parent()
+            val details = detailElement?.text()?.trim().orEmpty()
+            val reader = parseReader(details)
+            val language = parseLanguage(details)
+            val duration = parseVersionDuration(details)
+            val releaseDate = parseReleaseDateFromText(details)
+            val image = anchor.selectFirst("img") ?: detailElement?.selectFirst("img")
+            val entry = VersionInfo(
+                title = title,
+                url = href,
+                poster = image?.let(::imageUrl) ?: fallbackPoster,
+                reader = reader,
+                language = language,
+                duration = duration,
+                releaseDate = releaseDate
+            )
+            versions.putIfAbsent(href, entry)
+        }
+        return versions.values.toList().take(10)
+    }
+
+    private fun parseReadAlongChapters(
+        doc: Document,
+        currentUrl: String,
+        fallbackPoster: String?
+    ): List<BookCard> {
+        val current = currentUrl.substringBefore('#').substringBefore('?').trimEnd('/')
+        val chapters = linkedMapOf<String, BookCard>()
+
+        doc.select("a[href*='/read/']").forEach { anchor ->
+            val href = absoluteUrl(anchor, "href")
+                .substringBefore('#').substringBefore('?').trimEnd('/')
+            if (!isReadAlongUrl(href) || href == current) return@forEach
+
+            val number = readAlongNumber(href)
+            val nearby = anchor.parents().firstOrNull {
+                it.text().length <= 180 && it.text().contains(anchor.text().trim(), true)
+            }?.text().orEmpty()
+            val rawLabel = anchor.text().trim().ifBlank { nearby }
+            val label = cleanChapterLabel(rawLabel).ifBlank {
+                "Chapter ${number ?: chapters.size + 1}"
+            }
+            val img = anchor.selectFirst("img") ?: anchor.parent()?.selectFirst("img")
+            chapters.putIfAbsent(
+                href,
+                BookCard(
+                    title = "Read Along — $label",
+                    url = href,
+                    poster = img?.let(::imageUrl) ?: fallbackPoster
+                )
+            )
+        }
+        return chapters.values.toList().take(16)
+    }
+
+    private fun buildDescription(
+        author: String,
+        language: String,
+        narrators: List<String>,
+        genres: List<String>,
+        length: String,
+        publicationDate: String?,
+        summary: String,
+        sourceUrl: String,
+        versions: List<VersionInfo>,
+        readAlongPage: Boolean,
+        chapterTitle: String,
+        chapterText: String,
+        readAlongChaptersAvailable: Boolean
+    ): String {
+        val sections = mutableListOf<String>()
+
+        fun addSection(heading: String, value: String) {
+            val trimmed = value.trim()
+            if (trimmed.isNotBlank()) sections += "$heading\\n$trimmed"
+        }
+
+        addSection("AUTHOR", author)
+        addSection("LANGUAGE", language)
+        addSection("LENGTH", length)
+        addSection("RELEASE / PUBLICATION DATE", publicationDate.orEmpty())
+        if (genres.isNotEmpty()) {
+            addSection("GENRES", genres.distinct().joinToString("\\n") { "• $it" })
+        }
+        if (narrators.isNotEmpty()) {
+            addSection("NARRATORS", narrators.distinct().joinToString("\\n") { "• $it" })
+        }
+        addSection(if (readAlongPage) "CHAPTER" else "ABOUT / SUMMARY", if (readAlongPage) chapterTitle else summary)
+
+        if (versions.isNotEmpty()) {
+            val versionText = versions.joinToString("\\n\\n") { version ->
+                buildString {
+                    append("• ").append(version.title)
+                    append("\\n  Reader: ").append(version.reader ?: "Not listed on this version card")
+                    if (!version.language.isNullOrBlank()) append("\\n  Language: ").append(version.language)
+                    if (!version.duration.isNullOrBlank()) append("\\n  Duration: ").append(version.duration)
+                    append("\\n  Release date: ").append(version.releaseDate ?: "Not listed by AudioAZ")
+                    append("\\n  AudioAZ page: ").append(version.url)
+                }
+            }
+            addSection("OTHER RECORDINGS / VERSIONS", versionText)
+        }
+
+        if (readAlongPage) {
+            addSection(
+                "READ-ALONG TEXT",
+                chapterText.ifBlank { "AudioAZ did not expose the chapter text in a readable page section." }
+            )
+            addSection(
+                "READ-ALONG NOTE",
+                "This chapter page can be opened from CloudStream. CloudStream can display the extracted text and play the chapter when a supported audio source is available, but it cannot reproduce AudioAZ's synchronized word highlighting."
+            )
+        } else if (readAlongChaptersAvailable) {
+            addSection(
+                "READ ALONG",
+                "Chapter text pages are available in the related-title cards below. Open a “Read Along” chapter to see its text inside CloudStream."
+            )
+        }
+
+        addSection("SOURCE PAGE", sourceUrl)
+
+        return sections.joinToString("\\n\\n━━━━━━━━━━━━━━━━━━━━\\n\\n")
+    }
+
+    private fun absoluteUrl(element: Element, attribute: String): String {
+        val raw = element.attr(attribute).trim()
+        if (raw.startsWith("https://") || raw.startsWith("http://")) return raw
+        return runCatching {
+            val base = element.absUrl(attribute).takeIf { it.startsWith("https://") }
+            base ?: URI(siteRoot).resolve(raw).toString()
+        }.getOrDefault("")
+    }
+
+    private fun isAudioAZBookUrl(raw: String): Boolean = runCatching {
+        val uri = URI(raw)
+        val host = uri.host?.lowercase().orEmpty()
+        uri.scheme == "https" &&
+            (host == "audioaz.com" || host.endsWith(".audioaz.com")) &&
+            uri.path.orEmpty().matches(Regex("^/en/audiobook/[^/]+/?$"))
+    }.getOrDefault(false)
+
+    private fun normalizeBookUrl(raw: String): String =
+        raw.substringBefore("/read/").substringBefore('#').substringBefore('?').trimEnd('/')
+
+    private fun isReadAlongUrl(raw: String): Boolean = runCatching {
+        val uri = URI(raw)
+        val host = uri.host?.lowercase().orEmpty()
+        uri.scheme == "https" &&
+            (host == "audioaz.com" || host.endsWith(".audioaz.com")) &&
+            uri.path.orEmpty().matches(Regex("^/en/audiobook/[^/]+/read/[^/]+/?$"))
+    }.getOrDefault(false)
+
+    private fun readAlongNumber(raw: String): Int? =
+        runCatching { URI(raw).path.orEmpty().substringAfterLast('/').toIntOrNull() }.getOrNull()
+
+    private fun cleanChapterLabel(raw: String): String {
+        val text = raw.replace(Regex("""(?i)^read along\\s*"""), "").trim()
+        val cleaned = text.replace(Regex("""^\\d+\\s*[./-]\\s*"""), "").trim()
+        return cleaned.takeIf { it.isNotBlank() && !it.equals("follow the text while you listen", true) }
+            ?.take(120).orEmpty()
+    }
+
+    private fun parseReader(raw: String): String? {
+        val text = raw.replace('\\n', ' ').trim()
+        val narrated = Regex(
+            """(?i)narrated by\\s+(.+?)(?=\\s*[·•|]\\s*|\\s+(?:English|French|German|Spanish|Italian|Vietnamese|Arabic|Urdu|Hindi|Portuguese|Dutch|Greek|Russian|Japanese|Chinese)\\b|\\s+\\d+\\s*h|$)"""
+        ).find(text)?.groupValues?.getOrNull(1)?.trim()?.trimEnd('.', '·', '•')
+        if (!narrated.isNullOrBlank()) return narrated
+        return when {
+            text.contains("several narrators", true) -> "Several narrators"
+            text.contains("multiple narrators", true) -> "Multiple narrators"
+            text.contains("one narrator", true) -> "Single narrator (name not shown here)"
+            else -> null
+        }
+    }
+
+    private fun parseLanguage(raw: String): String? {
+        val languages = listOf(
+            "English", "Vietnamese", "German", "Spanish", "French", "Dutch", "Portuguese",
+            "Italian", "Greek", "Russian", "Japanese", "Polish", "Chinese", "Arabic", "Urdu",
+            "Hindi", "Latin", "Hebrew", "Finnish", "Czech", "Persian", "Korean"
+        )
+        return languages.firstOrNull { Regex("""(?i)\\b${Regex.escape(it)}\\b""").containsMatchIn(raw) }
+    }
+
+    private fun parseVersionDuration(raw: String): String? =
+        Regex("""(?i)\\b\\d+\\s*h(?:r|our)?s?(?:\\s*\\d+\\s*m(?:in(?:ute)?s?)?)?\\b|\\b\\d+\\s*m(?:in(?:ute)?s?)\\b""")
+            .find(raw)?.value?.replace(Regex("""\\s+"""), " ")?.trim()
+
+    private fun parseReleaseDateFromText(raw: String): String? {
+        val pattern = Regex(
+            """(?i)(?:release date|publication date|published date|date published|published on)\\s*[:–—-]?\\s*(.{3,45}?)(?=\\s*[·•|]|$)"""
+        )
+        return pattern.find(raw)?.groupValues?.getOrNull(1)?.trim()?.trimEnd('.', ';')
+            ?.takeIf { it.isNotBlank() }
+    }
+
+    private fun findReleaseDate(doc: Document): String? {
+        val labelled = doc.select("p, li, dd, dt, div, span")
+            .map { it.text().trim() }
+            .firstOrNull { parseReleaseDateFromText(it) != null }
+            ?.let(::parseReleaseDateFromText)
+        if (!labelled.isNullOrBlank()) return labelled
+
+        val jsonLd = doc.select("script[type=application/ld+json]").joinToString(" ") { it.data() }
+        val jsonDate = Regex(
+            """(?i)"(?:datePublished|releaseDate)"\\s*:\\s*"([^"]+)""""
+        ).find(jsonLd)?.groupValues?.getOrNull(1)
+        return jsonDate?.takeIf { it.isNotBlank() }
+    }
+
+    private fun readAlongChapterTitle(doc: Document): String {
+        val headings = doc.select("h1, h2, h3, h4")
+        val aboutIndex = headings.indexOfFirst {
+            it.text().equals("About", true) || it.text().equals("Summary", true)
+        }.let { if (it < 0) headings.size else it }
+
+        return headings.take(aboutIndex).asReversed().firstOrNull { heading ->
+            val text = heading.text().trim()
+            text.isNotBlank() &&
+                !text.startsWith("Other versions", true) &&
+                !text.matches(Regex("""\\d+\\s*/\\s*\\d+.*""")) &&
+                !text.contains("Free Audiobook", true) &&
+                text.length <= 160 &&
+                !text.equals("Now Playing", true)
+        }?.text()?.trim().orEmpty()
+    }
+
+    private fun findReadAlongText(doc: Document): String {
+        val headings = doc.select("h1, h2, h3, h4")
+        val aboutHeading = headings.firstOrNull {
+            it.text().equals("About", true) || it.text().equals("Summary", true)
+        }
+        val chapterTitle = readAlongChapterTitle(doc)
+        val chapterHeading = headings.lastOrNull {
+            it.text().trim().equals(chapterTitle, true)
+        }
+        if (chapterHeading != null) {
+            val parts = mutableListOf<String>()
+            var node = chapterHeading.nextElementSibling()
+            while (node != null && node !== aboutHeading) {
+                if (node.tagName() in setOf("h1", "h2", "h3", "h4")) break
+                val text = node.text().trim()
+                if (text.length > 35 &&
+                    !text.contains("Sleep Timer", true) &&
+                    !text.contains("Show all", true) &&
+                    !text.contains("Read along Follow the text", true)
+                ) parts += text
+                node = node.nextElementSibling()
+            }
+            val gathered = parts.distinct().joinToString("\\n\\n").trim()
+            if (gathered.length > 80) return gathered
+        }
+
+        // Fallback for page templates where the chapter body is wrapped in a
+        // nested reader element rather than following its heading directly.
+        val paragraphs = doc.select("article p, main p, [class*=read] p, [class*=chapter] p")
+            .map { it.text().trim() }
+            .filter {
+                it.length > 60 &&
+                    !it.contains("The Prince is a political treatise", true) &&
+                    !it.contains("Free Audiobook", true)
+            }
+            .distinct()
+        return paragraphs.joinToString("\\n\\n")
+    }
+
+    private fun buildDescriptionFromDocForDebugNotUsed(doc: Document): String =
+        doc.select("main").firstOrNull()?.text().orEmpty()
     private fun pageTitle(doc: Document): String {
         val h1 = doc.selectFirst("h1")?.text().orEmpty()
         val openGraph = doc.selectFirst("meta[property=og:title]")?.attr("content").orEmpty()
