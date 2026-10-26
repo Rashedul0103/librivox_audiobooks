@@ -28,7 +28,7 @@ fun Project.cloudstream(configuration: CloudstreamExtension.() -> Unit) =
     extensions.getByName<CloudstreamExtension>("cloudstream").configuration()
 
 fun Project.android(configuration: BaseExtension.() -> Unit) =
-    extensions.getByName< BaseExtension>("android").configuration()
+    extensions.getByName<BaseExtension>("android").configuration()
 
 subprojects {
     apply(plugin = "com.android.library")
@@ -40,7 +40,7 @@ subprojects {
     }
 
     android {
-        namespace = "com.rashedul.audioaz"
+        namespace = if (project.name == "AudibleProvider") "com.rashedul.audible" else "com.rashedul.audioaz"
         defaultConfig {
             minSdk = 21
             compileSdkVersion(35)
@@ -66,8 +66,6 @@ subprojects {
         val implementation by configurations
         val compileOnly by configurations
         implementation("com.github.recloudstream.cloudstream:library:-SNAPSHOT")
-        // The CloudStream runtime already supplies coroutines; compile against
-        // the stable API without bundling a second copy into the plugin.
         compileOnly("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
         implementation(kotlin("stdlib"))
         implementation("com.github.Blatzar:NiceHttp:0.4.11")
