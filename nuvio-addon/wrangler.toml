@@ -1,7 +1,0 @@
-name = "librivox-audiobook-addon"
-main = "worker.js"
-compatibility_date = "2026-10-15"
-workers_dev = true
-
-[vars]
-CATALOG_URL = "https://raw.githubusercontent.com/Rashedul0103/librivox_audiobooks/main/filtered/nuvio/catalog.json"

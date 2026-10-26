@@ -1,26 +1,25 @@
-# librivox_audiobooks
+# AudioAZ CloudStream extension
 
-LibriVox audiobook playlists in M3U format.
+A CloudStream provider for AudioAZ. It browses and searches the catalogue on demand and shows audiobook title, cover, author, language, narrator, genres, duration and summary where available.
 
-## Complete IPTV-compatible playlist
+## Features
 
-**Raw playlist URL:**
+- Home lists for most popular and most recent audiobooks.
+- Search by title, author, or keyword.
+- Audiobook detail pages with available metadata.
+- Playback attempts only links that the page explicitly exposes from LibriVox or Internet Archive and that point to recognized audio files.
+- No bulk crawling, audio rehosting, authentication bypass, DRM bypass, or access-control circumvention.
 
-https://raw.githubusercontent.com/Rashedul0103/librivox_audiobooks/main/playlist.m3u
+Not every AudioAZ listing will play directly in CloudStream. When the page does not expose an authorized external audio source, use its AudioAZ website link instead. AudioAZ says its catalogue aggregates public-domain materials, but rights can vary by item, so this extension deliberately keeps playback limited to recognized public-source links.
 
-Open that raw URL in a compatible IPTV or audio player. The generator scans the repository's by-author, by-genre, by-language, and by-title book playlists; collects the audio URLs; deduplicates tracks; and builds one playlist with IPTV-compatible categories.
+## Install
 
-The master is ordered by category, book, and chapter sequence. Its groups combine genre and language when the GitHub file-size budget permits, falling back to genre groups if needed. Labels are compacted automatically to keep the complete playlist below GitHub's 100 MiB per-file limit. The individual book M3U files retain their full chapter names, reader names, durations, and direct audio URLs.
+When the GitHub Actions build succeeds, add this URL in CloudStream under Settings → Extensions → Add Repository:
 
-## Original catalogues
+https://raw.githubusercontent.com/Rashedul0103/librivox_audiobooks/builds/repo.json
 
-- [Browse by author](by-author/)
-- [Browse by genre](by-genre/)
-- [Browse by language](by-language/)
-- [Browse by title](by-title/)
+The workflow builds the .cs3 package automatically when the audioaz-cloudstream source branch changes. You do not need Android Studio or a local Gradle setup.
 
-## How it works
+## Project layout
 
-The master playlist references the original audio URLs; audio files are not copied into this repository. The generator runs automatically when catalogue files or its script change, and can also be run manually from the GitHub Actions tab. See [the generated index](playlists/README.md) for the last run's track count, category count, and final playlist size.
-
-A standard M3U entry supports one group-title value. To avoid duplicating hundreds of thousands of audio entries (which would exceed GitHub's per-file limit), the unified master uses a combined category label rather than creating a separate duplicate for every author, genre, language, and title.
+The source project lives in the AudioAZCloudStream folder on the audioaz-cloudstream branch. Main is not changed.

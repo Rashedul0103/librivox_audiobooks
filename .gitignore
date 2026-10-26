@@ -1,1 +1,6 @@
-*.m3u
+.gradle/
+build/
+**/build/
+local.properties
+*.iml
+.idea/
