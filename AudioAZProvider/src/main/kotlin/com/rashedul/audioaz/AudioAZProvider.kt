@@ -29,6 +29,28 @@ class AudioAZProvider : MainAPI() {
     private val siteRoot = "https://audioaz.com"
     private val siteBase = "$siteRoot/en"
 
+    // AudioAZ serves a Next.js website. Use ordinary browser headers and try
+    // its current catalogue routes before older browse routes.
+    private val requestHeaders = mapOf(
+        "User-Agent" to "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+        "Accept" to "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        "Accept-Language" to "en-US,en;q=0.9",
+        "Referer" to "$siteBase"
+    )
+
+    private suspend fun fetchDocument(url: String): Document =
+        app.get(url, headers = requestHeaders).document
+
+    private suspend fun fetchBookCards(urls: List<String>): List<BookCard> {
+        for (url in urls.distinct()) {
+            val books = runCatching { parseBookCards(fetchDocument(url)) }
+                .onFailure { logError(it) }
+                .getOrDefault(emptyList())
+            if (books.isNotEmpty()) return books
+        }
+        return emptyList()
+    }
+
     override var mainUrl = siteBase
     override var name = "AudioAZ"
     override var lang = "en"
@@ -37,10 +59,21 @@ class AudioAZProvider : MainAPI() {
 
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
-            val popular = parseBookCards(app.get("$siteBase/browse?page=$page").document)
-                .map { it.toSearchResponse(this@AudioAZProvider) }
-            val recent = parseBookCards(app.get("$siteBase/browse?sort=recent&page=$page").document)
-                .map { it.toSearchResponse(this@AudioAZProvider) }
+            val pageSuffix = if (page > 1) "&page=$page" else ""
+            val popular = fetchBookCards(
+                listOf(
+                    "$siteBase/browse" + if (page > 1) "?lang=en&page=$page" else "",
+                    "$siteRoot/en/audiobooks" + if (page > 1) "?page=$page" else "",
+                    "$siteBase/"
+                )
+            ).map { it.toSearchResponse(this@AudioAZProvider) }
+            val recent = fetchBookCards(
+                listOf(
+                    "$siteBase/browse?lang=en&sort=recent$pageSuffix",
+                    "$siteRoot/en/audiobooks?lang=en&sort=recent" + if (page > 1) "&page=$page" else "",
+                    "$siteBase/browse?sort=recent&page=$page"
+                )
+            ).map { it.toSearchResponse(this@AudioAZProvider) }
             newHomePageResponse(
                 listOf(
                     HomePageList("Most Popular", popular, page < 100),
@@ -58,14 +91,18 @@ class AudioAZProvider : MainAPI() {
         if (query.isBlank()) return null
         return try {
             val encoded = query.encodeUri()
+            val pageSuffix = if (page > 1) "&page=$page" else ""
             val candidateUrls = listOf(
-                "$siteBase/search?q=$encoded&page=$page",
-                "$siteBase/browse?search=$encoded&page=$page",
-                "$siteBase/browse?q=$encoded&page=$page"
+                "$siteBase/search?q=$encoded$pageSuffix",
+                "$siteRoot/en/audiobooks?q=$encoded$pageSuffix",
+                "$siteRoot/en/audiobooks?search=$encoded$pageSuffix",
+                "$siteBase/browse?search=$encoded$pageSuffix",
+                "$siteBase/browse?q=$encoded$pageSuffix"
             )
             var results: List<BookCard> = emptyList()
             for (candidate in candidateUrls) {
-                results = runCatching { parseBookCards(app.get(candidate).document) }
+                results = runCatching { parseBookCards(fetchDocument(candidate)) }
+                    .onFailure { logError(it) }
                     .getOrDefault(emptyList())
                 if (results.isNotEmpty()) break
             }
@@ -79,7 +116,7 @@ class AudioAZProvider : MainAPI() {
     override suspend fun load(url: String): LoadResponse {
         val safeUrl = validateAudioAZUrl(url)
         return try {
-            val doc = app.get(safeUrl).document
+            val doc = fetchDocument(safeUrl)
             val title = pageTitle(doc).ifBlank { "AudioAZ audiobook" }
             val author = firstLinkedText(doc, "a[href*='/en/authors/'], a[href*='/en/author/']")
             val genres = doc.select("a[href*='/en/genres/'], a[href*='/en/genre/']")
@@ -121,7 +158,7 @@ class AudioAZProvider : MainAPI() {
     ): Boolean {
         val safeUrl = runCatching { validateAudioAZUrl(data) }.getOrNull() ?: return false
         return try {
-            val doc = app.get(safeUrl).document
+            val doc = fetchDocument(safeUrl)
             val pageConfirmsPublicDomain = doc.text().contains("public domain", ignoreCase = true)
             var found = false
 
@@ -185,23 +222,43 @@ class AudioAZProvider : MainAPI() {
     private fun parseBookCards(doc: Document): List<BookCard> {
         val cards = linkedMapOf<String, BookCard>()
         doc.select("a[href*='/en/audiobook/']").forEach { anchor ->
-            val href = anchor.absUrl("href").substringBefore('#').substringBefore('?').trimEnd('/')
-            if (!href.startsWith("$siteBase/audiobook/")) return@forEach
+            val rawHref = anchor.attr("href").trim()
+            val href = (
+                anchor.absUrl("href").ifBlank {
+                    runCatching { URI(siteRoot).resolve(rawHref).toString() }.getOrDefault("")
+                }
+            ).substringBefore('#').substringBefore('?').trimEnd('/')
+            val uri = runCatching { URI(href) }.getOrNull() ?: return@forEach
+            val host = uri.host?.lowercase().orEmpty()
+            if ((host != "audioaz.com" && !host.endsWith(".audioaz.com")) ||
+                !uri.path.orEmpty().contains("/en/audiobook/")
+            ) return@forEach
 
             val card = anchor.parents().firstOrNull {
-                it.selectFirst("img") != null && it.text().trim().length in 5..700
+                it.selectFirst("h1, h2, h3, h4, h5") != null ||
+                    (it.selectFirst("img") != null && it.text().trim().length in 5..700)
             } ?: anchor
             val image = anchor.selectFirst("img") ?: card.selectFirst("img")
-            val heading = anchor.selectFirst("h1, h2, h3, h4")
-                ?: card.selectFirst("h2, h3, h4")
-            val title = cleanBookTitle(
-                heading?.text().orEmpty()
-                    .ifBlank { image?.attr("alt").orEmpty() }
-                    .ifBlank { anchor.attr("aria-label") }
-                    .ifBlank { anchor.attr("title") }
-                    .ifBlank { anchor.text() }
+            val heading = anchor.selectFirst("h1, h2, h3, h4, h5")
+                ?: card.selectFirst("h1, h2, h3, h4, h5")
+            val titleCandidates = listOf(
+                heading?.text().orEmpty(),
+                anchor.attr("aria-label"),
+                anchor.attr("title"),
+                anchor.text(),
+                image?.attr("alt").orEmpty(),
+                card.text()
             )
-            if (title.isBlank() || title.equals("Audiobook", true)) return@forEach
+            val title = titleCandidates.asSequence()
+                .map(::cleanBookTitle)
+                .firstOrNull {
+                    it.isNotBlank() &&
+                        !it.equals("audiobook", true) &&
+                        !it.equals("play", true) &&
+                        !it.equals("read more", true) &&
+                        it.length <= 180
+                }.orEmpty()
+            if (title.isBlank()) return@forEach
             cards.putIfAbsent(href, BookCard(title, href, image?.let(::imageUrl)))
         }
         return cards.values.toList()
@@ -214,8 +271,10 @@ class AudioAZProvider : MainAPI() {
     }
 
     private fun cleanBookTitle(value: String): String = value.trim()
-        .replace(Regex("(?i)\\s*[-–—]\\s*Free Audiobook\\s*$"), "")
+        .replace(Regex("(?i)^play\\s+"), "")
         .replace(Regex("(?i)^audiobook\\s+"), "")
+        .replace(Regex("(?i)\\s*[-–—]\\s*Free Audiobook\\s*$"), "")
+        .replace(Regex("(?i)\\s+audiobook\\s*$"), "")
         .trim()
 
     private fun imageUrl(img: Element): String {
