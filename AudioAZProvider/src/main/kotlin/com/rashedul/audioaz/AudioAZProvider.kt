@@ -51,68 +51,78 @@ class AudioAZProvider : MainAPI() {
         return emptyList()
     }
 
-    private data class GenreShelf(val title: String, val slug: String)
+    private data class HomeShelf(val title: String, val url: String)
 
-    // Use real AudioAZ genre slugs so each shelf opens the matching catalogue.
-    private val genreShelves = listOf(
-        GenreShelf("History", "history"),
-        GenreShelf("Science Fiction", "science-fiction"),
-        GenreShelf("Horror & Supernatural", "horror-and-supernatural-fiction"),
-        GenreShelf("Mystery & Detective", "crime-and-mystery-fiction"),
-        GenreShelf("Action & Adventure", "action-and-adventure-fiction"),
-        GenreShelf("Romance", "romance"),
-        GenreShelf("Children's Fiction", "children-s-fiction"),
-        GenreShelf("Poetry", "poetry"),
-        GenreShelf("Biography & Autobiography", "biography-and-autobiography"),
-        GenreShelf("Philosophy", "philosophy"),
-        GenreShelf("Religion", "non-fiction-religion"),
-        GenreShelf("Short Stories", "short-stories"),
-        GenreShelf("Self-Help", "self-help"),
-        GenreShelf("Science", "non-fiction-science"),
-        GenreShelf("Nature", "nature"),
-        GenreShelf("Political Science", "political-science")
+    // These are real AudioAZ routes. Keep a compact set of useful shelves so
+    // the home page does not make dozens of slow requests on first open.
+    private val formatShelves = listOf(
+        HomeShelf("Dramatic Readings", "$siteBase/genre/dramatic-readings"),
+        HomeShelf("Ensemble & Full-Cast Plays", "$siteBase/topic/free-shakespeare-audiobooks"),
+        HomeShelf("Multi-Version Poetry", "$siteBase/genre/multi-version")
     )
 
-    private suspend fun fetchHomeRow(title: String, urls: List<String>): HomePageList? {
-        val books = fetchBookCards(urls)
+    private val discoveryShelves = listOf(
+        HomeShelf("Most Recent", "$siteBase/browse?sort=recent"),
+        HomeShelf("Science Fiction", "$siteBase/genre/science-fiction"),
+        HomeShelf("Horror & Ghost Stories", "$siteBase/topic/free-horror-audiobooks"),
+        HomeShelf("Mystery & Detective", "$siteBase/topic/free-mystery-audiobooks"),
+        HomeShelf("Romance", "$siteBase/topic/free-romance-audiobooks"),
+        HomeShelf("Kids & Family", "$siteBase/topic/free-audiobooks-for-kids"),
+        HomeShelf("History", "$siteBase/genre/history"),
+        HomeShelf("Non-fiction", "$siteBase/genre/non-fiction"),
+        HomeShelf("English Learners", "$siteBase/topic/english-audiobooks-for-learners")
+    )
+
+    private suspend fun fetchHomeRow(title: String, urls: List<String>, page: Int = 1): HomePageList? {
+        val pagedUrls = urls.map { url ->
+            if (page <= 1) url
+            else url + if (url.contains("?")) "&page=$page" else "?page=$page"
+        }
+        val books = fetchBookCards(pagedUrls)
             .map { it.toSearchResponse(this@AudioAZProvider) }
-        // false means vertical poster cards, not landscape thumbnails.
+        // CloudStream uses false for vertical / portrait cards.
         return books.takeIf { it.isNotEmpty() }?.let { HomePageList(title, it, false) }
     }
 
-    override var mainUrl = siteBase
-    override var name = "AudioAZ"
-    override var lang = "en"
-    override val hasMainPage = true
-    override val supportedTypes = setOf(TvType.Audio, TvType.Others)
+    private fun parseHomeSection(doc: Document, headingText: String): List<BookCard> {
+        val heading = doc.select("h1, h2, h3, h4").firstOrNull {
+            it.text().contains(headingText, ignoreCase = true)
+        } ?: return emptyList()
+
+        // Find the nearest containing carousel/section, not the entire page.
+        val section = heading.parents().firstOrNull { parent ->
+            val links = parent.select("a[href*='/en/audiobook/']")
+            links.size in 2..24 &&
+                parent.select("h1, h2, h3, h4").any {
+                    it.text().contains(headingText, ignoreCase = true)
+                }
+        } ?: heading.parent() ?: return emptyList()
+
+        return parseBookCards(section)
+    }
 
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
-            val pageSuffix = if (page > 1) "&page=$page" else ""
-            val pageQuery = if (page > 1) "?page=$page" else ""
-            val rowQueries = mutableListOf<Pair<String, List<String>>>()
+            val homeDoc = runCatching { fetchDocument(siteBase) }
+                .onFailure { logError(it) }
+                .getOrNull()
 
-            rowQueries += "Most Popular" to listOf(
-                "$siteBase/browse?language=English&sort=popular$pageSuffix",
-                "$siteBase/browse$pageQuery"
-            )
-            rowQueries += "Most Recent" to listOf(
-                "$siteBase/browse?language=English&sort=recent$pageSuffix",
-                "$siteBase/browse?sort=recent" + if (page > 1) "&page=$page" else ""
-            )
-
-            genreShelves.forEach { shelf ->
-                rowQueries += shelf.title to listOf(
-                    "$siteBase/genre/${shelf.slug}?language=English&sort=popular$pageSuffix",
-                    "$siteBase/genre/${shelf.slug}$pageQuery"
-                )
-            }
-
-            // Use the provider API's available suspend requests without adding
-            // an extra coroutine dependency to the packaged extension.
             val rows = mutableListOf<HomePageList>()
-            rowQueries.forEach { (title, urls) ->
-                fetchHomeRow(title, urls)?.let(rows::add)
+            val popular = homeDoc?.let { parseHomeSection(it, "Most Streamed Audiobooks") }.orEmpty()
+                .ifEmpty { fetchBookCards(listOf("$siteBase/browse")) }
+                .map { it.toSearchResponse(this@AudioAZProvider) }
+            if (popular.isNotEmpty()) rows += HomePageList("Most Streamed", popular, false)
+
+            // AudioAZ identifies the audiobooks for which it exposes read-along text.
+            val readAlong = homeDoc?.let { parseHomeSection(it, "Listen and read along") }.orEmpty()
+                .map { it.toSearchResponse(this@AudioAZProvider) }
+            if (readAlong.isNotEmpty()) rows += HomePageList("Listen & Read Along", readAlong, false)
+
+            formatShelves.forEach { shelf ->
+                fetchHomeRow(shelf.title, listOf(shelf.url), page)?.let(rows::add)
+            }
+            discoveryShelves.forEach { shelf ->
+                fetchHomeRow(shelf.title, listOf(shelf.url), page)?.let(rows::add)
             }
 
             newHomePageResponse(rows, page < 100 && rows.isNotEmpty())
