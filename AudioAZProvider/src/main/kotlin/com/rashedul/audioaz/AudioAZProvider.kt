@@ -532,7 +532,7 @@ class AudioAZProvider : MainAPI() {
         fun addSection(heading: String, value: String) {
             val trimmed = value.trim()
             if (trimmed.isNotBlank()) {
-                sections += "<b>\${escapeHtml(heading)}</b><br>\${htmlText(trimmed)}"
+                sections += "<b>" + escapeHtml(heading) + "</b><br>" + htmlText(trimmed)
             }
         }
 
@@ -567,7 +567,7 @@ class AudioAZProvider : MainAPI() {
                     append("<br><i>Open this recording using its matching clickable card below.</i>")
                 }
             }
-            addSection("OTHER RECORDINGS / VERSIONS", versionText)
+            sections += "<b>OTHER RECORDINGS / VERSIONS</b><br>" + versionText
         }
 
         if (readAlongPage) {
