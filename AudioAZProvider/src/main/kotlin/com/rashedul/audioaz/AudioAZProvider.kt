@@ -24,6 +24,9 @@ import com.lagradost.cloudstream3.utils.newExtractorLink
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.net.URI
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 
 class AudioAZProvider : MainAPI() {
     private val siteRoot = "https://audioaz.com"
@@ -51,6 +54,32 @@ class AudioAZProvider : MainAPI() {
         return emptyList()
     }
 
+    private data class GenreShelf(val title: String, val slug: String)
+
+    // Use real AudioAZ genre slugs so each shelf opens the matching catalogue.
+    private val genreShelves = listOf(
+        GenreShelf("History", "history"),
+        GenreShelf("Science Fiction", "science-fiction"),
+        GenreShelf("Horror & Supernatural", "horror-and-supernatural-fiction"),
+        GenreShelf("Mystery & Detective", "crime-and-mystery-fiction"),
+        GenreShelf("Action & Adventure", "action-and-adventure-fiction"),
+        GenreShelf("Romance", "romance"),
+        GenreShelf("Children's Fiction", "children-s-fiction"),
+        GenreShelf("Poetry", "poetry"),
+        GenreShelf("Biography & Autobiography", "biography-and-autobiography"),
+        GenreShelf("Philosophy", "philosophy"),
+        GenreShelf("Religion", "religion"),
+        GenreShelf("Short Stories", "short-stories"),
+        GenreShelf("Self-Help", "self-help")
+    )
+
+    private suspend fun fetchHomeRow(title: String, urls: List<String>): HomePageList? {
+        val books = fetchBookCards(urls)
+            .map { it.toSearchResponse(this@AudioAZProvider) }
+        // false means vertical poster cards, not landscape thumbnails.
+        return books.takeIf { it.isNotEmpty() }?.let { HomePageList(title, it, false) }
+    }
+
     override var mainUrl = siteBase
     override var name = "AudioAZ"
     override var lang = "en"
@@ -60,27 +89,34 @@ class AudioAZProvider : MainAPI() {
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
             val pageSuffix = if (page > 1) "&page=$page" else ""
-            val popular = fetchBookCards(
-                listOf(
-                    "$siteBase/browse" + if (page > 1) "?lang=en&page=$page" else "",
-                    "$siteRoot/en/audiobooks" + if (page > 1) "?page=$page" else "",
-                    "$siteBase/"
-                )
-            ).map { it.toSearchResponse(this@AudioAZProvider) }
-            val recent = fetchBookCards(
-                listOf(
-                    "$siteBase/browse?lang=en&sort=recent$pageSuffix",
-                    "$siteRoot/en/audiobooks?lang=en&sort=recent" + if (page > 1) "&page=$page" else "",
-                    "$siteBase/browse?sort=recent&page=$page"
-                )
-            ).map { it.toSearchResponse(this@AudioAZProvider) }
-            newHomePageResponse(
-                listOf(
-                    HomePageList("Most Popular", popular, page < 100),
-                    HomePageList("Most Recent", recent, page < 100)
-                ),
-                page < 100
+            val pageQuery = if (page > 1) "?page=$page" else ""
+            val rowQueries = mutableListOf<Pair<String, List<String>>>()
+
+            rowQueries += "Most Popular" to listOf(
+                "$siteBase/browse?language=English&sort=popular$pageSuffix",
+                "$siteBase/browse$pageQuery"
             )
+            rowQueries += "Most Recent" to listOf(
+                "$siteBase/browse?language=English&sort=recent$pageSuffix",
+                "$siteBase/browse?sort=recent" + if (page > 1) "&page=$page" else ""
+            )
+
+            genreShelves.forEach { shelf ->
+                rowQueries += shelf.title to listOf(
+                    "$siteBase/genre/${shelf.slug}?language=English&sort=popular$pageSuffix",
+                    "$siteBase/genre/${shelf.slug}$pageQuery"
+                )
+            }
+
+            // Load shelves concurrently so adding categories does not make the
+            // entire home screen wait for every request in sequence.
+            val rows = coroutineScope {
+                rowQueries.map { (title, urls) ->
+                    async { fetchHomeRow(title, urls) }
+                }.awaitAll().filterNotNull()
+            }
+
+            newHomePageResponse(rows, page < 100 && rows.isNotEmpty())
         } catch (e: Exception) {
             logError(e)
             newHomePageResponse(emptyList(), false)
