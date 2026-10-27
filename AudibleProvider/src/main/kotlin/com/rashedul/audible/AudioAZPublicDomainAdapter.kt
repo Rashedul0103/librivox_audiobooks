@@ -119,12 +119,13 @@ internal class AudioAZPublicDomainAdapter {
     suspend fun inspectRecording(
         rawUrl: String,
         expectedTitle: String = "",
-        expectedAuthor: String = ""
+        expectedAuthor: String = "",
+        searchScore: Double? = null
     ): Recording? {
         val safeUrl = validateAudioAZBookUrl(rawUrl) ?: return null
         return try {
             val doc = fetchDocument(safeUrl)
-            inspectDocument(doc, safeUrl, expectedTitle, expectedAuthor, null)
+            inspectDocument(doc, safeUrl, expectedTitle, expectedAuthor, searchScore)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
