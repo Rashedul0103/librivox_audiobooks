@@ -155,11 +155,21 @@ class AudibleProvider : MainAPI() {
 
         val duration = text(obj, "lengthMinutes", "runtimeLengthMin", "durationMinutes")
             .toIntOrNull() ?: text(obj, "length").toIntOrNull()
-        val seriesObj = obj.optJSONObject("series")
-        val series = text(obj, "seriesName", "seriesTitle").ifBlank {
-            seriesObj?.let { text(it, "title", "name") }.orEmpty()
+        val seriesValue = obj.opt("series")
+        val seriesFromValue = when (seriesValue) {
+            is JSONArray -> (0 until seriesValue.length()).mapNotNull { index ->
+                val item = seriesValue.optJSONObject(index) ?: return@mapNotNull null
+                val name = text(item, "name", "title")
+                if (name.isBlank()) null else {
+                    val position = text(item, "position", "sequence")
+                    if (position.isBlank()) name else "$name ($position)"
+                }
+            }.distinct().joinToString(", ")
+            is JSONObject -> text(seriesValue, "name", "title")
+            else -> ""
         }
-        val audibleUrl = text(obj, "url", "audibleUrl", "productUrl")
+        val series = text(obj, "seriesName", "seriesTitle").ifBlank { seriesFromValue }
+        val audibleUrl = text(obj, "url", "audibleUrl", "productUrl", "link")
             .takeIf { it.startsWith("https://") }
             ?: "https://www.audible.com/pd/${asin}"
 
