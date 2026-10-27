@@ -2,7 +2,6 @@ package com.rashedul.audible
 
 import android.content.Context
 import android.graphics.Color
-import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
@@ -69,6 +68,10 @@ object AudibleSettings {
 
     private val shelvesByTitle = shelves.associateBy { it.title }
 
+    /** Returns whether a named homepage row is enabled; unknown rows remain visible. */
+    fun isRowEnabled(title: String): Boolean =
+        shelvesByTitle[title]?.let { isShelfEnabled(it.id) } ?: true
+
     private fun enabledKey(id: String) = PREFIX + "ROW_ENABLED_" + id
 
     fun isShelfEnabled(id: String): Boolean = getKey<Boolean>(enabledKey(id)) ?: true
@@ -105,10 +108,7 @@ object AudibleSettings {
     fun arrangeHomeRows(rows: List<HomePageList>): List<HomePageList> {
         val order = orderedShelves().mapIndexed { index, shelf -> shelf.title to index }.toMap()
         return rows
-            .filter { row ->
-                val shelf = shelvesByTitle[row.name]
-                shelf == null || isShelfEnabled(shelf.id)
-            }
+            .filter { row -> isRowEnabled(row.name) }
             .sortedBy { row -> order[row.name] ?: Int.MAX_VALUE }
     }
 
