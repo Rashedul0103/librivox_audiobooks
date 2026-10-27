@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -174,6 +175,7 @@ object AudibleSettings {
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) = Unit
         })
         dragHelper.attachToRecyclerView(list)
+        rowAdapter.startDrag = { holder -> dragHelper.startDrag(holder) }
 
         content.addView(sectionTitle(context, "COVER FITTING", dp))
 
@@ -297,6 +299,8 @@ object AudibleSettings {
             return Holder(box, checkbox, handle)
         }
 
+        var startDrag: ((RecyclerView.ViewHolder) -> Unit)? = null
+
         override fun onBindViewHolder(holder: Holder, position: Int) {
             val shelf = items[position]
             holder.checkbox.setOnCheckedChangeListener(null)
@@ -306,14 +310,12 @@ object AudibleSettings {
                 if (checked) enabled.add(shelf.id) else enabled.remove(shelf.id)
             }
             holder.handle.setOnTouchListener { _, event ->
-                if (event.action == android.view.MotionEvent.ACTION_DOWN) {
-                    // ItemTouchHelper's long-press drag works anywhere in the row.
-                    holder.itemView.performLongClick()
+                if (event.actionMasked == MotionEvent.ACTION_DOWN) {
+                    startDrag?.invoke(holder)
+                    true
+                } else {
+                    false
                 }
-                false
-            }
-            holder.itemView.setOnLongClickListener {
-                false
             }
         }
 
