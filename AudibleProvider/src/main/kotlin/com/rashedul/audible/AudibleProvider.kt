@@ -17,6 +17,7 @@ import com.lagradost.cloudstream3.newMovieSearchResponse
 import com.lagradost.cloudstream3.toNewSearchResponseList
 import com.lagradost.cloudstream3.utils.ExtractorLink
 import com.lagradost.cloudstream3.utils.StringUtils.encodeUri
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -207,9 +208,14 @@ class AudibleProvider : MainAPI() {
 
     private suspend fun fetchList(urls: List<String>): List<AudibleBook> {
         for (url in urls) {
-            val result = runCatching { records(getJson(url)) }
-                .onFailure { logError(it) }
-                .getOrDefault(emptyList())
+            val result = try {
+                records(getJson(url))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logError(e)
+                emptyList()
+            }
             if (result.isNotEmpty()) return result
         }
         return emptyList()
@@ -391,6 +397,8 @@ class AudibleProvider : MainAPI() {
 
             val arrangedRows = AudibleSettings.arrangeHomeRows(rows)
             newHomePageResponse(arrangedRows, currentPage < 100 && arrangedRows.isNotEmpty())
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logError(e)
             newHomePageResponse(emptyList(), false)
@@ -415,6 +423,8 @@ class AudibleProvider : MainAPI() {
                 candidates += "${API_ROOT}/quick-search?keywords=${q}&region=${region}"
             }
             fetchList(candidates).map { it.card(this) }.toNewSearchResponseList()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logError(e)
             null
@@ -458,6 +468,8 @@ class AudibleProvider : MainAPI() {
                 this.backgroundPosterUrl = displayCover(book.cover)
             }
         } catch (e: ErrorLoadingException) {
+            throw e
+        } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
             logError(e)
