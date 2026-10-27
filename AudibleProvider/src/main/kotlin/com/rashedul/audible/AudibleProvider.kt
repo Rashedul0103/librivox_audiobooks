@@ -30,7 +30,7 @@ class AudibleProvider : MainAPI() {
     override val hasMainPage = true
     override var lang = "en"
     override val hasDownloadSupport = false
-    override val supportedTypes = setOf(TvType.AudioBook)
+    override val supportedTypes = setOf(TvType.AudioBook, TvType.Others)
 
     private val region = "us"
 
