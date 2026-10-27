@@ -1,7 +1,7 @@
 name: Generate selected-language audiobook playlists
 on:
   push:
-    branches: [main, master, filtered-language-library]
+    branches: [main]
     paths:
       - "by-language/**"
       - "by-author/**"
