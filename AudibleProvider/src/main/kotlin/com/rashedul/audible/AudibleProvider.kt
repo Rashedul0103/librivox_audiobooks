@@ -69,10 +69,10 @@ class AudibleProvider : MainAPI() {
     private fun bookUrl(asin: String): String = "${API_ROOT}/book/${asin}?region=${region}"
 
     /**
-     * The app's poster view center-crops a fixed portrait box. Libex may return
-     * cover images with different aspect ratios, which can crop title lettering
-     * and corner marks. Fit the entire source cover into a fixed portrait canvas
-     * before passing it to CloudStream.
+     * The app's poster view center-crops a fixed portrait box. Normalize covers
+     * to the same portrait dimensions and use fill so the server emits that exact
+     * canvas without cutting off title lettering or corner marks. Square source
+     * artwork is stretched vertically to fit this fixed card shape.
      */
     private fun displayCover(source: String): String? {
         val original = source.trim()
@@ -354,6 +354,7 @@ class AudibleProvider : MainAPI() {
                     "Dramatizations & Audio Dramas",
                     listOf(
                         listOf("keywords" to "dramatization"),
+                        listOf("keywords" to "dramatized"),
                         listOf("keywords" to "audio drama"),
                         listOf("keywords" to "radio play"),
                         listOf("title" to "dramatization")
