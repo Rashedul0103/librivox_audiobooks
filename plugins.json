@@ -1,0 +1,47 @@
+[
+    {
+        "iconUrl": "https://www.google.com/s2/favicons?domain=audible.com&sz=%size%",
+        "fileHash": "sha256-fcdf6aba248f1b8a94cf9a1f03d1a85f7ee2a906f766581dd497026b4edb9bc2",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/Rashedul0103/librivox_audiobooks",
+        "fileSize": 72182,
+        "status": 1,
+        "authors": [
+            "Rashedul0103"
+        ],
+        "tvTypes": [
+            "AudioBook",
+            "Others",
+            "Movie",
+            "TvSeries"
+        ],
+        "version": 17,
+        "internalName": "AudibleProvider",
+        "description": "Audible audiobook catalogue powered by Libex metadata, with verified public-domain audio sources.",
+        "url": "https://raw.githubusercontent.com/Rashedul0103/librivox_audiobooks/builds/AudibleProvider.cs3",
+        "name": "AudibleProvider"
+    },
+    {
+        "iconUrl": "https://www.google.com/s2/favicons?domain=audioaz.com&sz=%size%",
+        "jarFileSize": 187131,
+        "fileHash": "sha256-36dc7a3b07b3f9bf14485809b49e9f46f0804a15eac39115a2419b707e9bc65b",
+        "apiVersion": 1,
+        "repositoryUrl": "https://github.com/Rashedul0103/librivox_audiobooks",
+        "fileSize": 55970,
+        "status": 3,
+        "authors": [
+            "Rashedul0103"
+        ],
+        "tvTypes": [
+            "Audio",
+            "Others"
+        ],
+        "version": 7,
+        "internalName": "AudioAZProvider",
+        "jarUrl": "https://raw.githubusercontent.com/Rashedul0103/librivox_audiobooks/builds/AudioAZProvider.jar",
+        "description": "AudioAZ audiobook catalogue with verified public-domain playback, portrait posters, alternate recordings, and read-along chapter support.",
+        "url": "https://raw.githubusercontent.com/Rashedul0103/librivox_audiobooks/builds/AudioAZProvider.cs3",
+        "name": "AudioAZProvider",
+        "jarHash": "sha256-509c6aef23676f2ab88b626b5c274f5a36c3a0a4a31ef57179ee51ff0816180b"
+    }
+]

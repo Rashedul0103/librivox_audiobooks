@@ -1,0 +1,8 @@
+{
+  "name": "AudioAZ CloudStream",
+  "description": "AudioAZ audiobook catalogue provider for CloudStream",
+  "manifestVersion": 1,
+  "pluginLists": [
+    "https://raw.githubusercontent.com/Rashedul0103/librivox_audiobooks/builds/plugins.json"
+  ]
+}
