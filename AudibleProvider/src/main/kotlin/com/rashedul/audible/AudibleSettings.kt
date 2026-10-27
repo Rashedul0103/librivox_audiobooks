@@ -36,7 +36,6 @@ object AudibleSettings {
     const val FIT_CONTAIN = "contain"
     const val FIT_STRETCH = "fill"
     const val FIT_CROP = "cover"
-    const val FIT_STRETCH_TRIM = "fill_trim"
 
     private const val PREFIX = "AUDIBLE_UI_V1_"
     private const val ORDER_KEY = PREFIX + "ROW_ORDER"
@@ -77,7 +76,7 @@ object AudibleSettings {
     fun coverFitMode(): String {
         val stored = getKey<String>(FIT_KEY)
         return when (stored) {
-            FIT_STRETCH, FIT_CROP, FIT_STRETCH_TRIM -> stored
+            FIT_STRETCH, FIT_CROP -> stored
             else -> FIT_CONTAIN
         }
     }
@@ -185,8 +184,7 @@ object AudibleSettings {
             val options = listOf(
                 FIT_CONTAIN to "Show the full cover — no crop (recommended)",
                 FIT_STRETCH to "Fill the portrait card by stretching the image",
-                FIT_CROP to "Crop to fill the portrait card",
-                FIT_STRETCH_TRIM to "Fill by stretching, with a slight top/bottom crop"
+                FIT_CROP to "Crop to fill the portrait card"
             )
             options.forEach { (value, label) ->
                 val button = RadioButton(context).apply {
