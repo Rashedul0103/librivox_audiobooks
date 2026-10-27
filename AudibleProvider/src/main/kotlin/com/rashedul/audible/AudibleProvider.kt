@@ -82,6 +82,9 @@ class AudibleProvider : MainAPI() {
         val fit = AudibleSettings.coverFitMode()
         val params = when (fit) {
             AudibleSettings.FIT_STRETCH -> "w=380&h=600&fit=fill"
+            // Crop a small, centered strip from the stretched result's top and bottom.
+            AudibleSettings.FIT_STRETCH_TRIM ->
+                "w=380&h=600&fit=fill&cx=0&cy=12&cw=380&ch=576"
             AudibleSettings.FIT_CROP -> "w=380&h=600&fit=cover"
             else -> "w=380&h=600&fit=contain&cbg=080808"
         }
