@@ -21,6 +21,8 @@ import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.sync.Semaphore
+import kotlinx.coroutines.sync.withPermit
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -45,6 +47,10 @@ class AudibleProvider : MainAPI() {
     )
 
     private val region = "us"
+
+    // Keep catalogue discovery concurrent without flooding the public metadata API.
+    // The same limit also applies to book details and search requests.
+    private val metadataRequestSemaphore = Semaphore(permits = 4)
 
     private data class AudibleBook(
         val asin: String,
@@ -89,7 +95,9 @@ class AudibleProvider : MainAPI() {
             AudibleSettings.FIT_CROP -> "w=380&h=600&fit=cover"
             else -> "w=380&h=600&fit=contain&cbg=080808"
         }
-        return "https://wsrv.nl/?url=${encoded}&${params}"
+        // CloudStream caches by URL; WebP reduces transfer size on first load and on cache misses.
+        // Keep the dimensions large enough for both poster cards and the blurred detail background.
+        return "https://wsrv.nl/?url=${encoded}&${params}&output=webp&q=85"
     }
 
     private fun text(obj: JSONObject, vararg keys: String): String {
@@ -214,7 +222,8 @@ class AudibleProvider : MainAPI() {
         return objects.mapNotNull(::record).distinctBy { it.asin }
     }
 
-    private suspend fun getJson(url: String): String = app.get(url).text
+    private suspend fun getJson(url: String): String =
+        metadataRequestSemaphore.withPermit { app.get(url).text }
 
     private suspend fun fetchList(urls: List<String>): List<AudibleBook> {
         for (url in urls) {
@@ -298,38 +307,6 @@ class AudibleProvider : MainAPI() {
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
             val currentPage = page.coerceAtLeast(1)
-            val rows = mutableListOf<HomePageList>()
-
-            val newReleases = if (AudibleSettings.isShelfEnabled("new_releases")) {
-                fetchList(
-                    listOf(apiUrl("/db/new-releases", "days=90&limit=24&page=${currentPage}"))
-                )
-            } else emptyList()
-            if (newReleases.isNotEmpty()) {
-                rows += HomePageList("New Releases", newReleases.map { it.card(this) }, false)
-            }
-
-            val popular = if (AudibleSettings.isShelfEnabled("popular")) {
-                fetchList(
-                    listOf(apiUrl("/db/book", "sort=rating&order=desc&limit=24&page=${currentPage}"))
-                )
-            } else emptyList()
-            if (popular.isNotEmpty()) {
-                rows += HomePageList("Popular Audiobooks", popular.map { it.card(this) }, false)
-            }
-
-            val recentlyIndexed = if (AudibleSettings.isShelfEnabled("recent_metadata")) {
-                fetchList(
-                    listOf(apiUrl("/db/book", "sort=updatedAt&order=desc&limit=24&page=${currentPage}"))
-                )
-            } else emptyList()
-            if (recentlyIndexed.isNotEmpty()) {
-                rows += HomePageList(
-                    "Recently Updated Metadata",
-                    recentlyIndexed.map { it.card(this) },
-                    false
-                )
-            }
 
             val genreShelves = listOf(
                 ShelfSpec("Science Fiction", listOf(listOf("genre" to "Science Fiction"))),
@@ -353,17 +330,6 @@ class AudibleProvider : MainAPI() {
                 ShelfSpec("Short Audiobooks (Under 3 Hours)", listOf(listOf("shorter_than" to "180"))),
                 ShelfSpec("Long Listens (10+ Hours)", listOf(listOf("longer_than" to "600")))
             )
-
-            // Limit concurrency so the homepage does not send a burst of requests
-            // to the public metadata service. Empty shelves are simply omitted.
-            (genreShelves + typeShelves).chunked(4).forEach { batch ->
-                val fetchedRows = coroutineScope {
-                    batch.map { shelf ->
-                        async { fetchShelf(shelf, currentPage) }
-                    }.awaitAll().filterNotNull()
-                }
-                rows += fetchedRows
-            }
 
             val discoveryShelves = listOf(
                 SearchShelfSpec(
@@ -396,14 +362,63 @@ class AudibleProvider : MainAPI() {
                 )
             )
 
-            // Search Audible directly for presentation/format types that are not reliable DB filters.
-            // Empty sections stay hidden, but each section tries several useful search variants.
-            val specialRows = coroutineScope {
-                discoveryShelves.map { shelf ->
+            // Launch every enabled row together. getJson() applies a shared four-request
+            // limit, so rows no longer wait for earlier batches but the API is not flooded.
+            val rows = coroutineScope {
+                val newReleasesJob = async {
+                    if (!AudibleSettings.isShelfEnabled("new_releases")) {
+                        null
+                    } else {
+                        fetchList(
+                            listOf(apiUrl("/db/new-releases", "days=90&limit=24&page=${currentPage}"))
+                        ).takeIf { it.isNotEmpty() }?.let { books ->
+                            HomePageList("New Releases", books.map { it.card(this@AudibleProvider) }, false)
+                        }
+                    }
+                }
+
+                val popularJob = async {
+                    if (!AudibleSettings.isShelfEnabled("popular")) {
+                        null
+                    } else {
+                        fetchList(
+                            listOf(apiUrl("/db/book", "sort=rating&order=desc&limit=24&page=${currentPage}"))
+                        ).takeIf { it.isNotEmpty() }?.let { books ->
+                            HomePageList("Popular Audiobooks", books.map { it.card(this@AudibleProvider) }, false)
+                        }
+                    }
+                }
+
+                val recentlyIndexedJob = async {
+                    if (!AudibleSettings.isShelfEnabled("recent_metadata")) {
+                        null
+                    } else {
+                        fetchList(
+                            listOf(apiUrl("/db/book", "sort=updatedAt&order=desc&limit=24&page=${currentPage}"))
+                        ).takeIf { it.isNotEmpty() }?.let { books ->
+                            HomePageList(
+                                "Recently Updated Metadata",
+                                books.map { it.card(this@AudibleProvider) },
+                                false
+                            )
+                        }
+                    }
+                }
+
+                val catalogueJobs = (genreShelves + typeShelves).map { shelf ->
+                    async { fetchShelf(shelf, currentPage) }
+                }
+                val discoveryJobs = discoveryShelves.map { shelf ->
                     async { fetchSearchShelf(shelf, currentPage) }
-                }.awaitAll().filterNotNull()
+                }
+
+                val primaryRows = listOf(newReleasesJob, popularJob, recentlyIndexedJob)
+                    .awaitAll()
+                    .filterNotNull()
+                primaryRows +
+                    catalogueJobs.awaitAll().filterNotNull() +
+                    discoveryJobs.awaitAll().filterNotNull()
             }
-            rows += specialRows
 
             val arrangedRows = AudibleSettings.arrangeHomeRows(rows)
             newHomePageResponse(arrangedRows, currentPage < 100 && arrangedRows.isNotEmpty())
