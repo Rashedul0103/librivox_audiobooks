@@ -1,11 +1,15 @@
 package com.rashedul.audible
 
-import com.lagradost.cloudstream3.plugins.BasePlugin
+import android.content.Context
 import com.lagradost.cloudstream3.plugins.CloudstreamPlugin
+import com.lagradost.cloudstream3.plugins.Plugin
 
 @CloudstreamPlugin
-class AudiblePlugin : BasePlugin() {
-    override fun load() {
+class AudiblePlugin : Plugin() {
+    override fun load(context: Context) {
         registerMainAPI(AudibleProvider())
+        openSettings = { settingsContext ->
+            AudibleSettings.showSettings(settingsContext)
+        }
     }
 }
