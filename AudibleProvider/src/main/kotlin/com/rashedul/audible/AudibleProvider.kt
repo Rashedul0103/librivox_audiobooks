@@ -81,9 +81,9 @@ class AudibleProvider : MainAPI() {
         val encoded = original.encodeUri()
         val fit = AudibleSettings.coverFitMode()
         val params = when (fit) {
-            AudibleSettings.FIT_STRETCH -> "w=380&h=600&fit=fill"
-            // Crop a small, centered strip from the stretched result's top and bottom.
-            AudibleSettings.FIT_STRETCH_TRIM ->
+            // Fill the portrait canvas, then trim a narrow strip from top and bottom.
+            // The contain and cover modes below remain unchanged.
+            AudibleSettings.FIT_STRETCH ->
                 "w=380&h=600&fit=fill&cx=0&cy=12&cw=380&ch=576"
             AudibleSettings.FIT_CROP -> "w=380&h=600&fit=cover"
             else -> "w=380&h=600&fit=contain&cbg=080808"
