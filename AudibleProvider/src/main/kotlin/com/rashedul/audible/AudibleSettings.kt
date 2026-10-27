@@ -177,7 +177,7 @@ object AudibleSettings {
         dragHelper.attachToRecyclerView(list)
         rowAdapter.startDrag = { holder -> dragHelper.startDrag(holder) }
 
-        content.addView(sectionTitle(context, "COVER FITTING", dp))
+        content.addView(sectionTitle(context, "COVER FITTING", density))
 
         val fitGroup = RadioGroup(context).apply {
             orientation = RadioGroup.VERTICAL
@@ -210,7 +210,7 @@ object AudibleSettings {
             setPadding(dp(4), dp(4), dp(4), dp(8))
         })
 
-        content.addView(sectionTitle(context, "CORNER ROUNDING", dp))
+        content.addView(sectionTitle(context, "CORNER ROUNDING", density))
         content.addView(TextView(context).apply {
             text = "The outer corner radius is drawn by CloudStream/CloudX itself. The plugin API does not expose a per-extension radius control, so a true corner-rounding slider requires an app-side change. The image-fit setting above is supported."
             textSize = 12f
@@ -250,8 +250,9 @@ object AudibleSettings {
     private fun sectionTitle(
         context: Context,
         title: String,
-        dp: (Int) -> Int
+        density: Float
     ): TextView = TextView(context).apply {
+        fun dp(value: Int): Int = (value * density + 0.5f).toInt()
         text = title
         textSize = 13f
         setTextColor(Color.LTGRAY)
