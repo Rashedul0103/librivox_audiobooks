@@ -16,7 +16,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: generate-audiobook-playlists
+  group: audiobook-catalogue-write
   cancel-in-progress: false
 
 jobs:
@@ -44,5 +44,8 @@ jobs:
             echo "Generated playlists are already up to date."
           else
             git commit -m "Update complete and categorized audiobook playlists"
-            git push
+            # Another generator may have advanced main during this run.
+            git fetch --depth=20 origin main
+            git rebase origin/main
+            git push origin HEAD:main
           fi
