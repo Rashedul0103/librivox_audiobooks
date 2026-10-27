@@ -1,4 +1,4 @@
-version = 3
+version = 4
 
 cloudstream {
     description = "Audible audiobook catalogue powered by Libex metadata. Audio playback sources are not yet integrated."
