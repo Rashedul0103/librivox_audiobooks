@@ -1,7 +1,7 @@
-version = 14
+version = 15
 
 cloudstream {
-    description = "Audible audiobook catalogue powered by Libex metadata. Audio playback sources are not yet integrated."
+    description = "Audible audiobook catalogue powered by Libex metadata, with verified public-domain audio sources."
     authors = listOf("Rashedul0103")
     status = 1
     tvTypes = listOf("AudioBook", "Others", "Movie", "TvSeries")

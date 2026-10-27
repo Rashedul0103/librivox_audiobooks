@@ -25,6 +25,7 @@ import kotlinx.coroutines.sync.Semaphore
 import kotlinx.coroutines.sync.withPermit
 import org.json.JSONArray
 import org.json.JSONObject
+import java.util.concurrent.ConcurrentHashMap
 
 /**
  * Audible catalogue provider backed exclusively by Libex metadata.
@@ -47,6 +48,12 @@ class AudibleProvider : MainAPI() {
     )
 
     private val region = "us"
+
+    // Audio discovery is separate from the Audible catalogue. Only verified public-domain
+    // recordings from approved sources are cached for cards and playback.
+    private val audioSourceAdapter = AudioAZPublicDomainAdapter()
+    private val audioSourceCache =
+        ConcurrentHashMap<String, List<AudioAZPublicDomainAdapter.Recording>>()
 
     // Keep catalogue discovery concurrent without flooding the public metadata API.
     // The same limit also applies to book details and search requests.
@@ -472,7 +479,58 @@ class AudibleProvider : MainAPI() {
             .replace("\n\n", "<br><br>")
             .replace("\n", "<br>")
 
+    private fun recordingCard(
+        recording: AudioAZPublicDomainAdapter.Recording,
+        fallbackPoster: String? = null
+    ) = newMovieSearchResponse(recording.displayTitle, recording.url, TvType.AudioBook) {
+        posterUrl = recording.poster ?: fallbackPoster
+    }
+
     override suspend fun load(url: String): LoadResponse {
+        // Recording cards point back to AudioAZ pages; route them through this provider
+        // so their verified metadata and playback are handled inside CloudStream.
+        if (audioSourceAdapter.isAudioAZBookUrl(url)) {
+            val recording = audioSourceAdapter.inspectRecording(url)
+                ?: throw ErrorLoadingException(
+                    "This page does not expose a verified public-domain recording from an approved source."
+                )
+            val alternatives = try {
+                audioSourceAdapter.findMatches(recording.title, recording.author)
+                    .filterNot { it.url == recording.url }
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logError(e)
+                emptyList()
+            }
+            return newMovieLoadResponse(
+                recording.displayTitle,
+                recording.url,
+                TvType.AudioBook,
+                recording.url
+            ) {
+                plot = buildString {
+                    append("<b>Verified public-domain recording</b><br>")
+                    append(synopsisHtml(recording.summaryText))
+                    append("<br><br><b>Source page</b><br>")
+                    append(escapeHtml(recording.url))
+                    if (alternatives.isNotEmpty()) {
+                        append("<br><br><b>OTHER MATCHING RECORDINGS</b><br>")
+                        append(alternatives.joinToString("<br><br>") {
+                            "<b>" + escapeHtml(it.title) + "</b>" +
+                                (if (it.narrators.isBlank()) "" else "<br>Narrator: " + escapeHtml(it.narrators)) +
+                                (if (it.duration.isBlank()) "" else "<br>Duration: " + escapeHtml(it.duration)) +
+                                "<br><i>Select its recording card below to open that version.</i>"
+                        })
+                    }
+                }
+                posterUrl = recording.poster
+                backgroundPosterUrl = recording.poster
+                duration = recording.durationMinutes
+                recommendations = alternatives.map { recordingCard(it, recording.poster) }
+            }
+        }
+
         val asin = Regex("/book/([A-Za-z0-9]{10})")
             .find(url)?.groupValues?.getOrNull(1)?.uppercase()
             ?: throw ErrorLoadingException("Invalid Audible book identifier.")
@@ -482,6 +540,16 @@ class AudibleProvider : MainAPI() {
                 listOf("${API_ROOT}/book/${asin}?region=${region}&cache=true")
             ).firstOrNull { it.asin == asin }
                 ?: throw ErrorLoadingException("Libex did not return this book. Try again later.")
+
+            val recordings = try {
+                audioSourceAdapter.findMatches(book.title, book.authors)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logError(e)
+                emptyList()
+            }
+            audioSourceCache[asin] = recordings
 
             val metadataLines = buildList {
                 add("<b>Author:</b> ${escapeHtml(book.authors.ifBlank { "Not listed" })}")
@@ -509,9 +577,31 @@ class AudibleProvider : MainAPI() {
                 append(metadataLines.joinToString("<br>"))
                 append("<br><br><b>Synopsis</b><br>")
                 append(synopsisHtml(book.description.ifBlank { "No description available." }))
+                if (recordings.isNotEmpty()) {
+                    append("<br><br><b>VERIFIED PUBLIC-DOMAIN RECORDINGS</b><br>")
+                    append(recordings.joinToString("<br><br>") { recording ->
+                        buildString {
+                            append("<b>").append(escapeHtml(recording.title)).append("</b>")
+                            if (recording.narrators.isNotBlank()) {
+                                append("<br>Narrator: ").append(escapeHtml(recording.narrators))
+                            }
+                            if (recording.language.isNotBlank()) {
+                                append("<br>Language: ").append(escapeHtml(recording.language))
+                            }
+                            if (recording.duration.isNotBlank()) {
+                                append("<br>Duration: ").append(escapeHtml(recording.duration))
+                            }
+                            if (recording.releaseDate.isNotBlank()) {
+                                append("<br>Release date: ").append(escapeHtml(recording.releaseDate))
+                            }
+                            append("<br><i>Select the matching recording card below to open this version in CloudStream.</i>")
+                        }
+                    })
+                } else {
+                    append("<br><br><i>No exact public-domain recording match was verified from AudioAZ. Catalogue metadata remains available.</i>")
+                }
                 append("<br><br><b>Audible listing</b><br>")
                 append(escapeHtml(book.audibleUrl))
-                append("<br><br><i>Catalogue metadata provided by Libex. Audio playback sources are not yet integrated.</i>")
             }
 
             newMovieLoadResponse(book.title, url, TvType.AudioBook, asin) {
@@ -520,6 +610,7 @@ class AudibleProvider : MainAPI() {
                 this.tags = book.genres
                 this.duration = book.durationMinutes
                 this.backgroundPosterUrl = displayCover(book.cover)
+                recommendations = recordings.map { recordingCard(it, displayCover(book.cover)) }
             }
         } catch (e: ErrorLoadingException) {
             throw e
@@ -536,7 +627,44 @@ class AudibleProvider : MainAPI() {
         isCasting: Boolean,
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
-    ): Boolean = false
+    ): Boolean {
+        // A version card stores its verified AudioAZ page URL. The main Audible card
+        // stores an ASIN, in which case resolve the matching public-domain recordings.
+        if (audioSourceAdapter.isAudioAZBookUrl(data)) {
+            return audioSourceAdapter.loadLinks(data, subtitleCallback, callback)
+        }
+
+        val asin = data.trim().uppercase()
+        if (!asin.matches(Regex("[A-Z0-9]{10}"))) return false
+
+        val recordings = audioSourceCache[asin] ?: run {
+            val book = fetchList(
+                listOf("${API_ROOT}/book/${asin}?region=${region}&cache=true")
+            ).firstOrNull { it.asin == asin } ?: return false
+            val matches = try {
+                audioSourceAdapter.findMatches(book.title, book.authors)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logError(e)
+                emptyList()
+            }
+            audioSourceCache[asin] = matches
+            matches
+        }
+
+        var found = false
+        recordings.take(6).forEach { recording ->
+            if (audioSourceAdapter.loadLinks(recording.url, subtitleCallback) { link ->
+                    callback(link)
+                    found = true
+                }
+            ) {
+                found = true
+            }
+        }
+        return found
+    }
 
     companion object {
         private const val API_ROOT = "https://libexdb.com"
