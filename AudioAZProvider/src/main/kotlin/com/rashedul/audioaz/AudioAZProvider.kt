@@ -910,7 +910,7 @@ class AudioAZProvider : MainAPI() {
                 else if (ratio in 0.75..1.1) score += 10
                 else if (ratio < 0.75) score -= 25
             }
-            Triple(score, url, dimensions)
+            score to url
         }
         val best = scored.maxByOrNull { it.first }?.second
         if (!best.isNullOrBlank()) return best
