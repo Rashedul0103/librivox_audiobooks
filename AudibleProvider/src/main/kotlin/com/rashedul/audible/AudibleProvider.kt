@@ -17,6 +17,9 @@ import com.lagradost.cloudstream3.newMovieSearchResponse
 import com.lagradost.cloudstream3.toNewSearchResponseList
 import com.lagradost.cloudstream3.utils.ExtractorLink
 import com.lagradost.cloudstream3.utils.StringUtils.encodeUri
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -59,11 +62,25 @@ class AudibleProvider : MainAPI() {
     ) {
         fun card(provider: AudibleProvider) =
             provider.newMovieSearchResponse(title, provider.bookUrl(asin), TvType.AudioBook) {
-                posterUrl = cover.ifBlank { null }
+                posterUrl = provider.displayCover(cover)
             }
     }
 
     private fun bookUrl(asin: String): String = "${API_ROOT}/book/${asin}?region=${region}"
+
+    /**
+     * The app's poster view center-crops a fixed portrait box. Libex may return
+     * cover images with different aspect ratios, which can crop title lettering
+     * and corner marks. Fit the entire source cover into a fixed portrait canvas
+     * before passing it to CloudStream.
+     */
+    private fun displayCover(source: String): String? {
+        val original = source.trim()
+        if (original.isBlank()) return null
+        if (!original.startsWith("https://") && !original.startsWith("http://")) return null
+        val encoded = original.encodeUri()
+        return "https://images.weserv.nl/?url=${encoded}&w=400&h=600&fit=contain&cbg=080808"
+    }
 
     private fun text(obj: JSONObject, vararg keys: String): String {
         for (key in keys) {
@@ -192,25 +209,58 @@ class AudibleProvider : MainAPI() {
     private fun apiUrl(path: String, query: String = ""): String =
         "${API_ROOT}${path}?region=${region}&${query}".trimEnd('?', '&')
 
+    private data class ShelfSpec(
+        val title: String,
+        // Variants are tried in order; the first one with results supplies the row.
+        val variants: List<List<Pair<String, String>>>
+    )
+
+    private fun dbBookUrl(page: Int, filters: List<Pair<String, String>>): String {
+        val params = mutableListOf(
+            "region" to region,
+            "sort" to "rating",
+            "order" to "desc",
+            "limit" to "24",
+            "page" to page.coerceAtLeast(1).toString()
+        )
+        params.addAll(filters)
+        val query = params.joinToString("&") { (key, value) ->
+            "$key=${value.encodeUri()}"
+        }
+        return "${API_ROOT}/db/book?${query}"
+    }
+
+    private suspend fun fetchShelf(spec: ShelfSpec, page: Int): HomePageList? {
+        for (variant in spec.variants) {
+            val books = fetchList(listOf(dbBookUrl(page, variant)))
+            if (books.isNotEmpty()) {
+                return HomePageList(spec.title, books.map { it.card(this) }, false)
+            }
+        }
+        return null
+    }
+
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
+            val currentPage = page.coerceAtLeast(1)
             val rows = mutableListOf<HomePageList>()
+
             val newReleases = fetchList(
-                listOf(apiUrl("/db/new-releases", "days=90&limit=24&page=${page}"))
+                listOf(apiUrl("/db/new-releases", "days=90&limit=24&page=${currentPage}"))
             )
             if (newReleases.isNotEmpty()) {
                 rows += HomePageList("New Releases", newReleases.map { it.card(this) }, false)
             }
 
             val popular = fetchList(
-                listOf(apiUrl("/db/book", "sort=rating&order=desc&limit=24&page=${page}"))
+                listOf(apiUrl("/db/book", "sort=rating&order=desc&limit=24&page=${currentPage}"))
             )
             if (popular.isNotEmpty()) {
                 rows += HomePageList("Popular Audiobooks", popular.map { it.card(this) }, false)
             }
 
             val recentlyIndexed = fetchList(
-                listOf(apiUrl("/db/book", "sort=updatedAt&order=desc&limit=24&page=${page}"))
+                listOf(apiUrl("/db/book", "sort=updatedAt&order=desc&limit=24&page=${currentPage}"))
             )
             if (recentlyIndexed.isNotEmpty()) {
                 rows += HomePageList(
@@ -219,7 +269,62 @@ class AudibleProvider : MainAPI() {
                     false
                 )
             }
-            newHomePageResponse(rows, page < 100 && rows.isNotEmpty())
+
+            val genreShelves = listOf(
+                ShelfSpec("Science Fiction", listOf(listOf("genre" to "Science Fiction"))),
+                ShelfSpec("Fantasy", listOf(listOf("genre" to "Fantasy"))),
+                ShelfSpec("Mystery, Thriller & Suspense", listOf(listOf("genre" to "Mystery"))),
+                ShelfSpec("Romance", listOf(listOf("genre" to "Romance"))),
+                ShelfSpec("Horror", listOf(listOf("genre" to "Horror"))),
+                ShelfSpec("Historical Fiction", listOf(listOf("genre" to "Historical Fiction"))),
+                ShelfSpec("Biography & Memoir", listOf(listOf("genre" to "Biography"))),
+                ShelfSpec("Self-Help & Personal Development", listOf(listOf("genre" to "Self-Help"))),
+                ShelfSpec("Business & Careers", listOf(listOf("genre" to "Business"))),
+                ShelfSpec("Teen & Young Adult", listOf(listOf("genre" to "Young Adult"))),
+                ShelfSpec("Children & Family", listOf(listOf("genre" to "Children"))),
+                ShelfSpec("Religion & Spirituality", listOf(listOf("genre" to "Religion")))
+            )
+
+            val typeShelves = listOf(
+                ShelfSpec(
+                    "Full Cast & Ensemble",
+                    listOf(
+                        listOf("description" to "full cast"),
+                        listOf("summary" to "full cast"),
+                        listOf("description" to "full-cast"),
+                        listOf("summary" to "full-cast")
+                    )
+                ),
+                ShelfSpec(
+                    "Dramatizations & Audio Dramas",
+                    listOf(
+                        listOf("description" to "dramatization"),
+                        listOf("summary" to "dramatization"),
+                        listOf("description" to "dramatized"),
+                        listOf("summary" to "dramatized"),
+                        listOf("description" to "audio drama"),
+                        listOf("summary" to "audio drama")
+                    )
+                ),
+                ShelfSpec("Abridged Audiobooks", listOf(listOf("book_format" to "abridged"))),
+                ShelfSpec("Unabridged Audiobooks", listOf(listOf("book_format" to "unabridged"))),
+                ShelfSpec("Virtual Voice (AI Narrated)", listOf(listOf("is_vvab" to "true"))),
+                ShelfSpec("Short Audiobooks (Under 3 Hours)", listOf(listOf("shorter_than" to "180"))),
+                ShelfSpec("Long Listens (10+ Hours)", listOf(listOf("longer_than" to "600")))
+            )
+
+            // Limit concurrency so the homepage does not send a burst of requests
+            // to the public metadata service. Empty shelves are simply omitted.
+            (genreShelves + typeShelves).chunked(4).forEach { batch ->
+                val fetchedRows = coroutineScope {
+                    batch.map { shelf ->
+                        async { fetchShelf(shelf, currentPage) }
+                    }.awaitAll().filterNotNull()
+                }
+                rows += fetchedRows
+            }
+
+            newHomePageResponse(rows, currentPage < 100 && rows.isNotEmpty())
         } catch (e: Exception) {
             logError(e)
             newHomePageResponse(emptyList(), false)
@@ -275,10 +380,10 @@ class AudibleProvider : MainAPI() {
 
             newMovieLoadResponse(book.title, url, TvType.AudioBook, asin) {
                 this.plot = description
-                this.posterUrl = book.cover.ifBlank { null }
+                this.posterUrl = displayCover(book.cover)
                 this.tags = book.genres
                 this.duration = book.durationMinutes
-                this.backgroundPosterUrl = book.cover.ifBlank { null }
+                this.backgroundPosterUrl = displayCover(book.cover)
             }
         } catch (e: ErrorLoadingException) {
             throw e
