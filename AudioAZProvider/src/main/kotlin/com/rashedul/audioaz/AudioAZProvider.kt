@@ -24,6 +24,9 @@ import com.lagradost.cloudstream3.utils.newExtractorLink
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
 import java.net.URI
+import java.util.concurrent.ConcurrentHashMap
+import kotlinx.coroutines.CancellationException
+import org.json.JSONObject
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
@@ -31,6 +34,14 @@ import kotlinx.coroutines.coroutineScope
 class AudioAZProvider : MainAPI() {
     private val siteRoot = "https://audioaz.com"
     private val siteBase = "$siteRoot/en"
+
+    override var mainUrl = siteRoot
+    override var name = "AudioAZ"
+    override var lang = "en"
+    override val hasMainPage = true
+    override val supportedTypes = setOf(TvType.Audio, TvType.Others)
+
+    private val archiveRightsCache = ConcurrentHashMap<String, Boolean>()
 
     // AudioAZ serves a Next.js website. Use ordinary browser headers and try
     // its current catalogue routes before older browse routes.
@@ -46,9 +57,14 @@ class AudioAZProvider : MainAPI() {
 
     private suspend fun fetchBookCards(urls: List<String>): List<BookCard> {
         for (url in urls.distinct()) {
-            val books = runCatching { parseBookCards(fetchDocument(url)) }
-                .onFailure { logError(it) }
-                .getOrDefault(emptyList())
+            val books = try {
+                parseBookCards(fetchDocument(url))
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logError(e)
+                emptyList()
+            }
             if (books.isNotEmpty()) return books
         }
         return emptyList()
@@ -106,9 +122,14 @@ class AudioAZProvider : MainAPI() {
 
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
-            val homeDoc = runCatching { fetchDocument(siteBase) }
-                .onFailure { logError(it) }
-                .getOrNull()
+            val homeDoc = try {
+                fetchDocument(siteBase)
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                logError(e)
+                null
+            }
 
             val rows = mutableListOf<HomePageList>()
             val popular = homeDoc?.let { parseHomeSection(it, "Most Streamed Audiobooks") }.orEmpty()
@@ -141,6 +162,8 @@ class AudioAZProvider : MainAPI() {
             }
 
             newHomePageResponse(rows, page < 100 && rows.isNotEmpty())
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logError(e)
             newHomePageResponse(emptyList(), false)
@@ -161,12 +184,19 @@ class AudioAZProvider : MainAPI() {
             )
             var results: List<BookCard> = emptyList()
             for (candidate in candidateUrls) {
-                results = runCatching { parseBookCards(fetchDocument(candidate)) }
-                    .onFailure { logError(it) }
-                    .getOrDefault(emptyList())
+                results = try {
+                    parseBookCards(fetchDocument(candidate))
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    logError(e)
+                    emptyList()
+                }
                 if (results.isNotEmpty()) break
             }
             results.map { it.toSearchResponse(this@AudioAZProvider) }.toNewSearchResponseList()
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logError(e)
             null
@@ -174,7 +204,11 @@ class AudioAZProvider : MainAPI() {
     }
 
     override suspend fun load(url: String): LoadResponse {
-        val safeUrl = validateAudioAZUrl(url)
+        val safeUrl = try {
+            validateAudioAZUrl(url)
+        } catch (_: Exception) {
+            throw ErrorLoadingException("Invalid AudioAZ audiobook or read-along URL.")
+        }
         return try {
             val doc = fetchDocument(safeUrl)
             val readAlongPage = isReadAlongUrl(safeUrl)
@@ -213,9 +247,14 @@ class AudioAZProvider : MainAPI() {
                     (versions.isEmpty() || readAlongChapters.isEmpty()) &&
                     parseChapterCount(doc.text()) > 0
             ) {
-                runCatching { fetchDocument("$bookUrl/read/1") }
-                    .onFailure { logError(it) }
-                    .getOrNull()
+                try {
+                    fetchDocument("$bookUrl/read/1")
+                } catch (e: CancellationException) {
+                    throw e
+                } catch (e: Exception) {
+                    logError(e)
+                    null
+                }
             } else null
 
             if (versions.isEmpty() && companionReadAlongDoc != null) {
@@ -253,6 +292,8 @@ class AudioAZProvider : MainAPI() {
                     .take(26)
                     .map { it.toSearchResponse(this@AudioAZProvider) }
             }
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logError(e)
             throw ErrorLoadingException("Unable to load this AudioAZ page. Try opening it on the AudioAZ website.")
@@ -265,31 +306,38 @@ class AudioAZProvider : MainAPI() {
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-        val safeUrl = runCatching { validateAudioAZUrl(data) }.getOrNull() ?: return false
+        val safeUrl = try {
+            validateAudioAZUrl(data)
+        } catch (_: Exception) {
+            return false
+        }
+
         return try {
             val doc = fetchDocument(safeUrl)
-            val pageConfirmsPublicDomain = doc.text().contains("public domain", ignoreCase = true)
             var found = false
 
-            val directAudioUrls = doc.select(
+            // Resolve relative media URLs against the book page, including og:audio content.
+            val audioCandidates = doc.select(
                 "audio[src], audio source[src], source[src], meta[property=og:audio]"
             ).mapNotNull { element ->
                 val raw = if (element.tagName().equals("meta", true)) {
                     element.attr("content")
-                } else element.attr("src")
-                val absolute = if (raw.startsWith("https://")) raw else element.absUrl("src")
-                absolute.takeIf { isAllowedPublicAudioUrl(it, pageConfirmsPublicDomain) }
+                } else {
+                    element.attr("src")
+                }.trim()
+                if (raw.isBlank()) null
+                else runCatching { URI(safeUrl).resolve(raw).toString() }.getOrNull()
             }.distinct()
 
-            directAudioUrls.forEach { audioUrl ->
-                callback(newExtractorLink(name, "Public-domain audio", audioUrl) {
+            for (audioUrl in audioCandidates) {
+                if (!isAllowedPublicAudioUrl(audioUrl)) continue
+                callback(newExtractorLink(name, "Verified public-domain audio", audioUrl) {
                     quality = Qualities.Unknown.value
                     referer = safeUrl
                 })
                 found = true
             }
 
-            // Require an explicit source label so narrator-profile links are ignored.
             val sourcePages = doc.select("a[href*='librivox.org'], a[href*='archive.org/details/']")
                 .filter { link ->
                     val label = link.text().lowercase()
@@ -302,15 +350,21 @@ class AudioAZProvider : MainAPI() {
                 .distinct()
                 .take(2)
 
-            sourcePages.forEach { sourceUrl ->
+            for (sourceUrl in sourcePages) {
+                // Collect links before the suspendable rights check.
+                val extractedLinks = mutableListOf<ExtractorLink>()
                 loadExtractor(sourceUrl, subtitleCallback) { link ->
-                    if (isAllowedPublicAudioUrl(link.url, pageConfirmsPublicDomain)) {
-                        callback(link)
-                        found = true
-                    }
+                    extractedLinks += link
+                }
+                for (link in extractedLinks.distinctBy { it.url }) {
+                    if (!isAllowedPublicAudioUrl(link.url)) continue
+                    callback(link)
+                    found = true
                 }
             }
             found
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
             logError(e)
             false
@@ -872,15 +926,22 @@ class AudioAZProvider : MainAPI() {
     }
 
     private fun parseDurationMinutes(raw: String): Int? {
-        val token = Regex("(?<!\\d)(\\d{1,3}:\\d{2}(?::\\d{2})?)(?!\\d)")
-            .find(raw)?.groupValues?.get(1) ?: return null
-        val parts = token.split(":").mapNotNull { it.toIntOrNull() }
-        val seconds = when (parts.size) {
-            2 -> parts[0] * 60 + parts[1]
-            3 -> parts[0] * 3600 + parts[1] * 60 + parts[2]
-            else -> return null
+        val clock = Regex("(?<!\\d)(\\d{1,3}:\\d{2}(?::\\d{2})?)(?!\\d)")
+            .find(raw)?.groupValues?.get(1)
+        if (clock != null) {
+            val parts = clock.split(":").mapNotNull { it.toIntOrNull() }
+            val seconds = when (parts.size) {
+                2 -> parts[0] * 60 + parts[1]
+                3 -> parts[0] * 3600 + parts[1] * 60 + parts[2]
+                else -> return null
+            }
+            return (seconds / 60.0).toInt().takeIf { it > 0 }
         }
-        return (seconds / 60.0).toInt().takeIf { it > 0 }
+        val hours = Regex("""(?i)\b(\d{1,3})\s*(?:hours?|hrs?|h)(?=\s|$|\d)""")
+            .find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
+        val minutes = Regex("""(?i)\b(\d{1,3})\s*(?:minutes?|mins?|m)\b""")
+            .find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
+        return (hours * 60 + minutes).takeIf { it > 0 }
     }
 
     private fun validateAudioAZUrl(raw: String): String {
@@ -911,17 +972,74 @@ class AudioAZProvider : MainAPI() {
         )
     }.getOrDefault(false)
 
-    private fun isAllowedPublicAudioUrl(raw: String, pageConfirmsPublicDomain: Boolean): Boolean = runCatching {
-        val uri = URI(raw)
+    /**
+     * Ignore AudioAZ's generic footer when verifying recording rights. LibriVox is an
+     * approved public-domain recording source; Archive.org needs item-specific metadata.
+     */
+    private suspend fun isAllowedPublicAudioUrl(raw: String): Boolean {
+        val uri = try {
+            URI(raw)
+        } catch (_: Exception) {
+            return false
+        }
+        if (uri.scheme != "https") return false
         val host = uri.host?.lowercase().orEmpty()
-        val librivoxHost = host == "librivox.org" || host.endsWith(".librivox.org")
-        val archiveHost = host == "archive.org" || host.endsWith(".archive.org")
-        // Internet Archive also hosts copyrighted material; accept it only when
-        // the specific AudioAZ item explicitly identifies itself as public domain.
-        val approvedHost = librivoxHost || (archiveHost && pageConfirmsPublicDomain)
         val path = uri.path?.lowercase().orEmpty()
         val extension = listOf(".mp3", ".m4a", ".aac", ".ogg", ".oga", ".opus", ".wav", ".flac")
             .any { path.endsWith(it) }
-        uri.scheme == "https" && approvedHost && extension
-    }.getOrDefault(false)
+        if (!extension) return false
+
+        if (host == "librivox.org" || host.endsWith(".librivox.org")) return true
+        if (host != "archive.org" && !host.endsWith(".archive.org")) return false
+        val identifier = archiveIdentifier(uri.path.orEmpty()) ?: return false
+        return isPublicDomainArchiveItem(identifier)
+    }
+
+    private fun archiveIdentifier(path: String): String? {
+        val segments = path.split('/').filter { it.isNotBlank() }
+        for (marker in listOf("details", "download", "items")) {
+            val index = segments.indexOf(marker)
+            val identifier = segments.getOrNull(index + 1) ?: continue
+            if (identifier.matches(Regex("[A-Za-z0-9._-]{3,160}"))) return identifier
+        }
+        return null
+    }
+
+    private suspend fun isPublicDomainArchiveItem(identifier: String): Boolean {
+        archiveRightsCache[identifier]?.let { return it }
+        val metadataJson = try {
+            app.get(
+                "https://archive.org/metadata/$identifier",
+                headers = mapOf(
+                    "User-Agent" to requestHeaders.getValue("User-Agent"),
+                    "Accept" to "application/json"
+                )
+            ).text
+        } catch (e: CancellationException) {
+            throw e
+        } catch (e: Exception) {
+            logError(e)
+            return false
+        }
+
+        val metadata = try {
+            JSONObject(metadataJson).optJSONObject("metadata")
+        } catch (e: Exception) {
+            logError(e)
+            null
+        } ?: return false
+
+        val license = metadata.optString("licenseurl").lowercase()
+        val rights = metadata.optString("rights").lowercase()
+        val hasPublicDomainLicense =
+            license.contains("creativecommons.org/publicdomain/zero/") ||
+                license.contains("creativecommons.org/publicdomain/mark/")
+        val explicitRightsClaim = Regex("""\bpublic domain\b""").containsMatchIn(rights) &&
+            !Regex("""\b(?:not|is not|isn't|no longer|not necessarily)\s+(?:in\s+the\s+)?public domain\b""")
+                .containsMatchIn(rights)
+        val verified = hasPublicDomainLicense || explicitRightsClaim
+        archiveRightsCache[identifier] = verified
+        return verified
+    }
+
 }
