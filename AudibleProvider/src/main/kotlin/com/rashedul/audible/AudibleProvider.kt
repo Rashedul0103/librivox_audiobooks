@@ -79,7 +79,13 @@ class AudibleProvider : MainAPI() {
         if (original.isBlank()) return null
         if (!original.startsWith("https://") && !original.startsWith("http://")) return null
         val encoded = original.encodeUri()
-        return "https://images.weserv.nl/?url=${encoded}&w=380&h=600&fit=fill"
+        val fit = AudibleSettings.coverFitMode()
+        val params = when (fit) {
+            AudibleSettings.FIT_STRETCH -> "w=380&h=600&fit=fill"
+            AudibleSettings.FIT_CROP -> "w=380&h=600&fit=cover"
+            else -> "w=380&h=600&fit=contain&cbg=080808"
+        }
+        return "https://wsrv.nl/?url=${encoded}&${params}"
     }
 
     private fun text(obj: JSONObject, vararg keys: String): String {
@@ -371,7 +377,8 @@ class AudibleProvider : MainAPI() {
             }
             rows += specialRows
 
-            newHomePageResponse(rows, currentPage < 100 && rows.isNotEmpty())
+            val arrangedRows = AudibleSettings.arrangeHomeRows(rows)
+            newHomePageResponse(arrangedRows, currentPage < 100 && arrangedRows.isNotEmpty())
         } catch (e: Exception) {
             logError(e)
             newHomePageResponse(emptyList(), false)
