@@ -1,10 +1,10 @@
-version = 10
+version = 11
 
 cloudstream {
     description = "Audible audiobook catalogue powered by Libex metadata. Audio playback sources are not yet integrated."
     authors = listOf("Rashedul0103")
     status = 1
-    tvTypes = listOf("AudioBook", "Others")
+    tvTypes = listOf("AudioBook", "Others", "Movie", "TvSeries")
     iconUrl = "https://www.google.com/s2/favicons?domain=audible.com&sz=%size%"
     isCrossPlatform = false
 }
