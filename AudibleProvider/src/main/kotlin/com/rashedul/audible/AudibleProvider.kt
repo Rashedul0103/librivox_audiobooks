@@ -79,7 +79,7 @@ class AudibleProvider : MainAPI() {
         if (original.isBlank()) return null
         if (!original.startsWith("https://") && !original.startsWith("http://")) return null
         val encoded = original.encodeUri()
-        return "https://images.weserv.nl/?url=${encoded}&w=400&h=600&fit=contain&cbg=080808"
+        return "https://images.weserv.nl/?url=${encoded}&w=380&h=600&fit=contain&cbg=080808"
     }
 
     private fun text(obj: JSONObject, vararg keys: String): String {
