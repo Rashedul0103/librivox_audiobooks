@@ -240,6 +240,7 @@ class AudibleProvider : MainAPI() {
     }
 
     private suspend fun fetchShelf(spec: ShelfSpec, page: Int): HomePageList? {
+        if (!AudibleSettings.isRowEnabled(spec.title)) return null
         for (variant in spec.variants) {
             val books = fetchList(listOf(dbBookUrl(page, variant)))
             if (books.isNotEmpty()) {
@@ -271,6 +272,8 @@ class AudibleProvider : MainAPI() {
     }
 
     private suspend fun fetchSearchShelf(spec: SearchShelfSpec, page: Int): HomePageList? {
+        // Libex live search is limited to zero-based pages 0-9.
+        if (!AudibleSettings.isRowEnabled(spec.title) || page !in 1..10) return null
         val books = fetchList(spec.queryVariants.map { liveSearchUrl(it, page) })
         if (books.isEmpty()) return null
         return HomePageList(spec.title, books.map { it.card(this) }, false)
@@ -281,23 +284,29 @@ class AudibleProvider : MainAPI() {
             val currentPage = page.coerceAtLeast(1)
             val rows = mutableListOf<HomePageList>()
 
-            val newReleases = fetchList(
-                listOf(apiUrl("/db/new-releases", "days=90&limit=24&page=${currentPage}"))
-            )
+            val newReleases = if (AudibleSettings.isShelfEnabled("new_releases")) {
+                fetchList(
+                    listOf(apiUrl("/db/new-releases", "days=90&limit=24&page=${currentPage}"))
+                )
+            } else emptyList()
             if (newReleases.isNotEmpty()) {
                 rows += HomePageList("New Releases", newReleases.map { it.card(this) }, false)
             }
 
-            val popular = fetchList(
-                listOf(apiUrl("/db/book", "sort=rating&order=desc&limit=24&page=${currentPage}"))
-            )
+            val popular = if (AudibleSettings.isShelfEnabled("popular")) {
+                fetchList(
+                    listOf(apiUrl("/db/book", "sort=rating&order=desc&limit=24&page=${currentPage}"))
+                )
+            } else emptyList()
             if (popular.isNotEmpty()) {
                 rows += HomePageList("Popular Audiobooks", popular.map { it.card(this) }, false)
             }
 
-            val recentlyIndexed = fetchList(
-                listOf(apiUrl("/db/book", "sort=updatedAt&order=desc&limit=24&page=${currentPage}"))
-            )
+            val recentlyIndexed = if (AudibleSettings.isShelfEnabled("recent_metadata")) {
+                fetchList(
+                    listOf(apiUrl("/db/book", "sort=updatedAt&order=desc&limit=24&page=${currentPage}"))
+                )
+            } else emptyList()
             if (recentlyIndexed.isNotEmpty()) {
                 rows += HomePageList(
                     "Recently Updated Metadata",
@@ -393,12 +402,18 @@ class AudibleProvider : MainAPI() {
         return try {
             val q = query.encodeUri()
             val currentPage = page.coerceAtLeast(1)
+            // Libex live search accepts zero-based pages 0-9; CloudStream pages are one-based.
+            if (currentPage > 10) return null
+            val apiPage = currentPage - 1
             val limit = 24
-            val candidates = listOf(
-                "${API_ROOT}/search?keywords=${q}&region=${region}&limit=${limit}&page=${currentPage}",
-                "${API_ROOT}/search?title=${q}&region=${region}&limit=${limit}&page=${currentPage}",
-                "${API_ROOT}/quick-search?keywords=${q}&region=${region}"
+            val candidates = mutableListOf(
+                "${API_ROOT}/search?keywords=${q}&region=${region}&limit=${limit}&page=${apiPage}",
+                "${API_ROOT}/search?title=${q}&region=${region}&limit=${limit}&page=${apiPage}"
             )
+            // Quick search has no page parameter, so use it only as a first-page fallback.
+            if (currentPage == 1) {
+                candidates += "${API_ROOT}/quick-search?keywords=${q}&region=${region}"
+            }
             fetchList(candidates).map { it.card(this) }.toNewSearchResponseList()
         } catch (e: Exception) {
             logError(e)
