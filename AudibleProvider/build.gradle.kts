@@ -1,11 +1,11 @@
-version = 15
+version = 16
 
 cloudstream {
-    description = "Audible audiobook catalogue powered by Libex metadata, with verified public-domain audio sources."
+    description = "Audiobook Hub with Libex metadata, verified public-domain AudioAZ matches, and Golden/Full Length catalogue links."
     authors = listOf("Rashedul0103")
     status = 1
     tvTypes = listOf("AudioBook", "Others", "Movie", "TvSeries")
-    iconUrl = "https://www.google.com/s2/favicons?domain=audible.com&sz=%size%"
+    iconUrl = "https://www.google.com/s2/favicons?domain=goldenaudiobooks.com&sz=%size%"
     isCrossPlatform = false
 }
 
