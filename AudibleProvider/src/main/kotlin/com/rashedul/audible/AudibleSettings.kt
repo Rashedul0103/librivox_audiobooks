@@ -36,6 +36,7 @@ object AudibleSettings {
     const val FIT_CONTAIN = "contain"
     const val FIT_STRETCH = "fill"
     const val FIT_CROP = "cover"
+    const val FIT_STRETCH_TRIM = "fill_trim"
 
     private const val PREFIX = "AUDIBLE_UI_V1_"
     private const val ORDER_KEY = PREFIX + "ROW_ORDER"
@@ -76,7 +77,7 @@ object AudibleSettings {
     fun coverFitMode(): String {
         val stored = getKey<String>(FIT_KEY)
         return when (stored) {
-            FIT_STRETCH, FIT_CROP -> stored
+            FIT_STRETCH, FIT_CROP, FIT_STRETCH_TRIM -> stored
             else -> FIT_CONTAIN
         }
     }
@@ -184,7 +185,8 @@ object AudibleSettings {
             val options = listOf(
                 FIT_CONTAIN to "Show the full cover — no crop (recommended)",
                 FIT_STRETCH to "Fill the portrait card by stretching the image",
-                FIT_CROP to "Crop to fill the portrait card"
+                FIT_CROP to "Crop to fill the portrait card",
+                FIT_STRETCH_TRIM to "Fill by stretching, with a slight top/bottom crop"
             )
             options.forEach { (value, label) ->
                 val button = RadioButton(context).apply {
@@ -208,14 +210,6 @@ object AudibleSettings {
             textSize = 12f
             setTextColor(Color.GRAY)
             setPadding(dp(4), dp(4), dp(4), dp(8))
-        })
-
-        content.addView(sectionTitle(context, "CORNER ROUNDING", density))
-        content.addView(TextView(context).apply {
-            text = "The outer corner radius is drawn by CloudStream/CloudX itself. The plugin API does not expose a per-extension radius control, so a true corner-rounding slider requires an app-side change. The image-fit setting above is supported."
-            textSize = 12f
-            setTextColor(Color.GRAY)
-            setPadding(dp(4), 0, dp(4), dp(4))
         })
 
         val scroll = ScrollView(context).apply {
