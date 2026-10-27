@@ -1,4 +1,4 @@
-version = 5
+version = 6
 
 cloudstream {
     description = "AudioAZ audiobook catalogue with verified public-domain playback, portrait posters, alternate recordings, and read-along chapter support."
