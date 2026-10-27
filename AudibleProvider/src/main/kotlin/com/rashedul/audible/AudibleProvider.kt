@@ -30,7 +30,15 @@ class AudibleProvider : MainAPI() {
     override val hasMainPage = true
     override var lang = "en"
     override val hasDownloadSupport = false
-    override val supportedTypes = setOf(TvType.AudioBook, TvType.Others)
+    // CloudStream's home-provider picker defaults to Movie/TvSeries filters and has no
+    // AudioBook chip. Keep AudioBook as the real item type but advertise these aliases
+    // so users can select Audible from the default homepage provider list.
+    override val supportedTypes = setOf(
+        TvType.AudioBook,
+        TvType.Others,
+        TvType.Movie,
+        TvType.TvSeries
+    )
 
     private val region = "us"
 
