@@ -79,7 +79,7 @@ class AudibleProvider : MainAPI() {
         if (original.isBlank()) return null
         if (!original.startsWith("https://") && !original.startsWith("http://")) return null
         val encoded = original.encodeUri()
-        return "https://images.weserv.nl/?url=${encoded}&w=380&h=600&fit=contain&cbg=080808"
+        return "https://images.weserv.nl/?url=${encoded}&w=380&h=600&fit=fill"
     }
 
     private fun text(obj: JSONObject, vararg keys: String): String {
@@ -240,6 +240,33 @@ class AudibleProvider : MainAPI() {
         return null
     }
 
+    private data class SearchShelfSpec(
+        val title: String,
+        // Each entry is tried until one query returns books.
+        val queryVariants: List<List<Pair<String, String>>>
+    )
+
+    private fun liveSearchUrl(query: List<Pair<String, String>>, page: Int): String {
+        // Libex's live Audible search uses a zero-based page parameter (0-9).
+        val apiPage = (page - 1).coerceAtLeast(0).coerceAtMost(9)
+        val params = mutableListOf(
+            "region" to region,
+            "limit" to "24",
+            "page" to apiPage.toString()
+        )
+        params.addAll(query)
+        val encoded = params.joinToString("&") { (key, value) ->
+            "$key=${value.encodeUri()}"
+        }
+        return "${API_ROOT}/search?${encoded}"
+    }
+
+    private suspend fun fetchSearchShelf(spec: SearchShelfSpec, page: Int): HomePageList? {
+        val books = fetchList(spec.queryVariants.map { liveSearchUrl(it, page) })
+        if (books.isEmpty()) return null
+        return HomePageList(spec.title, books.map { it.card(this) }, false)
+    }
+
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
             val currentPage = page.coerceAtLeast(1)
@@ -286,26 +313,6 @@ class AudibleProvider : MainAPI() {
             )
 
             val typeShelves = listOf(
-                ShelfSpec(
-                    "Full Cast & Ensemble",
-                    listOf(
-                        listOf("description" to "full cast"),
-                        listOf("summary" to "full cast"),
-                        listOf("description" to "full-cast"),
-                        listOf("summary" to "full-cast")
-                    )
-                ),
-                ShelfSpec(
-                    "Dramatizations & Audio Dramas",
-                    listOf(
-                        listOf("description" to "dramatization"),
-                        listOf("summary" to "dramatization"),
-                        listOf("description" to "dramatized"),
-                        listOf("summary" to "dramatized"),
-                        listOf("description" to "audio drama"),
-                        listOf("summary" to "audio drama")
-                    )
-                ),
                 ShelfSpec("Abridged Audiobooks", listOf(listOf("book_format" to "abridged"))),
                 ShelfSpec("Unabridged Audiobooks", listOf(listOf("book_format" to "unabridged"))),
                 ShelfSpec("Virtual Voice (AI Narrated)", listOf(listOf("is_vvab" to "true"))),
@@ -323,6 +330,45 @@ class AudibleProvider : MainAPI() {
                 }
                 rows += fetchedRows
             }
+
+            val discoveryShelves = listOf(
+                SearchShelfSpec(
+                    "Full Cast & Ensemble",
+                    listOf(
+                        listOf("narrator" to "Full Cast"),
+                        listOf("keywords" to "full cast"),
+                        listOf("title" to "full cast"),
+                        listOf("keywords" to "ensemble cast")
+                    )
+                ),
+                SearchShelfSpec(
+                    "Collections & Box Sets",
+                    listOf(
+                        listOf("keywords" to "collection audiobook"),
+                        listOf("keywords" to "box set audiobook"),
+                        listOf("title" to "collection"),
+                        listOf("keywords" to "complete collection")
+                    )
+                ),
+                SearchShelfSpec(
+                    "Dramatizations & Audio Dramas",
+                    listOf(
+                        listOf("keywords" to "dramatization"),
+                        listOf("keywords" to "audio drama"),
+                        listOf("keywords" to "radio play"),
+                        listOf("title" to "dramatization")
+                    )
+                )
+            )
+
+            // Search Audible directly for presentation/format types that are not reliable DB filters.
+            // Empty sections stay hidden, but each section tries several useful search variants.
+            val specialRows = coroutineScope {
+                discoveryShelves.map { shelf ->
+                    async { fetchSearchShelf(shelf, currentPage) }
+                }.awaitAll().filterNotNull()
+            }
+            rows += specialRows
 
             newHomePageResponse(rows, currentPage < 100 && rows.isNotEmpty())
         } catch (e: Exception) {
