@@ -2,6 +2,9 @@ name: Build CloudStream extensions
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - audioaz-cloudstream
 
 permissions:
   contents: write
