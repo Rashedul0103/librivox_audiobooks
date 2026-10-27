@@ -910,7 +910,6 @@ class AudioAZProvider : MainAPI() {
                 else if (ratio in 0.75..1.1) score += 10
                 else if (ratio < 0.75) score -= 25
             }
-            val dimensions = if (hasDimensions) width.toString() + "x" + height.toString() else ""
             Triple(score, url, dimensions)
         }
         val best = scored.maxByOrNull { it.first }?.second
@@ -977,7 +976,10 @@ class AudioAZProvider : MainAPI() {
         }
         val hours = Regex("""(?i)\b(\d{1,3})\s*(?:hours?|hrs?|h)(?=\s|$|\d)""")
             .find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
-        val minutes = Regex("""(?i)\b(\d{1,3})\s*(?:minutes?|mins?|m)\b""")
+        // Compact "9h38m" notation has no word boundary before the minute value.
+        val compactMinutes = Regex("""(?i)\b\d{1,3}\s*(?:hours?|hrs?|h)\s*(\d{1,3})\s*m\b""")
+            .find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull()
+        val minutes = compactMinutes ?: Regex("""(?i)\b(\d{1,3})\s*(?:minutes?|mins?|m)\b""")
             .find(raw)?.groupValues?.getOrNull(1)?.toIntOrNull() ?: 0
         return (hours * 60 + minutes).takeIf { it > 0 }
     }
