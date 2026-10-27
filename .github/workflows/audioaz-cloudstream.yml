@@ -50,8 +50,9 @@ jobs:
           mkdir -p "$out"
           cp repo.json "$out/repo.json"
           cp build/plugins.json "$out/plugins.json"
-          find . -type f \( -name '*.cs3' -o -name '*.jar' \) -path '*/build/*' -exec cp {} "$out/" \;
+          find . -type f \( -name '*.cs3' -o -name 'AudioAZProvider.jar' \) -path '*/build/*' -exec cp {} "$out/" \;
           test -n "$(find "$out" -maxdepth 1 -name '*.cs3' -print -quit)"
+          test -s "$out/AudioAZProvider.jar"
           cat > "$out/README.md" <<'EOM'
           # AudioAZ CloudStream repository
 
