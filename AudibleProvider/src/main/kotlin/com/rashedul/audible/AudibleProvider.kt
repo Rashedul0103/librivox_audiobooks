@@ -28,8 +28,8 @@ import org.json.JSONObject
 import java.util.concurrent.ConcurrentHashMap
 
 /**
- * Audible catalogue provider backed exclusively by Libex metadata.
- * Playback adapters will be added separately after the catalogue is verified.
+ * Audible catalogue provider backed by Libex metadata, with an isolated adapter
+ * for verified public-domain recordings and in-app version cards.
  */
 class AudibleProvider : MainAPI() {
     override var mainUrl = API_ROOT
