@@ -6,5 +6,5 @@ cloudstream {
     status = 1
     tvTypes = listOf("AudioBook", "Others")
     iconUrl = "https://www.google.com/s2/favicons?domain=audible.com&sz=%size%"
-    isCrossPlatform = true
+    isCrossPlatform = false
 }
