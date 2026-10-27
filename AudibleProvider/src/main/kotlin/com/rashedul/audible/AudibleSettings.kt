@@ -44,8 +44,6 @@ object AudibleSettings {
         Shelf("new_releases", "New Releases"),
         Shelf("popular", "Popular Audiobooks"),
         Shelf("recent_metadata", "Recently Updated Metadata"),
-        Shelf("golden_audiobooks", "Golden Audiobooks"),
-        Shelf("full_length_audiobooks", "Full Length Audiobooks"),
         Shelf("genre_scifi", "Science Fiction"),
         Shelf("genre_fantasy", "Fantasy"),
         Shelf("genre_mystery", "Mystery, Thriller & Suspense"),
@@ -218,7 +216,7 @@ object AudibleSettings {
         }
 
         val dialog = AlertDialog.Builder(context)
-            .setTitle("Audiobook Hub Settings")
+            .setTitle("Audible Settings")
             .setView(scroll)
             .setPositiveButton("Save", null)
             .setNegativeButton("Cancel", null)

@@ -33,7 +33,7 @@ import java.util.concurrent.ConcurrentHashMap
  */
 class AudibleProvider : MainAPI() {
     override var mainUrl = API_ROOT
-    override var name = "Audiobook Hub"
+    override var name = "Audible"
     override val hasMainPage = true
     override var lang = "en"
     override val hasDownloadSupport = false
@@ -52,8 +52,6 @@ class AudibleProvider : MainAPI() {
     // Audio discovery is separate from the Audible catalogue. Only verified public-domain
     // recordings from approved sources are cached for cards and playback.
     private val audioSourceAdapter = AudioAZPublicDomainAdapter()
-    // Catalogue-only adapters expose the original pages without resolving third-party media.
-    private val freeCatalogueAdapter = FreeAudiobookCatalogueAdapter()
     private val audioSourceCache =
         ConcurrentHashMap<String, List<AudioAZPublicDomainAdapter.Recording>>()
 
@@ -313,17 +311,6 @@ class AudibleProvider : MainAPI() {
         return HomePageList(spec.title, books.map { it.card(this) }, false)
     }
 
-    private suspend fun fetchSourceShelf(
-        title: String,
-        sourceId: String,
-        page: Int
-    ): HomePageList? {
-        if (!AudibleSettings.isRowEnabled(title)) return null
-        val entries = freeCatalogueAdapter.browse(sourceId, page)
-        if (entries.isEmpty()) return null
-        return HomePageList(title, entries.map { catalogueCard(it) }, false)
-    }
-
     override suspend fun getMainPage(page: Int, request: MainPageRequest): HomePageResponse {
         return try {
             val currentPage = page.coerceAtLeast(1)
@@ -431,16 +418,10 @@ class AudibleProvider : MainAPI() {
                 val discoveryJobs = discoveryShelves.map { shelf ->
                     async { fetchSearchShelf(shelf, currentPage) }
                 }
-                val freeCatalogueJobs = listOf(
-                    async { fetchSourceShelf("Golden Audiobooks", "golden", currentPage) },
-                    async { fetchSourceShelf("Full Length Audiobooks", "full-length", currentPage) }
-                )
-
                 val primaryRows = listOf(newReleasesJob, popularJob, recentlyIndexedJob)
                     .awaitAll()
                     .filterNotNull()
                 primaryRows +
-                    freeCatalogueJobs.awaitAll().filterNotNull() +
                     catalogueJobs.awaitAll().filterNotNull() +
                     discoveryJobs.awaitAll().filterNotNull()
             }
@@ -472,11 +453,7 @@ class AudibleProvider : MainAPI() {
             if (currentPage == 1) {
                 candidates += "${API_ROOT}/quick-search?keywords=${q}&region=${region}"
             }
-            val metadataResults = fetchList(candidates).map { it.card(this) }
-            val externalCatalogueResults = freeCatalogueAdapter.search(query, currentPage)
-                .map { catalogueCard(it) }
-            (metadataResults + externalCatalogueResults).distinctBy { it.url }
-                .toNewSearchResponseList()
+            fetchList(candidates).map { it.card(this) }.toNewSearchResponseList()
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
@@ -508,50 +485,7 @@ class AudibleProvider : MainAPI() {
         posterUrl = recording.poster ?: fallbackPoster
     }
 
-    private fun catalogueCard(entry: FreeAudiobookCatalogueAdapter.Entry) =
-        newMovieSearchResponse(entry.displayTitle, entry.url, TvType.AudioBook) {
-            posterUrl = entry.poster
-        }
-
     override suspend fun load(url: String): LoadResponse {
-        if (freeCatalogueAdapter.isSourceUrl(url)) {
-            val entry = freeCatalogueAdapter.inspect(url)
-                ?: throw ErrorLoadingException("Unable to read audiobook metadata from the source page.")
-            return newMovieLoadResponse(
-                entry.displayTitle,
-                entry.url,
-                TvType.AudioBook,
-                entry.url
-            ) {
-                plot = buildString {
-                    append("<b>Catalogue source:</b> ")
-                    append(escapeHtml(entry.sourceName))
-                    if (entry.author.isNotBlank()) {
-                        append("<br><b>Author:</b> ")
-                        append(escapeHtml(entry.author))
-                    }
-                    if (entry.published.isNotBlank()) {
-                        append("<br><b>Published:</b> ")
-                        append(escapeHtml(entry.published))
-                    }
-                    if (entry.description.isNotBlank()) {
-                        append("<br><br><b>Description</b><br>")
-                        append(synopsisHtml(entry.description))
-                    }
-                    append("<br><br><b>Original audiobook page</b><br>")
-                    append("<a href=\"")
-                    append(escapeHtml(entry.url))
-                    append("\">Open on ")
-                    append(escapeHtml(entry.sourceName))
-                    append("</a>")
-                    append("<br><br><i>Open the original source page to listen. This catalogue adapter does not extract third-party audio links.</i>")
-                }
-                posterUrl = entry.poster
-                backgroundPosterUrl = entry.poster
-                tags = listOf(entry.sourceName)
-                recommendations = emptyList()
-            }
-        }
         // Recording cards point back to AudioAZ pages; route them through this provider
         // so their verified metadata and playback are handled inside CloudStream.
         if (audioSourceAdapter.isAudioAZBookUrl(url)) {
@@ -693,9 +627,6 @@ class AudibleProvider : MainAPI() {
         subtitleCallback: (SubtitleFile) -> Unit,
         callback: (ExtractorLink) -> Unit
     ): Boolean {
-        // External catalogue cards use the source website's original page.
-        if (freeCatalogueAdapter.isSourceUrl(data)) return false
-
         // A version card stores its verified AudioAZ page URL. The main Audible card
         // stores an ASIN, in which case resolve the matching public-domain recordings.
         if (audioSourceAdapter.isAudioAZBookUrl(data)) {
