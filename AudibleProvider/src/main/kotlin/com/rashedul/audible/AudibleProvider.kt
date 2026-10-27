@@ -30,7 +30,7 @@ class AudibleProvider : MainAPI() {
     override val hasMainPage = true
     override var lang = "en"
     override val hasDownloadSupport = false
-    override val supportedTypes = setOf(TvType.Audio)
+    override val supportedTypes = setOf(TvType.AudioBook)
 
     private val region = "us"
 
@@ -50,7 +50,7 @@ class AudibleProvider : MainAPI() {
         val audibleUrl: String
     ) {
         fun card(provider: AudibleProvider) =
-            provider.newMovieSearchResponse(title, provider.bookUrl(asin), TvType.Audio) {
+            provider.newMovieSearchResponse(title, provider.bookUrl(asin), TvType.AudioBook) {
                 posterUrl = cover.ifBlank { null }
             }
     }
@@ -265,7 +265,7 @@ class AudibleProvider : MainAPI() {
                 append("Catalogue metadata provided by Libex. Audio playback sources are not yet integrated.")
             }
 
-            newMovieLoadResponse(book.title, url, TvType.Audio, asin) {
+            newMovieLoadResponse(book.title, url, TvType.AudioBook, asin) {
                 this.plot = description
                 this.posterUrl = book.cover.ifBlank { null }
                 this.tags = book.genres
