@@ -8,3 +8,14 @@ cloudstream {
     iconUrl = "https://www.google.com/s2/favicons?domain=audible.com&sz=%size%"
     isCrossPlatform = false
 }
+
+dependencies {
+    // Plugin UI hooks and native dialog dependencies for provider-specific settings.
+    val cloudstream by configurations
+    cloudstream("com.lagradost:cloudstream3:pre-release")
+
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("com.google.android.material:material:1.13.0")
+    implementation("androidx.core:core-ktx:1.9.0")
+}
