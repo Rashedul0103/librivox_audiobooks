@@ -441,6 +441,22 @@ class AudibleProvider : MainAPI() {
         }
     }
 
+    // CloudStream renders plot text as HTML, so explicit markup is needed for reliable line breaks.
+    // Escape all API-supplied text before inserting it into the markup.
+    private fun escapeHtml(value: String): String = value
+        .replace("&", "&amp;")
+        .replace("<", "&lt;")
+        .replace(">", "&gt;")
+        .replace("\"", "&quot;")
+        .replace("'", "&#39;")
+
+    private fun synopsisHtml(value: String): String =
+        escapeHtml(value)
+            .replace("\r\n", "\n")
+            .replace('\r', '\n')
+            .replace("\n\n", "<br><br>")
+            .replace("\n", "<br>")
+
     override suspend fun load(url: String): LoadResponse {
         val asin = Regex("/book/([A-Za-z0-9]{10})")
             .find(url)?.groupValues?.getOrNull(1)?.uppercase()
@@ -452,22 +468,35 @@ class AudibleProvider : MainAPI() {
             ).firstOrNull { it.asin == asin }
                 ?: throw ErrorLoadingException("Libex did not return this book. Try again later.")
 
-            val description = buildString {
-                appendLine("Author: " + book.authors.ifBlank { "Not listed" })
-                appendLine("Narrator: " + book.narrators.ifBlank { "Not listed" })
-                if (book.series.isNotBlank()) appendLine("Series: " + book.series)
-                if (book.releaseDate.isNotBlank()) appendLine("Release date: " + book.releaseDate)
-                if (book.publisher.isNotBlank()) appendLine("Publisher: " + book.publisher)
-                if (book.durationMinutes != null && book.durationMinutes > 0) {
-                    appendLine("Duration: ${book.durationMinutes / 60}h ${book.durationMinutes % 60}m")
+            val metadataLines = buildList {
+                add("<b>Author:</b> ${escapeHtml(book.authors.ifBlank { "Not listed" })}")
+                add("<b>Narrator:</b> ${escapeHtml(book.narrators.ifBlank { "Not listed" })}")
+                if (book.series.isNotBlank()) add("<b>Series:</b> ${escapeHtml(book.series)}")
+                if (book.releaseDate.isNotBlank()) {
+                    add("<b>Release date:</b> ${escapeHtml(book.releaseDate)}")
                 }
-                if (book.genres.isNotEmpty()) appendLine("Genres: " + book.genres.joinToString(", "))
-                if (book.plans.isNotEmpty()) appendLine("Audible plans: " + book.plans.joinToString(", "))
-                appendLine()
-                appendLine(book.description.ifBlank { "No description available." })
-                appendLine()
-                appendLine("Audible listing: ${book.audibleUrl}")
-                append("Catalogue metadata provided by Libex. Audio playback sources are not yet integrated.")
+                if (book.publisher.isNotBlank()) {
+                    add("<b>Publisher:</b> ${escapeHtml(book.publisher)}")
+                }
+                if (book.durationMinutes != null && book.durationMinutes > 0) {
+                    add("<b>Duration:</b> ${book.durationMinutes / 60}h ${book.durationMinutes % 60}m")
+                }
+                if (book.genres.isNotEmpty()) {
+                    add("<b>Genres:</b> ${escapeHtml(book.genres.joinToString(", "))}")
+                }
+                if (book.plans.isNotEmpty()) {
+                    add("<b>Audible plans:</b> ${escapeHtml(book.plans.joinToString(", "))}")
+                }
+            }
+
+            val description = buildString {
+                append("<b>Book information</b><br>")
+                append(metadataLines.joinToString("<br>"))
+                append("<br><br><b>Synopsis</b><br>")
+                append(synopsisHtml(book.description.ifBlank { "No description available." }))
+                append("<br><br><b>Audible listing</b><br>")
+                append(escapeHtml(book.audibleUrl))
+                append("<br><br><i>Catalogue metadata provided by Libex. Audio playback sources are not yet integrated.</i>")
             }
 
             newMovieLoadResponse(book.title, url, TvType.AudioBook, asin) {
