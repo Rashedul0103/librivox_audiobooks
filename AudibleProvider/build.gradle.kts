@@ -1,4 +1,4 @@
-version = 8
+version = 9
 
 cloudstream {
     description = "Audible audiobook catalogue powered by Libex metadata. Audio playback sources are not yet integrated."
@@ -24,5 +24,13 @@ dependencies {
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinJvmCompile>().configureEach {
     compilerOptions {
         jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_11)
+    }
+}
+
+
+android {
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 }
