@@ -104,9 +104,7 @@ internal class AudioAZPublicDomainAdapter {
         return coroutineScope {
             targetHits.map { (hit, score) ->
                 async {
-                    requestSemaphore.withPermit {
-                        inspectRecording(hit.url, bookTitle, bookAuthors, score)
-                    }
+                    inspectRecording(hit.url, bookTitle, bookAuthors, score)
                 }
             }.awaitAll()
                 .filterNotNull()
